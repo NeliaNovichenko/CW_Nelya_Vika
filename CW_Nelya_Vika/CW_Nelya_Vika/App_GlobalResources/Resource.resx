@@ -123,6 +123,9 @@
   <data name="NelyaName" xml:space="preserve">
     <value>Новіченко Неля</value>
   </data>
+  <data name="ProblemGenerator" xml:space="preserve">
+    <value>Генератор індивідуальних задач</value>
+  </data>
   <data name="VikaName" xml:space="preserve">
     <value>Дворник Вікторія</value>
   </data>

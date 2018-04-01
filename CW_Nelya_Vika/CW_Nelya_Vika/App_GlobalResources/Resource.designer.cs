@@ -79,6 +79,15 @@ namespace App_GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Генератор індивідуальних задач.
+        /// </summary>
+        public static string ProblemGenerator {
+            get {
+                return ResourceManager.GetString("ProblemGenerator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Дворник Вікторія.
         /// </summary>
         public static string VikaName {
