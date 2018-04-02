@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CW_Nelya_Vika">
+      <HintPath>..\CW_Nelya_Vika\bin\CW_Nelya_Vika.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GirvanNewman.cs" />
+    <Compile Include="IAlgorithm.cs" />
     <Compile Include="KernighanLin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

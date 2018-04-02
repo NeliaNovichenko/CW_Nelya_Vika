@@ -152,10 +152,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Edge.cs" />
-    <Compile Include="Models\Graph.cs" />
-    <Compile Include="Models\ProblemGenerator.cs" />
-    <Compile Include="Models\Node.cs" />
+    <Compile Include="Models\Components\Edge.cs" />
+    <Compile Include="Models\Components\Graph.cs" />
+    <Compile Include="Models\Graph_Initializers\GraphReader.cs" />
+    <Compile Include="Models\Graph_Initializers\IGraphInitializer.cs" />
+    <Compile Include="Models\Problem.cs" />
+    <Compile Include="Models\Graph_Initializers\GraphGenerator.cs" />
+    <Compile Include="Models\Components\Node.cs" />
+    <Compile Include="Models\Result.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

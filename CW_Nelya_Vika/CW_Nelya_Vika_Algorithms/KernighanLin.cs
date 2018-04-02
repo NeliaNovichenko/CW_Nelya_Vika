@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CW_Nelya_Vika.Models;
 
 namespace CW_Nelya_Vika_Algorithms
 {
-    public class KernighanLin
+    public class KernighanLin: IAlgorithm
     {
+        public Result FindCommunityStructure(Graph pGraph)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
