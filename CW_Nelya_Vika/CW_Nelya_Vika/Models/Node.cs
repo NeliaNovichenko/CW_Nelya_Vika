@@ -5,7 +5,7 @@ using System.Web;
 
 namespace CW_Nelya_Vika.Models
 {
-    public class Vertex
+    public class Node
     {
     }
 }
