@@ -36,87 +36,102 @@ namespace CW_Nelya_Vika.Models
         /// <param name="initializer"></param>
         public void CreateGraph(IGraphInitializer initializer)
         {
-            initializer.Initialize(Nodes, Edges);
+            if (initializer is null)
+                return;
+            initializer.Initialize();
         }
 
 
 
+        /// <summary>
+        /// Функція, що створює ребро між заданими вершинами
+        /// </summary>
+        /// <param name="nodeA"></param>
+        /// <param name="nodeB"></param>
+        /// <returns></returns>
+        public Edge CreateLink(Node nodeA, Node nodeB)
+        {
+            Edge edge = new Edge(nodeA, nodeB);
 
-        //TODO: За мірою еобхідності реалізувати такі функції:
-        //public Edge CreateLink(Node nodeA, Node nodeB)
-        //{
-        //    Edge edge = new Edge(nodeA, nodeB);
+            if (nodeA.AdjacencyNodes.Contains(nodeB) || nodeB.AdjacencyNodes.Contains(nodeA))
+                return null;
 
-        //    if (nodeA.AdjacencyNodes.Contains(nodeB) || nodeB.AdjacencyNodes.Contains(nodeA))
-        //        return null;
+            nodeB.AdjacencyNodes.Add(nodeA);
+            nodeA.AdjacencyNodes.Add(nodeB);
 
-        //    nodeB.AdjacencyNodes.Add(nodeA);
-        //    nodeA.AdjacencyNodes.Add(nodeB);
+            nodeA.AdjacencyEdges.Add(edge);
+            nodeB.AdjacencyEdges.Add(edge);
 
-        //    nodeA.AdjacencyEdges.Add(edge);
-        //    nodeB.AdjacencyEdges.Add(edge);
+            this.Edges.Add(edge);
+            return edge;
+        }
 
-        //    this.Edges.Add(edge);
-        //    return edge;
-        //}
+        /// <summary>
+        /// Створює та додає нову вершину до графу
+        /// </summary>
+        /// <param name="pId"></param>
+        /// <returns></returns>
+        public Node CreateNode(int pId)
+        {
+            Node node = new Node(){Id = pId};
+            Nodes.Add(node);
+            return node;
+        }
 
-        //public Node FindNode(string pLabel, bool add = true)
-        //{
-        //    for (int i = 0; i < Nodes.Count; i++)
-        //    {
-        //        if (Nodes[i].Id == pLabel) return Nodes[i];
-        //    }
+        /// <summary>
+        /// Шукає вузол по заданому ідентифікатору.
+        /// Якщо вказаний ідентифікатор "додати", то створює та додає новий вузол.
+        /// </summary>
+        /// <param name="pId"></param>
+        /// <param name="add"></param>
+        /// <returns></returns>
+        public Node FindNode(int pId, bool add = false)
+        {
+            for (int i = 0; i < Nodes.Count; i++)
+            {
+                if (Nodes[i].Id == pId)
+                    return Nodes[i];
+            }
 
-        //    if (add == false) return null;
+            if (add == false)
+                return null;
 
-        //    return CreateNode(pLabel);
-        //}
+            return CreateNode(pId);
+        }
 
-        //public Node CreateNode(string pLabel)
-        //{
-        //    Node node = new Node();
-        //    node.Id = pLabel;
-        //    Nodes.Add(node);
-        //    return node;
-        //}
+        /// <summary>
+        /// Знайти ребро між заданими вершинами.
+        /// Направлення не має значення.
+        /// </summary>
+        /// <param name="pNodeOut"></param>
+        /// <param name="pNodeIn"></param>
+        /// <returns></returns>
+        public Edge FindEdge(Node pNodeOut, Node pNodeIn)
+        {
+            foreach (Edge e in pNodeOut.AdjacencyEdges)
+            {
+                if ((e.NodeOut == pNodeOut && e.NodeIn == pNodeIn) || (e.NodeOut == pNodeIn && e.NodeIn == pNodeOut))
+                    return e;
+            }
+            return null;
+        }
 
-        //public DGraph Clone()
-        //{
-        //    DGraph graph = new DGraph();
+        /// <summary>
+        /// Знайти ребро між заданими вершинами.
+        /// Направлення має значення.
+        /// </summary>
+        /// <param name="pNodeA"></param>
+        /// <param name="pNodeB"></param>
+        /// <returns></returns>
+        public Edge FindEdgeExtract(Node pNodeOut, Node pNodeIn)
+        {
+            foreach (Edge e in pNodeOut.AdjacencyEdges)
+            {
+                if ((e.NodeOut == pNodeOut && e.NodeIn == pNodeIn))
+                    return e;
+            }
 
-        //    foreach (Edge e in Edges)
-        //    {
-        //        Node nodeA = graph.FindNode(e.NodeA.Label);
-        //        nodeA.Location = new Point(e.NodeA.Location.X, e.NodeA.Location.Y);
-        //        Node nodeB = graph.FindNode(e.NodeB.Id);
-        //        nodeB.Location = new Point(e.NodeB.Location.X, e.NodeB.Location.Y);
-
-        //        graph.CreateLink(nodeA, nodeB);
-        //    }
-
-        //    return graph;
-        //}
-
-        //public Edge FindEdge(Node pNodeA, Node pNodeB)
-        //{
-        //    foreach (Edge e in pNodeA.AdjacencyEdges)
-        //    {
-        //        if ((e.NodeA == pNodeA && e.NodeB == pNodeB) || (e.NodeA == pNodeB && e.NodeB == pNodeA))
-        //            return e;
-        //    }
-
-        //    return null;
-        //}
-
-        //public Edge FindEdgeExtract(Node pNodeA, Node pNodeB)
-        //{
-        //    foreach (Edge e in pNodeA.AdjacencyEdges)
-        //    {
-        //        if ((e.NodeA == pNodeA && e.NodeB == pNodeB))
-        //            return e;
-        //    }
-
-        //    return null;
-        //}
+            return null;
+        }
     }
 }

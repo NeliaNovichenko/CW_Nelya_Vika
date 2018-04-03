@@ -29,13 +29,25 @@ namespace CW_Nelya_Vika.Models
         /// Розмірність графу
         /// </summary>
         public ProblemClassification ProblemClassification { get; set; }
-        
+        public Graph Graph { get; private set; }
+
+        public GraphGenerator(Graph g)
+        {
+            if(g is null)
+                g = new Graph();
+            if (g.Edges is null)
+                g.Edges = new List<Edge>();
+            if (g.Nodes is null)
+                g.Nodes = new List<Node>();
+                g.Nodes = new List<Node>();
+            Graph = g;
+        }
         /// <summary>
         /// Генерація графу заданої размірності
         /// </summary>
         /// <param name="nodes"></param>
         /// <param name="edges"></param>
-        public void Initialize(List<Node> nodes, List<Edge> edges)
+        public void Initialize()
         {
             throw new NotImplementedException();
         }
