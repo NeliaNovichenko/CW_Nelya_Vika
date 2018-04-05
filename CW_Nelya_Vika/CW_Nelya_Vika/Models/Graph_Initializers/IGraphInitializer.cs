@@ -13,9 +13,7 @@ namespace CW_Nelya_Vika.Models
     /// </summary>
     public interface IGraphInitializer
     {
-        Graph Graph { get; }
-
-        void Initialize();
+        bool Initialize(Graph g);
       
     }
 }
