@@ -38,10 +38,10 @@ namespace CW_Nelya_Vika.Models
         {
             if (initializer is null)
                 return;
-            initializer.Initialize();
+            if (!initializer.Initialize(this))
+                //TODO: Create custom exception cannot create graph
+                throw new Exception("cannot create graph");
         }
-
-
 
         /// <summary>
         /// Функція, що створює ребро між заданими вершинами
@@ -133,5 +133,24 @@ namespace CW_Nelya_Vika.Models
 
             return null;
         }
+
+
+
+
+        //TODO: move function to another class :IGraphInitializer
+        public Graph Clone()
+        {
+            Graph graph = new Graph();
+
+            foreach (Edge e in Edges)
+            {
+                Node nodeOut = graph.FindNode(e.NodeOut.Id);
+                Node nodeIn = graph.FindNode(e.NodeIn.Id);
+
+                graph.CreateLink(nodeOut, nodeIn);
+            }
+            return graph;
+        }
+
     }
 }
