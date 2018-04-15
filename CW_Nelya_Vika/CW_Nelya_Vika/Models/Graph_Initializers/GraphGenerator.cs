@@ -42,9 +42,9 @@ namespace CW_Nelya_Vika.Models
         /// <summary>
         /// Генерація графу заданої размірності
         /// </summary>
-        public bool Initialize(Graph graph)
+        public Graph Initialize()
         {
-            graph = new Graph();
+            Graph graph = new Graph();
 
             throw new NotImplementedException();
         }
