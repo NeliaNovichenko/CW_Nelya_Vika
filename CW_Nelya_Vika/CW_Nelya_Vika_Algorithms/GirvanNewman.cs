@@ -5,7 +5,7 @@ using CW_Nelya_Vika.Models;
 
 namespace CW_Nelya_Vika_Algorithms
 {
-    class GirvanNewman: IAlgorithm
+    class GirvanNewman : IAlgorithm
     {
         /// <summary>
         /// Кількість найкоротших шляхів між усіма вершинами, що проходять через дане ребро
@@ -23,7 +23,7 @@ namespace CW_Nelya_Vika_Algorithms
         private double Q;
 
         public double BestQ { get; set; }
-        
+
         public string Log { get; private set; }
 
         /// <summary>
@@ -44,9 +44,7 @@ namespace CW_Nelya_Vika_Algorithms
             int initCount = tempCs.Count;
             int countCommunity = initCount;
 
-            // Q
-            BestQ = 0;
-            Q = 0;
+
 
             //обчислюємо Betweenness
             InitializeEdgeBetweenness(graph);
@@ -65,14 +63,27 @@ namespace CW_Nelya_Vika_Algorithms
 
                 initCount = countCommunity;
 
-                //Q = CalculateModularity(tempCs, pGraph);
-                //if (Q > BestQ)
-                //{
-                //    BestQ = Q;
-                //    result = tempCs;
-                //}
+                Q = 0;
+                if (graph.CommunityCount != 0)
+                {
+                    BestQ = graph.CommunityCount;
+                }
+                else
+                {
 
-                if (graph.Edges.Count == 0) break;
+                    BestQ = 0;
+                    Q = CalculateModularity(tempCs, pGraph);
+
+                }
+                if (Q > BestQ)
+                {
+                    BestQ = Q;
+                    result = tempCs;
+                }
+
+
+                if (graph.Edges.Count == 0)
+                    break;
             }
 
             return this.result;
@@ -100,8 +111,8 @@ namespace CW_Nelya_Vika_Algorithms
             int numEdge = pOriginalGraph.Edges.Count;
             foreach (Graph subGraph in result)
             {
-                int l = 0; 
-                int d = 0; 
+                int l = 0;
+                int d = 0;
                 foreach (Node node in subGraph.Nodes)
                 {
                     l += node.AdjacencyNodes.Count;
@@ -122,9 +133,9 @@ namespace CW_Nelya_Vika_Algorithms
         /// <returns></returns>
         private Graph RemoveMaxEdgeBetweenness(Result pTempCS)
         {
-            double max = edgeBetweenness.Max(n=>n.Value);
+            double max = edgeBetweenness.Max(n => n.Value);
             Edge e = edgeBetweenness.Where(n => Math.Abs(n.Value - max) < 1e-6).ToArray()[0].Key;
-            
+
             graph.Edges.Remove(e);
 
             e.NodeOut.AdjacencyEdges.Remove(e);
@@ -270,7 +281,7 @@ namespace CW_Nelya_Vika_Algorithms
                 {
                     Edge currEdge = subgraph.FindEdge(node1, node2);
                     List<Node> path = subgraph.DijkstraAlgorithm(node1, node2);
-                    if(path is null)
+                    if (path is null)
                         continue;
                     for (int i = 0; i < path.Count - 1; i++)
                     {
