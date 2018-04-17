@@ -12,10 +12,17 @@ namespace CW_Nelya_Vika_Algorithms
     {
         public static void Main(string[] args)
         {
+            var filepath = System.IO.Path.GetFullPath(@"Data\graph1.txt");
+
             GirvanNewman gn = new GirvanNewman();
-            IGraphInitializer graphInitializer = new GraphFromFile(@"D:\Studing\ТРПЗ\Курсова робота\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika_Algorithms\Data\graph1.txt");
+            KernighanLin kl = new KernighanLin();
+
+            IGraphInitializer graphInitializer = new GraphFromFile(filepath);
             Graph g = graphInitializer.Initialize();
+
             Result resuslt = gn.FindCommunityStructure(g);
+            Result result_kl = kl.FindCommunityStructure(g);
+
             Console.WriteLine(gn.Log);
             
             Console.ReadLine();
