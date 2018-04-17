@@ -25,6 +25,9 @@ namespace CW_Nelya_Vika.Models.Graph_Initializers
             {      
                 if (reader == null)
                     return null;
+                int tmp = 0;
+                Int32.TryParse(reader.ReadLine(), out tmp);
+                graph.CommunityCount = tmp;
 
                 while (reader.EndOfStream == false)
                 {

@@ -11,8 +11,6 @@ namespace CW_Nelya_Vika.Models
     /// </summary>
     public class Graph
     {
-        private static int count = 0;
-
         [Key]
         public int Id { get; set; }
 
@@ -26,26 +24,13 @@ namespace CW_Nelya_Vika.Models
         /// </summary>
         public List<Edge> Edges { get; set; }
 
+        public int CommunityCount { get; set; }
+
         public Graph()
         {
-            Id = count++;
             Nodes = new List<Node>();
             Edges = new List<Edge>();
         }
-
-        //TODO: think how to realize method 
-        /// <summary>
-        /// Ініціалізація графу будь-яким способом
-        /// </summary>
-        /// <param name="initializer"></param>
-        //public void CreateGraph(IGraphInitializer initializer)
-        //{
-        //    if (initializer is null)
-        //        return;
-        //    if (!initializer.Initialize(this))
-        //        //TODO: Create custom exception cannot create graph
-        //        throw new Exception("cannot create graph");
-        //}
 
         /// <summary>
         /// Функція, що створює ребро між заданими вершинами
@@ -158,15 +143,7 @@ namespace CW_Nelya_Vika.Models
             return graph;
         }
 
-        public int[,] GraphToMatrix()
-        {
-            int[,] matrix = new int[this.Nodes.Count, this.Nodes.Count];
-            foreach (var edge in this.Edges)
-            {
-                matrix[edge.NodeOut.Id - 1, edge.NodeIn.Id - 1] = edge.Weight;
-            }
-            return matrix;
-        }
+
 
 
         /// <summary>
@@ -232,66 +209,6 @@ namespace CW_Nelya_Vika.Models
             {
                 path.AddFirst(currentNode);
                 currentNode = previous[currentNode];
-            }
-            return path.ToList();
-        }
-        /// <summary>
-        /// Shortest path using Dijkstra Algorithm 
-        /// graph represented in matrix
-        /// </summary>
-        /// <param name="sourceNode"></param>
-        /// <param name="destinationNode"></param>
-        /// <returns></returns>
-        public List<int> DijkstraAlgorithm(int sourceNode, int destinationNode)
-        {
-            int[,] graph = GraphToMatrix();
-            var n = graph.GetLength(0);
-            var distance = new int[n];
-            for (int i = 0; i < n; i++)
-                distance[i] = int.MaxValue;
-
-            distance[sourceNode] = 0;
-            var used = new bool[n];
-            var previous = new int?[n];
-
-            while (true)
-            {
-                var minDistance = int.MaxValue;
-                var minNode = 0;
-                for (int i = 0; i < n; i++)
-                    if (!used[i] && minDistance > distance[i])
-                    {
-                        minDistance = distance[i];
-                        minNode = i;
-                    }
-
-                if (minDistance == int.MaxValue)
-                    break;
-                used[minNode] = true;
-
-                for (int i = 0; i < n; i++)
-                    if (graph[minNode, i] > 0)
-                    {
-                        var shortestToMinNode = distance[minNode];
-                        var distanceToNextNode = graph[minNode, i];
-
-                        var totalDistance = shortestToMinNode + distanceToNextNode;
-
-                        if (totalDistance < distance[i])
-                        {
-                            distance[i] = totalDistance;
-                            previous[i] = minNode;
-                        }
-                    }
-            }
-            if (distance[destinationNode] == int.MaxValue)
-                return null;
-            var path = new LinkedList<int>();
-            int? currentNode = destinationNode;
-            while (currentNode != null)
-            {
-                path.AddFirst(currentNode.Value);
-                currentNode = previous[currentNode.Value];
             }
             return path.ToList();
         }

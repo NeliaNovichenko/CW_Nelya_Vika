@@ -8,7 +8,6 @@ namespace CW_Nelya_Vika.Models
 {
     public class Node
     {
-        //private static int count = 0;
         [Key]
         public int Id { get; set; }
         /// <summary>
@@ -22,7 +21,6 @@ namespace CW_Nelya_Vika.Models
 
         public Node()
         {
-            //Id = count++;
             AdjacencyNodes = new List<Node>();
             AdjacencyEdges = new List<Edge>();
         }
