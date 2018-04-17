@@ -25,20 +25,26 @@ namespace CW_Nelya_Vika.Models.Graph_Initializers
             {      
                 if (reader == null)
                     return null;
-                int tmp = 0;
-                Int32.TryParse(reader.ReadLine(), out tmp);
-                graph.CommunityCount = tmp;
+                int c = 0, min = 0, max = 0;
+                string[] s1 = reader.ReadLine().Split(' ');
+                Int32.TryParse(s1[0], out c);
+                Int32.TryParse(s1[1], out min);
+                Int32.TryParse(s1[2], out max);
+                graph.CommunityCount = c;
+                graph.MinCountInSubgraph = min;
+                graph.MaxCountInSubgraph = max;
 
                 while (reader.EndOfStream == false)
                 {
                     string[] nodes = reader.ReadLine().Split(' ');
                     int idNodeOut, idNodeIn;
+                    //int weight;
                     if (!Int32.TryParse(nodes[0], out idNodeOut) || !Int32.TryParse(nodes[1], out idNodeIn))
                         return null;
                     //true for add if such node doesn't exists in list
                     Node nodeA = graph.FindNode(idNodeOut, true);
                     Node nodeB = graph.FindNode(idNodeIn, true);
-
+                    
                     graph.CreateLink(nodeA, nodeB);
                 }
             }

@@ -26,7 +26,11 @@ namespace CW_Nelya_Vika.Models
 
         public int CommunityCount { get; set; }
 
-        public Graph()
+        public int MinCountInSubgraph{ get; set; }
+
+        public int MaxCountInSubgraph { get; set; }
+
+    public Graph()
         {
             Nodes = new List<Node>();
             Edges = new List<Edge>();

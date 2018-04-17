@@ -12,7 +12,7 @@ namespace CW_Nelya_Vika_Algorithms
     {
         public static void Main(string[] args)
         {
-            var filepath = System.IO.Path.GetFullPath(@"Data\graph1.txt");
+            var filepath = System.IO.Path.GetFullPath(@"Data\graph2.txt");
 
             GirvanNewman gn = new GirvanNewman();
             KernighanLin kl = new KernighanLin();

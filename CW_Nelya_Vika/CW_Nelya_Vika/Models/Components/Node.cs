@@ -18,11 +18,16 @@ namespace CW_Nelya_Vika.Models
         /// Суміжні ребра
         /// </summary>
         public List<Edge> AdjacencyEdges { get; set; }
+        /// <summary>
+        /// фіксована вершина чи ні
+        /// </summary>
+        public bool NodeFixed { get; set; }
 
         public Node()
         {
             AdjacencyNodes = new List<Node>();
             AdjacencyEdges = new List<Edge>();
+            NodeFixed = false;
         }
     }
 }
