@@ -30,6 +30,12 @@ namespace CW_Nelya_Vika.Models
             IsFixed = false;
         }
 
+        /// <summary>
+        /// Вважаэмо, що якщо вершини мають однаковий Id,
+        /// то вони рівні
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             Vertex vertex = obj as Vertex;
@@ -38,6 +44,15 @@ namespace CW_Nelya_Vika.Models
             if (this.Id == vertex.Id)
                 return true;
             return false;
+        }
+
+        /// <summary>
+        /// Для пошуку в Dictionary, де ключем є вершина
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
         }
     }
 }
