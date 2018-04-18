@@ -11,17 +11,14 @@
 
 @using (Html.BeginForm("Solve", "ProblemGenerator", FormMethod.Post))
 {
-    <h3>Зчитати з файлу</h3>
+    <h3>Знайти розбиття графу</h3>
    
     <h3> @Html.RadioButton("GenerationType", "Generate") Згенерувати</h3>
 
-    <p>Оберіть розмірність задачі:</p>
-    <p>@Html.RadioButton("GraphClassification", "XS") XS </p>
-    <p>@Html.RadioButton("GraphClassification", "S") S </p>
-    <p>@Html.RadioButton("GraphClassification", "M") M </p>
-    <p>@Html.RadioButton("GraphClassification", "L") L </p>
-    <p>@Html.RadioButton("GraphClassification", "XL") XL </p>
+    <p>Оберіть алгоритм:</p>
+    <p>@Html.RadioButton("Algorithm", "KernighanLin") Керніган-Ліна </p>
+    <p>@Html.RadioButton("Algorithm", "GirvanNewman") Гірвана-Ньюмана </p>
     <br />
 
-    <p><input type="submit" value="Створити граф" /></p>
+    <p><input type="submit" value="Знайти розбиття графу" /></p>
 }

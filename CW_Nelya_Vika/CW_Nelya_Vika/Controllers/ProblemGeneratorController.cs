@@ -31,6 +31,13 @@ namespace CW_Nelya_Vika.Controllers
             return View();
         }
 
+        public ActionResult Solve(HttpPostedFileBase file)
+        {
+            
+            return RedirectToAction("OutputEditGraph");
+        }
+
+
 
     }
 }
