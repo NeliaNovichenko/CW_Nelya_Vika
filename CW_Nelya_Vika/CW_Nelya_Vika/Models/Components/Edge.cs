@@ -11,7 +11,6 @@ namespace CW_Nelya_Vika.Models
     /// </summary>
     public class Edge
     {
-        private static int count = 0;
         /// <summary>
         /// Ідентифікатор вершини
         /// </summary>
@@ -19,34 +18,33 @@ namespace CW_Nelya_Vika.Models
         public int Id { get; set; }
 
         public int Weight { get; set; }
+
         /// <summary>
         /// Вершина 1, від якої починається ребро
         /// </summary>
-        public Node NodeOut { get; set; }
+        public Vertex VertexOut { get; set; }
+
         /// <summary>
         /// Вершина 2, в яку входить ребро
         /// </summary>
-        public Node NodeIn { get; set; }
+        public Vertex VertexIn { get; set; }
 
         public Edge()
         {
-            Id = count++;
-            NodeOut = new Node();
-            NodeIn = new Node();
+            VertexOut = new Vertex();
+            VertexIn = new Vertex();
             Weight = 1;
         }
-        public Edge(Node pNodeA, Node pNodeB)
+        public Edge(Vertex pVertexA, Vertex pVertexB)
         {
-            Id = count++;
-            NodeOut = pNodeA;
-            NodeIn = pNodeB;
+            VertexOut = pVertexA;
+            VertexIn = pVertexB;
             Weight = 1;
         }
-        public Edge(Node pNodeA, Node pNodeB, int weight)
+        public Edge(Vertex pVertexA, Vertex pVertexB, int weight)
         {
-            Id = count++;
-            NodeOut = pNodeA;
-            NodeIn = pNodeB;
+            VertexOut = pVertexA;
+            VertexIn = pVertexB;
             Weight = weight;
         }
     }

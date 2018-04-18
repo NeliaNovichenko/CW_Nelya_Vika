@@ -45,8 +45,29 @@ namespace CW_Nelya_Vika.Models
         public Graph Initialize()
         {
             Graph graph = new Graph();
+            int vertexCount = 0;
+            switch (ProblemClassification)
+            {
+                case ProblemClassification.Xs:
+                    vertexCount = 15;
+                    break;
+                case ProblemClassification.S:
+                    vertexCount = 30;
+                    break;
+                case ProblemClassification.M:
+                    vertexCount = 60;
+                    break;
+                case ProblemClassification.L:
+                    vertexCount = 120;
+                    break;
+                case ProblemClassification.Xl:
+                    vertexCount = 240;
+                    break;
+            }
+            //TODO:
 
-            throw new NotImplementedException();
+
+            return graph;
         }
     }
 }

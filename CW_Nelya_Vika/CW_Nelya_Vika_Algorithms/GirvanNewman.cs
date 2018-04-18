@@ -113,10 +113,10 @@ namespace CW_Nelya_Vika_Algorithms
             {
                 int l = 0;
                 int d = 0;
-                foreach (Node node in subGraph.Nodes)
+                foreach (Vertex node in subGraph.Vertexes)
                 {
-                    l += node.AdjacencyNodes.Count;
-                    d += pOriginalGraph.FindNode(node.Id, false).AdjacencyNodes.Count;
+                    l += node.AdjacencyVertexes.Count;
+                    d += pOriginalGraph.FindNode(node.Id, false).AdjacencyVertexes.Count;
                 }
 
                 l /= 2;
@@ -138,19 +138,19 @@ namespace CW_Nelya_Vika_Algorithms
 
             graph.Edges.Remove(e);
 
-            e.NodeOut.AdjacencyEdges.Remove(e);
-            e.NodeIn.AdjacencyEdges.Remove(e);
+            e.VertexOut.AdjacencyEdges.Remove(e);
+            e.VertexIn.AdjacencyEdges.Remove(e);
 
-            e.NodeOut.AdjacencyNodes.Remove(e.NodeIn);
-            e.NodeIn.AdjacencyNodes.Remove(e.NodeOut);
+            e.VertexOut.AdjacencyVertexes.Remove(e.VertexIn);
+            e.VertexIn.AdjacencyVertexes.Remove(e.VertexOut);
 
-            WriteLog(" - Remove: (" + e.NodeOut.Id + ", " + e.NodeIn.Id + ")");
+            WriteLog(" - Remove: (" + e.VertexOut.Id + ", " + e.VertexIn.Id + ")");
 
             edgeBetweenness.Remove(e);
 
             foreach (Graph subgraph in pTempCS)
             {
-                if (subgraph.Nodes.Contains(e.NodeOut))
+                if (subgraph.Vertexes.Contains(e.VertexOut))
                     return subgraph;
             }
             return null;
@@ -185,59 +185,59 @@ namespace CW_Nelya_Vika_Algorithms
             #region Old
             //if (subgraph == null)
             //    return;
-            //int nodesCount = subgraph.Nodes.Count;
+            //int nodesCount = subgraph.Vertexes.Count;
             //int MAX = Int32.MaxValue;
 
-            //foreach (Node node in subgraph.Nodes)
+            //foreach (Vertex vertex in subgraph.Vertexes)
             //{
-            //    foreach (Edge e in node.AdjacencyEdges)
+            //    foreach (Edge e in vertex.AdjacencyEdges)
             //    {
             //        edgeBetweenness[e] = 0;
             //    }
             //}
 
-            //foreach (Node node in subgraph.Nodes)
+            //foreach (Vertex vertex in subgraph.Vertexes)
             //{
-            //    Queue<Node> nodeQueue = new Queue<Node>();
-            //    Stack<Node> nodeStack = new Stack<Node>();
+            //    Queue<Vertex> nodeQueue = new Queue<Vertex>();
+            //    Stack<Vertex> nodeStack = new Stack<Vertex>();
             //    //TODO: до поточної вершини можна дійти через список вершин
-            //    Dictionary<Node, List<Node>> pred = new Dictionary<Node, List<Node>>();
+            //    Dictionary<Vertex, List<Vertex>> pred = new Dictionary<Vertex, List<Vertex>>();
             //    //Відстань від поточної до кожної
-            //    Dictionary<Node, int> dist = new Dictionary<Node, int>();
+            //    Dictionary<Vertex, int> dist = new Dictionary<Vertex, int>();
             //    //
-            //    Dictionary<Node, int> sigma = new Dictionary<Node, int>();
+            //    Dictionary<Vertex, int> sigma = new Dictionary<Vertex, int>();
             //    //
-            //    //Dictionary<Node, double> delta = new Dictionary<Node, double>();
+            //    //Dictionary<Vertex, double> delta = new Dictionary<Vertex, double>();
 
             //    // initialization
-            //    foreach (Node _node in subgraph.Nodes)
+            //    foreach (Vertex _node in subgraph.Vertexes)
             //    {
             //        dist.Add(_node, MAX); 
             //        sigma.Add(_node, 0);
             //        //delta.Add(_node, 0);
-            //        pred.Add(_node, new List<Node>());
+            //        pred.Add(_node, new List<Vertex>());
             //    }
 
-            //    dist[node] = 0; //відстань самої до себе = 0
-            //    sigma[node] = 1;
-            //    nodeQueue.Enqueue(node);
+            //    dist[vertex] = 0; //відстань самої до себе = 0
+            //    sigma[vertex] = 1;
+            //    nodeQueue.Enqueue(vertex);
 
             //   while (nodeQueue.Count != 0)
             //    {
-            //        Node currentNode = nodeQueue.Dequeue();
-            //        nodeStack.Push(currentNode);
+            //        Vertex currentVertex = nodeQueue.Dequeue();
+            //        nodeStack.Push(currentVertex);
 
-            //        foreach (Node adjacencyNode in currentNode.AdjacencyNodes)
+            //        foreach (Vertex adjacencyNode in currentVertex.AdjacencyVertexes)
             //        {
             //            if (dist[adjacencyNode] == MAX)
             //            {
-            //                dist[adjacencyNode] = dist[currentNode] + 1; //відстань = як до поточної + 1
+            //                dist[adjacencyNode] = dist[currentVertex] + 1; //відстань = як до поточної + 1
             //                nodeQueue.Enqueue(adjacencyNode);
             //            }
-            //            if (dist[adjacencyNode] == dist[currentNode] + 1)
+            //            if (dist[adjacencyNode] == dist[currentVertex] + 1)
             //            {
-            //                sigma[adjacencyNode] += sigma[currentNode];
-            //                pred[adjacencyNode].Add(currentNode); //до прилеглої вершини можна дійти через поточну 
+            //                sigma[adjacencyNode] += sigma[currentVertex];
+            //                pred[adjacencyNode].Add(currentVertex); //до прилеглої вершини можна дійти через поточну 
             //            }
             //        }
             //    }
@@ -245,8 +245,8 @@ namespace CW_Nelya_Vika_Algorithms
             //    // накопичення
             //    while (nodeStack.Count != 0)
             //    {
-            //        Node nodeFromStack = nodeStack.Pop();
-            //        foreach (Node n in pred[nodeFromStack]) //для всіх вершин, через які можно дійти до поточної
+            //        Vertex nodeFromStack = nodeStack.Pop();
+            //        foreach (Vertex n in pred[nodeFromStack]) //для всіх вершин, через які можно дійти до поточної
             //        {
             //            double c = ((double)(sigma[n]) / sigma[nodeFromStack]) /** (1.0 + delta[nodeFromStack])*/;
 
@@ -259,8 +259,8 @@ namespace CW_Nelya_Vika_Algorithms
 
             ////OLD2
             //int[,] matrix = subgraph.GraphToMatrix();
-            //foreach (var node1 in subgraph.Nodes)
-            //foreach (var node2 in subgraph.Nodes)
+            //foreach (var node1 in subgraph.Vertexes)
+            //foreach (var node2 in subgraph.Vertexes)
             //{
             //    Edge currEdge = subgraph.FindEdge(node1, node2);
             //    List<int> path = DijkstraAlgorithm(matrix, node1.Id - 1, node2.Id - 1);
@@ -268,25 +268,25 @@ namespace CW_Nelya_Vika_Algorithms
             //        continue;
             //    for (int i = 0; i < path.Count - 1; i++)
             //    {
-            //        Node nOut = subgraph.Nodes.Find(n => n.Id == path[i] + 1),
-            //            nIn = subgraph.Nodes.Find(n => n.Id == path[i + 1] + 1);
+            //        Vertex nOut = subgraph.Vertexes.Find(n => n.Id == path[i] + 1),
+            //            nIn = subgraph.Vertexes.Find(n => n.Id == path[i + 1] + 1);
             //        Edge tmpEdge = subgraph.FindEdge(nOut, nIn);
             //        edgeBetweenness[tmpEdge] += 1;
             //    }
             //}
             #endregion
 
-            foreach (var node1 in subgraph.Nodes)
-                foreach (var node2 in subgraph.Nodes)
+            foreach (var node1 in subgraph.Vertexes)
+                foreach (var node2 in subgraph.Vertexes)
                 {
                     Edge currEdge = subgraph.FindEdge(node1, node2);
-                    List<Node> path = subgraph.DijkstraAlgorithm(node1, node2);
+                    List<Vertex> path = subgraph.DijkstraAlgorithm(node1, node2);
                     if (path is null)
                         continue;
                     for (int i = 0; i < path.Count - 1; i++)
                     {
-                        Node nOut = subgraph.Nodes.Find(n => n.Id == path[i].Id),
-                            nIn = subgraph.Nodes.Find(n => n.Id == path[i + 1].Id);
+                        Vertex nOut = subgraph.Vertexes.Find(n => n.Id == path[i].Id),
+                            nIn = subgraph.Vertexes.Find(n => n.Id == path[i + 1].Id);
                         Edge tmpEdge = subgraph.FindEdge(nOut, nIn);
                         edgeBetweenness[tmpEdge] += 1;
                     }
@@ -298,34 +298,34 @@ namespace CW_Nelya_Vika_Algorithms
             Result cs = new Result();
 
             int count = 0;
-            int n = graph.Nodes.Count;
-            Dictionary<Node, bool> visited = new Dictionary<Node, bool>();
+            int n = graph.Vertexes.Count;
+            Dictionary<Vertex, bool> visited = new Dictionary<Vertex, bool>();
             for (int i = 0; i < n; i++)
             {
-                visited.Add(graph.Nodes[i], false);
+                visited.Add(graph.Vertexes[i], false);
             }
             // Якщо є "висячі" підграфи або вершини, додаємо їх до розбиття
-            foreach (Node i in graph.Nodes)
+            foreach (Vertex i in graph.Vertexes)
             {
                 if (visited[i] == false)
                 {
                     count++;
                     Graph subgraph = new Graph();
 
-                    Queue<Node> Q = new Queue<Node>();
+                    Queue<Vertex> Q = new Queue<Vertex>();
                     visited[i] = true;
                     Q.Enqueue(i);
 
-                    subgraph.Nodes.Add(i);
+                    subgraph.Vertexes.Add(i);
 
                     while (Q.Count != 0)
                     {
-                        Node v = Q.Dequeue();
-                        foreach (Node j in v.AdjacencyNodes)
+                        Vertex v = Q.Dequeue();
+                        foreach (Vertex j in v.AdjacencyVertexes)
                         {
                             if (visited[j] == false)
                             {
-                                subgraph.Nodes.Add(j);
+                                subgraph.Vertexes.Add(j);
                                 visited[j] = true;
                                 Q.Enqueue(j);
                             }

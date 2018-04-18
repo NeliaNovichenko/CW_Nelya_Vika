@@ -41,11 +41,11 @@ namespace CW_Nelya_Vika.Models.Graph_Initializers
                     //int weight;
                     if (!Int32.TryParse(nodes[0], out idNodeOut) || !Int32.TryParse(nodes[1], out idNodeIn))
                         return null;
-                    //true for add if such node doesn't exists in list
-                    Node nodeA = graph.FindNode(idNodeOut, true);
-                    Node nodeB = graph.FindNode(idNodeIn, true);
+                    //true for add if such vertex doesn't exists in list
+                    Vertex vertexA = graph.FindNode(idNodeOut, true);
+                    Vertex vertexB = graph.FindNode(idNodeIn, true);
                     
-                    graph.CreateLink(nodeA, nodeB);
+                    graph.CreateLink(vertexA, vertexB);
                 }
             }
             catch (IOException ex)

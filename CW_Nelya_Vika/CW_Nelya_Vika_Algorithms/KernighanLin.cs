@@ -12,20 +12,20 @@ namespace CW_Nelya_Vika_Algorithms
         public Result StartPartition(Graph pGraph)
         {
             Result r = new Result();
-            int countVerticies = pGraph.Nodes.Count;
-            int columnLength = (int)Math.Ceiling((decimal)(pGraph.Nodes.Count) / pGraph.CommunityCount);
-            var list = pGraph.Nodes.Select((item, index) => new { index, item })
+            int countVerticies = pGraph.Vertexes.Count;
+            int columnLength = (int)Math.Ceiling((decimal)(pGraph.Vertexes.Count) / pGraph.CommunityCount);
+            var list = pGraph.Vertexes.Select((item, index) => new { index, item })
                        .GroupBy(x => x.index / columnLength)
                        .Select(x => x.Select(y => y.item).ToList()).ToList();
             foreach (var sublist in list)
             {
                 Graph d = new Graph();
-                d.Nodes = sublist;
+                d.Vertexes = sublist;
                 //foreach (var node1 in sublist)
                 //{
                 //    foreach(var node2 in sublist)
                 //    {
-                //        var edge = pGraph.Edges.Find(e => e.NodeOut == node1 && e.NodeIn == node2);
+                //        var edge = pGraph.Edges.Find(e => e.VertexOut == node1 && e.VertexIn == node2);
                 //        d.Edges.Add(edge);
                 //    }
                 //}
@@ -33,7 +33,7 @@ namespace CW_Nelya_Vika_Algorithms
             }
             foreach (var sublist in r)
             {
-                foreach (var node in sublist.Nodes)
+                foreach (var node in sublist.Vertexes)
                 {
                     Console.Write(node.Id);
                     Console.Write(' ');
@@ -44,58 +44,58 @@ namespace CW_Nelya_Vika_Algorithms
             return r;
 
         }
-        public Dictionary<Node, int> D(Result result)
+        public Dictionary<Vertex, int> D(Result result)
         {
-            Dictionary<Node, int> Dv = new Dictionary<Node, int>();
+            Dictionary<Vertex, int> Dv = new Dictionary<Vertex, int>();
             for (int i = 0; i < result.Count; i++)
             {
                 Graph subgraph = result[i];
-                for (int j = 0; j < subgraph.Nodes.Count; j++)
+                for (int j = 0; j < subgraph.Vertexes.Count; j++)
                 {
                     int innerEdge = 0, crossEdge = 0;
 
-                    var adjNode = graph.FindNode(subgraph.Nodes[j].Id, false).AdjacencyNodes;
+                    var adjNode = graph.FindNode(subgraph.Vertexes[j].Id, false).AdjacencyVertexes;
                     foreach (var node in adjNode)
                     {
-                        if (node.NodeFixed == false)
+                        if (node.IsFixed == false)
                         {
-                            //var w = graph.FindEdge(subgraph.Nodes[j], node).Weight;
+                            //var w = graph.FindEdge(subgraph.Vertexes[j], vertex).Weight;
                             if (subgraph.FindNode(node.Id, false) != null)
                                 innerEdge++;
                             //innerEdge += w;
                             else crossEdge++;//crossEdge += w;
                         }
                     }
-                    Dv.Add(subgraph.Nodes[j], crossEdge - innerEdge);
+                    Dv.Add(subgraph.Vertexes[j], crossEdge - innerEdge);
                 }
             }
             return Dv;
         }
-        public void CountGrowth(Dictionary<Node, int> Dv, Result result)
+        public void CountGrowth(Dictionary<Vertex, int> Dv, Result result)
         {
-            Dictionary<List<Node>, int> delta_g = new Dictionary<List<Node>, int>();
+            Dictionary<List<Vertex>, int> delta_g = new Dictionary<List<Vertex>, int>();
             for (int i = 0; i < result.Count; i++)
             {
                 Graph subgraph = result[i];
-                for (int j = 0; j < subgraph.Nodes.Count; j++)
+                for (int j = 0; j < subgraph.Vertexes.Count; j++)
                 {
-                    //var adjNode = graph.FindNode(subgraph.Nodes[j].Id, false).AdjacencyNodes;
-                    //foreach (var node in graph.Nodes)
-                    for (int k = 0; k < graph.Nodes.Count; k++)
+                    //var adjNode = graph.FindNode(subgraph.Vertexes[j].Id, false).AdjacencyVertexes;
+                    //foreach (var vertex in graph.Vertexes)
+                    for (int k = 0; k < graph.Vertexes.Count; k++)
                     {
                         int w = 0;
-                        //var w = graph.FindEdge(subgraph.Nodes[j], node).Weight;
-                        if (subgraph.FindNode(graph.Nodes[k].Id, false) == null)
+                        //var w = graph.FindEdge(subgraph.Vertexes[j], vertex).Weight;
+                        if (subgraph.FindNode(graph.Vertexes[k].Id, false) == null)
                         {
-                            var e = graph.FindEdge(subgraph.Nodes[j], graph.Nodes[k]);
+                            var e = graph.FindEdge(subgraph.Vertexes[j], graph.Vertexes[k]);
                             if (e != null) w = 1;
 
-                            List<Node> list = new List<Node>();
-                            list.Add(graph.Nodes[k]);
-                            list.Add(subgraph.Nodes[j]);
-                            int a = Dv[graph.Nodes[k]];
-                            int b = Dv[subgraph.Nodes[j]];
-                            delta_g.Add(list, Dv[graph.Nodes[k]] + Dv[subgraph.Nodes[j]] - 2 * w);
+                            List<Vertex> list = new List<Vertex>();
+                            list.Add(graph.Vertexes[k]);
+                            list.Add(subgraph.Vertexes[j]);
+                            int a = Dv[graph.Vertexes[k]];
+                            int b = Dv[subgraph.Vertexes[j]];
+                            delta_g.Add(list, Dv[graph.Vertexes[k]] + Dv[subgraph.Vertexes[j]] - 2 * w);
                         }
                     }
                 }
@@ -108,7 +108,7 @@ namespace CW_Nelya_Vika_Algorithms
             {
                 foreach(var item2 in item1)
                 {
-                    item2.NodeFixed = true;
+                    item2.IsFixed = true;
                 }
             }
         }
@@ -124,7 +124,7 @@ namespace CW_Nelya_Vika_Algorithms
 
             while (true)
             {
-                Dictionary<Node, int> Dv = D(result);
+                Dictionary<Vertex, int> Dv = D(result);
                 CountGrowth(Dv, result);
             }
 

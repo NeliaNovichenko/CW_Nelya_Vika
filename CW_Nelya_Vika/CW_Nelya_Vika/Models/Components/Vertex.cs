@@ -6,14 +6,14 @@ using System.Web;
 
 namespace CW_Nelya_Vika.Models
 {
-    public class Node
+    public class Vertex
     {
         [Key]
         public int Id { get; set; }
         /// <summary>
         /// Вузли суміжності
         /// </summary>
-        public List<Node> AdjacencyNodes { get; set; }
+        public List<Vertex> AdjacencyVertexes { get; set; }
         /// <summary>
         /// Суміжні ребра
         /// </summary>
@@ -21,13 +21,23 @@ namespace CW_Nelya_Vika.Models
         /// <summary>
         /// фіксована вершина чи ні
         /// </summary>
-        public bool NodeFixed { get; set; }
+        public bool IsFixed { get; set; }
 
-        public Node()
+        public Vertex()
         {
-            AdjacencyNodes = new List<Node>();
+            AdjacencyVertexes = new List<Vertex>();
             AdjacencyEdges = new List<Edge>();
-            NodeFixed = false;
+            IsFixed = false;
+        }
+
+        public override bool Equals(object obj)
+        {
+            Vertex vertex = obj as Vertex;
+            if (vertex is null)
+                return false;
+            if (this.Id == vertex.Id)
+                return true;
+            return false;
         }
     }
 }
