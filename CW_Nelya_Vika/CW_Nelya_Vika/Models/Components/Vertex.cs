@@ -1,31 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
 
 namespace CW_Nelya_Vika.Models
 {
     public class Vertex
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        /// <summary>
+        /// Ідентифікатор вершини в графі
+        /// </summary>
+        public int Label { get; set; }
+        public Graph Graphs { get; set; }
+
         /// <summary>
         /// Вузли суміжності
         /// </summary>
-        public List<Vertex> AdjacencyVertexes { get; set; }
+        public List<Vertex> AdjacencyVertices { get; set; }
+
         /// <summary>
         /// Суміжні ребра
         /// </summary>
         public List<Edge> AdjacencyEdges { get; set; }
+
         /// <summary>
         /// фіксована вершина чи ні
         /// </summary>
         public bool IsFixed { get; set; }
 
+
         public Vertex()
         {
-            AdjacencyVertexes = new List<Vertex>();
+            AdjacencyVertices = new List<Vertex>();
             AdjacencyEdges = new List<Edge>();
             IsFixed = false;
         }
@@ -41,7 +53,7 @@ namespace CW_Nelya_Vika.Models
             Vertex vertex = obj as Vertex;
             if (vertex is null)
                 return false;
-            if (this.Id == vertex.Id)
+            if (this.Label == vertex.Label)
                 return true;
             return false;
         }
@@ -52,7 +64,7 @@ namespace CW_Nelya_Vika.Models
         /// <returns></returns>
         public override int GetHashCode()
         {
-            return Id.GetHashCode();
+            return Label.GetHashCode();
         }
     }
 }

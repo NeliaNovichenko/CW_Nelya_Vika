@@ -28,9 +28,11 @@
                         <li class="nav-item active nav-link">
                             @Html.ActionLink("Home", "Index", "Home", new { @class = "nav-item nav-link" })
                         </li>
-                        <li class="nav-item nav-link">
-                            @Html.ActionLink(@App_GlobalResources.Resource.ProblemGenerator, "ProblemGenerator", "ProblemGenerator", new { @class = "nav-item nav-link" })
+
+                        <li class="nav-item active nav-link">
+                            @Html.ActionLink("ProblemGenerator", "ProblemGenerator", "/ProblemGenerator/ProblemGenerator", new { @class = "nav-item nav-link" })
                         </li>
+
                         <li class="nav-item nav-link">
                             @Html.ActionLink("About", "About", "Home", new { @class = "nav-item nav-link" })
                         </li>

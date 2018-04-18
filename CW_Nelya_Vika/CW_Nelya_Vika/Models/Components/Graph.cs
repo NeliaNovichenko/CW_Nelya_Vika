@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
 
 namespace CW_Nelya_Vika.Models
 {
@@ -12,6 +14,7 @@ namespace CW_Nelya_Vika.Models
     public class Graph
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>
@@ -32,16 +35,20 @@ namespace CW_Nelya_Vika.Models
         /// <summary>
         /// Список вершин графу
         /// </summary>
-        public List<Vertex> Vertexes { get; set; }
+        public List<Vertex> Vertices { get; set; }
 
         /// <summary>
         /// Список ребер графу
         /// </summary>
         public List<Edge> Edges { get; set; }
 
+        public List<Problem> Problems { get; set; }
+
+
+
         public Graph()
         {
-            Vertexes = new List<Vertex>();
+            Vertices = new List<Vertex>();
             Edges = new List<Edge>();
         }
 
@@ -57,11 +64,11 @@ namespace CW_Nelya_Vika.Models
                 return null;
             Edge edge = new Edge(vertexA, vertexB);
 
-            if (vertexA.AdjacencyVertexes.Contains(vertexB) || vertexB.AdjacencyVertexes.Contains(vertexA))
+            if (vertexA.AdjacencyVertices.Contains(vertexB) || vertexB.AdjacencyVertices.Contains(vertexA))
                 return null;
 
-            vertexB.AdjacencyVertexes.Add(vertexA);
-            vertexA.AdjacencyVertexes.Add(vertexB);
+            vertexB.AdjacencyVertices.Add(vertexA);
+            vertexA.AdjacencyVertices.Add(vertexB);
 
             vertexA.AdjacencyEdges.Add(edge);
             vertexB.AdjacencyEdges.Add(edge);
@@ -75,10 +82,10 @@ namespace CW_Nelya_Vika.Models
         /// </summary>
         /// <param name="pId"></param>
         /// <returns></returns>
-        public Vertex CreateVertex(int pId)
+        public Vertex CreateVertex(int pLable)
         {
-            Vertex vertex = new Vertex() { Id = pId };
-            Vertexes.Add(vertex);
+            Vertex vertex = new Vertex() { Label = pLable };
+            Vertices.Add(vertex);
             return vertex;
         }
 
@@ -89,18 +96,18 @@ namespace CW_Nelya_Vika.Models
         /// <param name="pId"></param>
         /// <param name="add"></param>
         /// <returns></returns>
-        public Vertex FindNode(int pId, bool add = true)
+        public Vertex FindNode(int pLable, bool add = true)
         {
-            for (int i = 0; i < Vertexes.Count; i++)
+            for (int i = 0; i < Vertices.Count; i++)
             {
-                if (Vertexes[i].Id == pId)
-                    return Vertexes[i];
+                if (Vertices[i].Label == pLable)
+                    return Vertices[i];
             }
 
             if (add == false)
                 return null;
 
-            return CreateVertex(pId);
+            return CreateVertex(pLable);
         }
 
         /// <summary>
@@ -146,12 +153,12 @@ namespace CW_Nelya_Vika.Models
         /// <returns></returns>
         public List<Vertex> DijkstraAlgorithm(Vertex sourceVertex, Vertex destinationVertex)
         {
-            var n = this.Vertexes.Count;
+            var n = this.Vertices.Count;
             Dictionary<Vertex, int> distance = new Dictionary<Vertex, int>();
             Dictionary<Vertex, bool> used = new Dictionary<Vertex, bool>();
             Dictionary<Vertex, Vertex> previous = new Dictionary<Vertex, Vertex>();
             //var distance = new int[n];
-            foreach (var node in this.Vertexes)
+            foreach (var node in this.Vertices)
             {
                 distance.Add(node, int.MaxValue);
                 used.Add(node, false);
@@ -164,7 +171,7 @@ namespace CW_Nelya_Vika.Models
             {
                 var minDistance = int.MaxValue;
                 Vertex minVertex = null;
-                foreach (var node in this.Vertexes)
+                foreach (var node in this.Vertices)
                     if (!used[node] && minDistance > distance[node])
                     {
                         minDistance = distance[node];
@@ -176,7 +183,7 @@ namespace CW_Nelya_Vika.Models
 
                 used[minVertex] = true;
 
-                foreach (var node in this.Vertexes)
+                foreach (var node in this.Vertices)
                 {
                     Edge edge = this.Edges.Find(e => e.VertexOut == minVertex && e.VertexIn == node);
                     if (edge != null)
@@ -215,8 +222,8 @@ namespace CW_Nelya_Vika.Models
 
             foreach (Edge e in Edges)
             {
-                Vertex vertexOut = graph.FindNode(e.VertexOut.Id);
-                Vertex vertexIn = graph.FindNode(e.VertexIn.Id);
+                Vertex vertexOut = graph.FindNode(e.VertexOut.Label);
+                Vertex vertexIn = graph.FindNode(e.VertexIn.Label);
 
                 graph.CreateLink(vertexOut, vertexIn);
             }

@@ -12,15 +12,15 @@ namespace CW_Nelya_Vika_Algorithms
         public Result StartPartition(Graph pGraph)
         {
             Result r = new Result();
-            int countVerticies = pGraph.Vertexes.Count;
-            int columnLength = (int)Math.Ceiling((decimal)(pGraph.Vertexes.Count) / pGraph.CommunityCount);
-            var list = pGraph.Vertexes.Select((item, index) => new { index, item })
+            int countVerticies = pGraph.Vertices.Count;
+            int columnLength = (int)Math.Ceiling((decimal)(pGraph.Vertices.Count) / pGraph.CommunityCount);
+            var list = pGraph.Vertices.Select((item, index) => new { index, item })
                        .GroupBy(x => x.index / columnLength)
                        .Select(x => x.Select(y => y.item).ToList()).ToList();
             foreach (var sublist in list)
             {
                 Graph d = new Graph();
-                d.Vertexes = sublist;
+                d.Vertices = sublist;
                 //foreach (var node1 in sublist)
                 //{
                 //    foreach(var node2 in sublist)
@@ -33,9 +33,9 @@ namespace CW_Nelya_Vika_Algorithms
             }
             foreach (var sublist in r)
             {
-                foreach (var node in sublist.Vertexes)
+                foreach (var node in sublist.Vertices)
                 {
-                    Console.Write(node.Id);
+                    Console.Write(node.Label);
                     Console.Write(' ');
                 }
                 Console.WriteLine();
@@ -50,23 +50,23 @@ namespace CW_Nelya_Vika_Algorithms
             for (int i = 0; i < result.Count; i++)
             {
                 Graph subgraph = result[i];
-                for (int j = 0; j < subgraph.Vertexes.Count; j++)
+                for (int j = 0; j < subgraph.Vertices.Count; j++)
                 {
                     int innerEdge = 0, crossEdge = 0;
 
-                    var adjNode = graph.FindNode(subgraph.Vertexes[j].Id, false).AdjacencyVertexes;
+                    var adjNode = graph.FindNode(subgraph.Vertices[j].Label, false).AdjacencyVertices;
                     foreach (var node in adjNode)
                     {
                         if (node.IsFixed == false)
                         {
-                            //var w = graph.FindEdge(subgraph.Vertexes[j], vertex).Weight;
-                            if (subgraph.FindNode(node.Id, false) != null)
+                            //var w = graph.FindEdge(subgraph.Vertices[j], vertex).Weight;
+                            if (subgraph.FindNode(node.Label, false) != null)
                                 innerEdge++;
                             //innerEdge += w;
                             else crossEdge++;//crossEdge += w;
                         }
                     }
-                    Dv.Add(subgraph.Vertexes[j], crossEdge - innerEdge);
+                    Dv.Add(subgraph.Vertices[j], crossEdge - innerEdge);
                 }
             }
             return Dv;
@@ -77,25 +77,25 @@ namespace CW_Nelya_Vika_Algorithms
             for (int i = 0; i < result.Count; i++)
             {
                 Graph subgraph = result[i];
-                for (int j = 0; j < subgraph.Vertexes.Count; j++)
+                for (int j = 0; j < subgraph.Vertices.Count; j++)
                 {
-                    //var adjNode = graph.FindNode(subgraph.Vertexes[j].Id, false).AdjacencyVertexes;
-                    //foreach (var vertex in graph.Vertexes)
-                    for (int k = 0; k < graph.Vertexes.Count; k++)
+                    //var adjNode = graph.FindNode(subgraph.Vertices[j].Id, false).AdjacencyVertices;
+                    //foreach (var vertex in graph.Vertices)
+                    for (int k = 0; k < graph.Vertices.Count; k++)
                     {
                         int w = 0;
-                        //var w = graph.FindEdge(subgraph.Vertexes[j], vertex).Weight;
-                        if (subgraph.FindNode(graph.Vertexes[k].Id, false) == null)
+                        //var w = graph.FindEdge(subgraph.Vertices[j], vertex).Weight;
+                        if (subgraph.FindNode(graph.Vertices[k].Label, false) == null)
                         {
-                            var e = graph.FindEdge(subgraph.Vertexes[j], graph.Vertexes[k]);
+                            var e = graph.FindEdge(subgraph.Vertices[j], graph.Vertices[k]);
                             if (e != null) w = 1;
 
                             List<Vertex> list = new List<Vertex>();
-                            list.Add(graph.Vertexes[k]);
-                            list.Add(subgraph.Vertexes[j]);
-                            int a = Dv[graph.Vertexes[k]];
-                            int b = Dv[subgraph.Vertexes[j]];
-                            delta_g.Add(list, Dv[graph.Vertexes[k]] + Dv[subgraph.Vertexes[j]] - 2 * w);
+                            list.Add(graph.Vertices[k]);
+                            list.Add(subgraph.Vertices[j]);
+                            int a = Dv[graph.Vertices[k]];
+                            int b = Dv[subgraph.Vertices[j]];
+                            delta_g.Add(list, Dv[graph.Vertices[k]] + Dv[subgraph.Vertices[j]] - 2 * w);
                         }
                     }
                 }

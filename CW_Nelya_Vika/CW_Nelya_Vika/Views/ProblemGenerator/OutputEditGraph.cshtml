@@ -1,16 +1,18 @@
 ﻿
 @{
-    ViewBag.Title = "ProblemGenerator";
+    ViewBag.Title = "OutputEditGraph";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ProblemGenerator</h2>
+<h2>OutputEditGraph</h2>
 
-@using (Html.BeginForm("Generate", "ProblemGenerator", FormMethod.Post))
+<p>Відобразити граф</p>
+
+
+@using (Html.BeginForm("Solve", "ProblemGenerator", FormMethod.Post))
 {
-    <h3> @Html.RadioButton("GenerationType", "ReadFromFile") Зчитати з файлу</h3>
-    <input type="file" name="file" />
-    <br />
+    <h3>Зчитати з файлу</h3>
+   
     <h3> @Html.RadioButton("GenerationType", "Generate") Згенерувати</h3>
 
     <p>Оберіть розмірність задачі:</p>

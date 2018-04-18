@@ -59,6 +59,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -158,8 +160,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804180637301_InitialCreate.cs" />
+    <Compile Include="Migrations\201804180637301_InitialCreate.Designer.cs">
+      <DependentUpon>201804180637301_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Components\Edge.cs" />
     <Compile Include="Models\Components\Graph.cs" />
+    <Compile Include="Models\DB\GraphProblemDBContext.cs" />
     <Compile Include="Models\Graph_Initializers\GraphFromFile.cs" />
     <Compile Include="Models\Graph_Initializers\IGraphInitializer.cs" />
     <Compile Include="Models\Components\Problem.cs" />
@@ -207,6 +215,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ProblemGenerator\ProblemGenerator.cshtml" />
+    <Content Include="Views\ProblemGenerator\OutputEditGraph.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -229,6 +238,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.designer.cs</LastGenOutput>
       <CustomToolNamespace>App_GlobalResources</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804180637301_InitialCreate.resx">
+      <DependentUpon>201804180637301_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

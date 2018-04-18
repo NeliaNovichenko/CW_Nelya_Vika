@@ -113,10 +113,10 @@ namespace CW_Nelya_Vika_Algorithms
             {
                 int l = 0;
                 int d = 0;
-                foreach (Vertex node in subGraph.Vertexes)
+                foreach (Vertex node in subGraph.Vertices)
                 {
-                    l += node.AdjacencyVertexes.Count;
-                    d += pOriginalGraph.FindNode(node.Id, false).AdjacencyVertexes.Count;
+                    l += node.AdjacencyVertices.Count;
+                    d += pOriginalGraph.FindNode(node.Label, false).AdjacencyVertices.Count;
                 }
 
                 l /= 2;
@@ -141,16 +141,16 @@ namespace CW_Nelya_Vika_Algorithms
             e.VertexOut.AdjacencyEdges.Remove(e);
             e.VertexIn.AdjacencyEdges.Remove(e);
 
-            e.VertexOut.AdjacencyVertexes.Remove(e.VertexIn);
-            e.VertexIn.AdjacencyVertexes.Remove(e.VertexOut);
+            e.VertexOut.AdjacencyVertices.Remove(e.VertexIn);
+            e.VertexIn.AdjacencyVertices.Remove(e.VertexOut);
 
-            WriteLog(" - Remove: (" + e.VertexOut.Id + ", " + e.VertexIn.Id + ")");
+            WriteLog(" - Remove: (" + e.VertexOut.Label + ", " + e.VertexIn.Label + ")");
 
             edgeBetweenness.Remove(e);
 
             foreach (Graph subgraph in pTempCS)
             {
-                if (subgraph.Vertexes.Contains(e.VertexOut))
+                if (subgraph.Vertices.Contains(e.VertexOut))
                     return subgraph;
             }
             return null;
@@ -185,10 +185,10 @@ namespace CW_Nelya_Vika_Algorithms
             #region Old
             //if (subgraph == null)
             //    return;
-            //int nodesCount = subgraph.Vertexes.Count;
+            //int nodesCount = subgraph.Vertices.Count;
             //int MAX = Int32.MaxValue;
 
-            //foreach (Vertex vertex in subgraph.Vertexes)
+            //foreach (Vertex vertex in subgraph.Vertices)
             //{
             //    foreach (Edge e in vertex.AdjacencyEdges)
             //    {
@@ -196,7 +196,7 @@ namespace CW_Nelya_Vika_Algorithms
             //    }
             //}
 
-            //foreach (Vertex vertex in subgraph.Vertexes)
+            //foreach (Vertex vertex in subgraph.Vertices)
             //{
             //    Queue<Vertex> nodeQueue = new Queue<Vertex>();
             //    Stack<Vertex> nodeStack = new Stack<Vertex>();
@@ -210,7 +210,7 @@ namespace CW_Nelya_Vika_Algorithms
             //    //Dictionary<Vertex, double> delta = new Dictionary<Vertex, double>();
 
             //    // initialization
-            //    foreach (Vertex _node in subgraph.Vertexes)
+            //    foreach (Vertex _node in subgraph.Vertices)
             //    {
             //        dist.Add(_node, MAX); 
             //        sigma.Add(_node, 0);
@@ -227,7 +227,7 @@ namespace CW_Nelya_Vika_Algorithms
             //        Vertex currentVertex = nodeQueue.Dequeue();
             //        nodeStack.Push(currentVertex);
 
-            //        foreach (Vertex adjacencyNode in currentVertex.AdjacencyVertexes)
+            //        foreach (Vertex adjacencyNode in currentVertex.AdjacencyVertices)
             //        {
             //            if (dist[adjacencyNode] == MAX)
             //            {
@@ -259,8 +259,8 @@ namespace CW_Nelya_Vika_Algorithms
 
             ////OLD2
             //int[,] matrix = subgraph.GraphToMatrix();
-            //foreach (var node1 in subgraph.Vertexes)
-            //foreach (var node2 in subgraph.Vertexes)
+            //foreach (var node1 in subgraph.Vertices)
+            //foreach (var node2 in subgraph.Vertices)
             //{
             //    Edge currEdge = subgraph.FindEdge(node1, node2);
             //    List<int> path = DijkstraAlgorithm(matrix, node1.Id - 1, node2.Id - 1);
@@ -268,16 +268,16 @@ namespace CW_Nelya_Vika_Algorithms
             //        continue;
             //    for (int i = 0; i < path.Count - 1; i++)
             //    {
-            //        Vertex nOut = subgraph.Vertexes.Find(n => n.Id == path[i] + 1),
-            //            nIn = subgraph.Vertexes.Find(n => n.Id == path[i + 1] + 1);
+            //        Vertex nOut = subgraph.Vertices.Find(n => n.Id == path[i] + 1),
+            //            nIn = subgraph.Vertices.Find(n => n.Id == path[i + 1] + 1);
             //        Edge tmpEdge = subgraph.FindEdge(nOut, nIn);
             //        edgeBetweenness[tmpEdge] += 1;
             //    }
             //}
             #endregion
 
-            foreach (var node1 in subgraph.Vertexes)
-                foreach (var node2 in subgraph.Vertexes)
+            foreach (var node1 in subgraph.Vertices)
+                foreach (var node2 in subgraph.Vertices)
                 {
                     Edge currEdge = subgraph.FindEdge(node1, node2);
                     List<Vertex> path = subgraph.DijkstraAlgorithm(node1, node2);
@@ -285,8 +285,8 @@ namespace CW_Nelya_Vika_Algorithms
                         continue;
                     for (int i = 0; i < path.Count - 1; i++)
                     {
-                        Vertex nOut = subgraph.Vertexes.Find(n => n.Id == path[i].Id),
-                            nIn = subgraph.Vertexes.Find(n => n.Id == path[i + 1].Id);
+                        Vertex nOut = subgraph.Vertices.Find(n => n.Label == path[i].Label),
+                            nIn = subgraph.Vertices.Find(n => n.Label == path[i + 1].Label);
                         Edge tmpEdge = subgraph.FindEdge(nOut, nIn);
                         edgeBetweenness[tmpEdge] += 1;
                     }
@@ -298,14 +298,14 @@ namespace CW_Nelya_Vika_Algorithms
             Result cs = new Result();
 
             int count = 0;
-            int n = graph.Vertexes.Count;
+            int n = graph.Vertices.Count;
             Dictionary<Vertex, bool> visited = new Dictionary<Vertex, bool>();
             for (int i = 0; i < n; i++)
             {
-                visited.Add(graph.Vertexes[i], false);
+                visited.Add(graph.Vertices[i], false);
             }
             // Якщо є "висячі" підграфи або вершини, додаємо їх до розбиття
-            foreach (Vertex i in graph.Vertexes)
+            foreach (Vertex i in graph.Vertices)
             {
                 if (visited[i] == false)
                 {
@@ -316,16 +316,16 @@ namespace CW_Nelya_Vika_Algorithms
                     visited[i] = true;
                     Q.Enqueue(i);
 
-                    subgraph.Vertexes.Add(i);
+                    subgraph.Vertices.Add(i);
 
                     while (Q.Count != 0)
                     {
                         Vertex v = Q.Dequeue();
-                        foreach (Vertex j in v.AdjacencyVertexes)
+                        foreach (Vertex j in v.AdjacencyVertices)
                         {
                             if (visited[j] == false)
                             {
-                                subgraph.Vertexes.Add(j);
+                                subgraph.Vertices.Add(j);
                                 visited[j] = true;
                                 Q.Enqueue(j);
                             }
