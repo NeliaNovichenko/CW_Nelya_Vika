@@ -8,45 +8,45 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            @*<div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>*@
+    <div class="navbar navbar-inverse">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active nav-link">
+                        @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-item nav-link" })
+                    </li>
+
+                    <li class="nav-item nav-link">
+                        @Html.ActionLink("Генератор задач", "ProblemGenerator", "ProblemGenerator", null, new { @class = "nav-item nav-link" })
+                    </li>
+
+                    <li class="nav-item nav-link">
+                        @Html.ActionLink("Розбиття графу", "", "", null, new { @class = "nav-item nav-link" })
+                    </li>
+
+                    <li class="nav-item nav-link">
+                        @Html.ActionLink("Розбиття графу", "", "", null, new { @class = "nav-item nav-link" })
+                    </li>
+
+                    <li class="nav-item nav-link">
+                        @Html.ActionLink("About", "About", "Home", null, new { @class = "nav-item nav-link" })
+                    </li>
+                    <li class="nav-item nav-link">
+                        @Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-item nav-link" })
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                </form>
             </div>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarColor01">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active nav-link">
-                            @Html.ActionLink("Home", "Index", "Home", new { @class = "nav-item nav-link" })
-                        </li>
-
-                        <li class="nav-item active nav-link">
-                            @Html.ActionLink("ProblemGenerator", "ProblemGenerator", "/ProblemGenerator/ProblemGenerator", new { @class = "nav-item nav-link" })
-                        </li>
-
-                        <li class="nav-item nav-link">
-                            @Html.ActionLink("About", "About", "Home", new { @class = "nav-item nav-link" })
-                        </li>
-                        <li class="nav-item nav-link">
-                            @Html.ActionLink("Contact", "Contact", "Home", new { @class = "nav-item nav-link" })
-                        </li>
-                    </ul>
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-                </div>
-            </nav>
-            @*<div class="navbar-collapse collapse">
+        </nav>
+        @*<div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink(@App_GlobalResources.Resource.ProblemGenerator, "ProblemGenerator", "ProblemGenerator")</li>
@@ -54,7 +54,7 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
             </div>*@
-        </div>
+    </div>
     </div>
     <div class="container body-content">
         @RenderBody()

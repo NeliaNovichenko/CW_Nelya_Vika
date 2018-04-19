@@ -25,10 +25,10 @@ namespace CW_Nelya_Vika_Algorithms
 
             //SaveToDb
 
-            dbContext.Edges.AddRange(g.Edges);
+            //dbContext.Edges.AddRange(g.Edges);
             //dbContext.Vertices.AddRange(g.Vertices);
 
-            dbContext.SaveChanges();
+            //dbContext.SaveChanges();
             //dbContext.Graphs.Add(g);
 
             Result resuslt = gn.FindCommunityStructure(g);
