@@ -22,12 +22,28 @@ namespace CW_Nelya_Vika.Models
         /// <summary>
         /// Вузли суміжності
         /// </summary>
-        public List<Vertex> AdjacencyVertices { get; set; }
+        private List<Vertex> AdjacencyVertices { get; set; }
+        public List<Vertex> GetAdjacencyVertices()
+        {
+            return AdjacencyVertices;
+        }
+        public void SetAdjacencyVertices(List<Vertex> list)
+        {
+            AdjacencyVertices = list;
+        }
 
         /// <summary>
         /// Суміжні ребра
         /// </summary>
         public List<Edge> AdjacencyEdges { get; set; }
+        public List<Edge> GetAdjacencyEdges()
+        {
+            return AdjacencyEdges;
+        }
+        public void SetAdjacencyEdges(List<Edge> list)
+        {
+            AdjacencyEdges = list;
+        }
 
         /// <summary>
         /// фіксована вершина чи ні

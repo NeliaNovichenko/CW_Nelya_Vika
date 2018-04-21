@@ -115,8 +115,8 @@ namespace CW_Nelya_Vika_Algorithms
                 int d = 0;
                 foreach (Vertex node in subGraph.Vertices)
                 {
-                    l += node.AdjacencyVertices.Count;
-                    d += pOriginalGraph.FindNode(node.Label, false).AdjacencyVertices.Count;
+                    l += node.GetAdjacencyVertices().Count;
+                    d += pOriginalGraph.FindNode(node.Label, false).GetAdjacencyVertices().Count;
                 }
 
                 l /= 2;
@@ -141,8 +141,8 @@ namespace CW_Nelya_Vika_Algorithms
             e.VertexOut.AdjacencyEdges.Remove(e);
             e.VertexIn.AdjacencyEdges.Remove(e);
 
-            e.VertexOut.AdjacencyVertices.Remove(e.VertexIn);
-            e.VertexIn.AdjacencyVertices.Remove(e.VertexOut);
+            e.VertexOut.GetAdjacencyVertices().Remove(e.VertexIn);
+            e.VertexIn.GetAdjacencyVertices().Remove(e.VertexOut);
 
             WriteLog(" - Remove: (" + e.VertexOut.Label + ", " + e.VertexIn.Label + ")");
 
@@ -227,7 +227,7 @@ namespace CW_Nelya_Vika_Algorithms
             //        Vertex currentVertex = nodeQueue.Dequeue();
             //        nodeStack.Push(currentVertex);
 
-            //        foreach (Vertex adjacencyNode in currentVertex.AdjacencyVertices)
+            //        foreach (Vertex adjacencyNode in currentVertex.GetAdjacencyVertices())
             //        {
             //            if (dist[adjacencyNode] == MAX)
             //            {
@@ -321,7 +321,7 @@ namespace CW_Nelya_Vika_Algorithms
                     while (Q.Count != 0)
                     {
                         Vertex v = Q.Dequeue();
-                        foreach (Vertex j in v.AdjacencyVertices)
+                        foreach (Vertex j in v.GetAdjacencyVertices())
                         {
                             if (visited[j] == false)
                             {
