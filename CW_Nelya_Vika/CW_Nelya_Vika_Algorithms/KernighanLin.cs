@@ -9,6 +9,20 @@ namespace CW_Nelya_Vika_Algorithms
     public class KernighanLin : IAlgorithm
     {
         private Graph graph;
+        struct Pair
+        {
+            public Vertex v1;
+            public Vertex v2;
+            public int delta_g;
+
+            public Pair(Vertex ver1, Vertex ver2, int d)
+            {
+                v1 = ver1;
+                v2 = ver2;
+                delta_g = d;
+            }
+        }
+
         public Result StartPartition(Graph pGraph)
         {
             Result r = new Result();
@@ -69,11 +83,15 @@ namespace CW_Nelya_Vika_Algorithms
                     Dv.Add(subgraph.Vertices[j], crossEdge - innerEdge);
                 }
             }
+            foreach (var item in Dv)
+            {
+                Console.WriteLine(item.Key.Label + " " + item.Value);
+            }
             return Dv;
         }
         public void CountGrowth(Dictionary<Vertex, int> Dv, Result result)
         {
-            Dictionary<List<Vertex>, int> delta_g = new Dictionary<List<Vertex>, int>();
+            List<Pair> deltag = new List<Pair>();
             for (int i = 0; i < result.Count; i++)
             {
                 Graph subgraph = result[i];
@@ -89,28 +107,27 @@ namespace CW_Nelya_Vika_Algorithms
                         {
                             var e = graph.FindEdge(subgraph.Vertices[j], graph.Vertices[k]);
                             if (e != null) w = 1;
-
-                            List<Vertex> list = new List<Vertex>();
-                            list.Add(graph.Vertices[k]);
-                            list.Add(subgraph.Vertices[j]);
-                            int a = Dv[graph.Vertices[k]];
-                            int b = Dv[subgraph.Vertices[j]];
-                            delta_g.Add(list, Dv[graph.Vertices[k]] + Dv[subgraph.Vertices[j]] - 2 * w);
+                            int delta_g = Dv[graph.Vertices[k]] + Dv[subgraph.Vertices[j]] - 2 * w;
+                            deltag.Add(new Pair(subgraph.Vertices[j], graph.Vertices[k], delta_g));
                         }
                     }
                 }
             }
-            int maxg = delta_g.Values.Max();
-            var keys = from entry in delta_g
-                       where entry.Value == maxg
-                       select entry.Key;
-            foreach(var item1 in keys)
+            foreach (var item in deltag)
             {
-                foreach(var item2 in item1)
-                {
-                    item2.IsFixed = true;
-                }
+                Console.WriteLine(item.v1.Label + " " + item.v2.Label + " " + item.delta_g);
             }
+            //int maxg = deltag.Values.Max();
+            //var keys = from entry in deltag
+            //           where entry.Value == maxg
+            //           select entry.Key;
+            //foreach (var item1 in keys)
+            //{
+            //    foreach (var item2 in item1)
+            //    {
+            //        item2.IsFixed = true;
+            //    }
+            //}
         }
         public Result FindCommunityStructure(Graph pGraph)
         {
