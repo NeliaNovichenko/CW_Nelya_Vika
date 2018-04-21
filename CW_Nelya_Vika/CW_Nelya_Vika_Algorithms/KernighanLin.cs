@@ -126,6 +126,7 @@ namespace CW_Nelya_Vika_Algorithms
             {
                 Dictionary<Vertex, int> Dv = D(result);
                 CountGrowth(Dv, result);
+                break;
             }
 
             return result;

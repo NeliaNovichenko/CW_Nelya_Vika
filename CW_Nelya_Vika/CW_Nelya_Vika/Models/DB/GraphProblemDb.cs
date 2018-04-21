@@ -8,16 +8,19 @@ namespace CW_Nelya_Vika.Models.DB
 {
     public class GraphProblemDb
     {
+        //string attachDbPath = Path.GetFullPath(@"~\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf");
+        //string connString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='" + attachDbPath + "';Integrated Security=True";
+        private const string connString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='D:\Studing\ТРПЗ\Курсова робота\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf';Integrated Security=True";
+        private SqlConnection sqlConn = new SqlConnection(connString);
+
         public Graph GetGraph(int graphId)
         {
             Graph graph = new Graph();
-            string DbFilePath = @"~\App_Data\CW_Nelya_Vika.mdf";
-            SqlConnection sqlConn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='D:\Studing\ТРПЗ\Курсова робота\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf';Integrated Security=True");
             SqlCommand sqlCommand = new SqlCommand("select VertexOut, VertexIn, weight from edge where GraphId = @graphId", sqlConn);
             sqlCommand.Parameters.AddWithValue("@graphId", graphId);
 
-            //try
-            //{
+            try
+            {
                 sqlConn.Open();
                 using (SqlDataReader reader = sqlCommand.ExecuteReader())
                 {
@@ -51,15 +54,15 @@ namespace CW_Nelya_Vika.Models.DB
                         graph.MaxCountInSubgraph = MaxCountInSubgraph;
                     }
                 }
-            //}
-            // (Exception e)
-            //{
-                //TODO:
-            //}
-            //finally
-            //{
+            }
+            catch (Exception e)
+            {
+               
+            }
+            finally
+            {
                 sqlConn.Close();
-            //}
+            }
             return graph;
         }
     }
