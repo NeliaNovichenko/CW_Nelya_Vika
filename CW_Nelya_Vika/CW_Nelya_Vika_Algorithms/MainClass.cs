@@ -15,7 +15,7 @@ namespace CW_Nelya_Vika_Algorithms
         {
             GraphProblemDBContext dbContext = new GraphProblemDBContext();
 
-            var filepath = System.IO.Path.GetFullPath(@"D:\Studing\ТРПЗ\Курсова робота\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika_Algorithms\Data\graph1.txt");
+            var filepath = System.IO.Path.GetFullPath(@"Data\graph1.txt");
 
             GirvanNewman gn = new GirvanNewman();
             KernighanLin kl = new KernighanLin();
