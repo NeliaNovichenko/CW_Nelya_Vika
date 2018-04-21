@@ -12,7 +12,7 @@ namespace CW_Nelya_Vika.Models.DB
         {
             Graph graph = new Graph();
             string DbFilePath = @"~\App_Data\CW_Nelya_Vika.mdf";
-            SqlConnection sqlConn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='D:\Studing\ТРПЗ\Курсова робота\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf';Integrated Security=True");
+            SqlConnection sqlConn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Uni\TRPZ\CourseWork\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf;Integrated Security=True");
             SqlCommand sqlCommand = new SqlCommand("select VertexOut, VertexIn, weight from edge where GraphId = @graphId", sqlConn);
             sqlCommand.Parameters.AddWithValue("@graphId", graphId);
 
