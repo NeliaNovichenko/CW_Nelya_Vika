@@ -13,29 +13,22 @@ namespace CW_Nelya_Vika_Algorithms
     {
         public static void Main(string[] args)
         {
-            GraphProblemDBContext dbContext = new GraphProblemDBContext();
+            GraphProblemDb db = new GraphProblemDb();
 
             var filepath = System.IO.Path.GetFullPath(@"D:\Studing\ТРПЗ\Курсова робота\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika_Algorithms\Data\graph1.txt");
 
             GirvanNewman gn = new GirvanNewman();
             KernighanLin kl = new KernighanLin();
+            Graph g = db.GetGraph(1);
 
-            IGraphInitializer graphInitializer = new GraphFromFile(filepath);
-            Graph g = graphInitializer.Initialize();
-
-            //SaveToDb
-
-            //dbContext.Edges.AddRange(g.Edges);
-            //dbContext.Vertices.AddRange(g.Vertices);
-
-            //dbContext.SaveChanges();
-            //dbContext.Graphs.Add(g);
+            //IGraphInitializer graphInitializer = new GraphFromFile(filepath);
+            //Graph g = graphInitializer.Initialize();
 
             Result resuslt = gn.FindCommunityStructure(g);
             Result result_kl = kl.FindCommunityStructure(g);
 
             Console.WriteLine(gn.Log);
-            
+
             Console.ReadLine();
         }
     }

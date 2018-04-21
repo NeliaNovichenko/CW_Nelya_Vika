@@ -54,7 +54,7 @@ namespace CW_Nelya_Vika_Algorithms
                 {
                     int innerEdge = 0, crossEdge = 0;
 
-                    var adjNode = graph.FindNode(subgraph.Vertices[j].Label, false).AdjacencyVertices;
+                    var adjNode = graph.FindNode(subgraph.Vertices[j].Label, false).GetAdjacencyVertices();
                     foreach (var node in adjNode)
                     {
                         if (node.IsFixed == false)
@@ -79,7 +79,7 @@ namespace CW_Nelya_Vika_Algorithms
                 Graph subgraph = result[i];
                 for (int j = 0; j < subgraph.Vertices.Count; j++)
                 {
-                    //var adjNode = graph.FindNode(subgraph.Vertices[j].Id, false).AdjacencyVertices;
+                    //var adjNode = graph.FindNode(subgraph.Vertices[j].Id, false).GetAdjacencyVertices();
                     //foreach (var vertex in graph.Vertices)
                     for (int k = 0; k < graph.Vertices.Count; k++)
                     {

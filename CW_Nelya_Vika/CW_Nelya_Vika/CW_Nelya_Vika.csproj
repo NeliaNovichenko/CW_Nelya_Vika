@@ -160,14 +160,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201804180637301_InitialCreate.cs" />
-    <Compile Include="Migrations\201804180637301_InitialCreate.Designer.cs">
-      <DependentUpon>201804180637301_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Components\Edge.cs" />
     <Compile Include="Models\Components\Graph.cs" />
-    <Compile Include="Models\DB\GraphProblemDBContext.cs" />
+    <Compile Include="Models\DB\GraphProblemDb.cs" />
     <Compile Include="Models\Graph_Initializers\GraphFromFile.cs" />
     <Compile Include="Models\Graph_Initializers\IGraphInitializer.cs" />
     <Compile Include="Models\Components\Problem.cs" />
@@ -177,6 +172,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\CW_Nelya_Vika.mdf" />
+    <Content Include="App_Data\CW_Nelya_Vika_log.ldf" />
     <Content Include="Content\bootstrap-minty.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -217,9 +214,7 @@
     <Content Include="Views\ProblemGenerator\ProblemGenerator.cshtml" />
     <Content Include="Views\ProblemGenerator\OutputEditGraph.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>
@@ -238,9 +233,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.designer.cs</LastGenOutput>
       <CustomToolNamespace>App_GlobalResources</CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804180637301_InitialCreate.resx">
-      <DependentUpon>201804180637301_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

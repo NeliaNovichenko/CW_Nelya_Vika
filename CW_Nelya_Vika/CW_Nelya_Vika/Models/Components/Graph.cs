@@ -45,7 +45,6 @@ namespace CW_Nelya_Vika.Models
         public List<Problem> Problems { get; set; }
 
 
-
         public Graph()
         {
             Vertices = new List<Vertex>();
@@ -64,11 +63,11 @@ namespace CW_Nelya_Vika.Models
                 return null;
             Edge edge = new Edge(vertexA, vertexB);
 
-            if (vertexA.AdjacencyVertices.Contains(vertexB) || vertexB.AdjacencyVertices.Contains(vertexA))
+            if (vertexA.GetAdjacencyVertices().Contains(vertexB) || vertexB.GetAdjacencyVertices().Contains(vertexA))
                 return null;
 
-            vertexB.AdjacencyVertices.Add(vertexA);
-            vertexA.AdjacencyVertices.Add(vertexB);
+            vertexB.GetAdjacencyVertices().Add(vertexA);
+            vertexA.GetAdjacencyVertices().Add(vertexB);
 
             vertexA.AdjacencyEdges.Add(edge);
             vertexB.AdjacencyEdges.Add(edge);
@@ -117,11 +116,11 @@ namespace CW_Nelya_Vika.Models
         /// <param name="pVertexOut"></param>
         /// <param name="pVertexIn"></param>
         /// <returns></returns>
-        public Edge FindEdge(Vertex pVertexOut, Vertex pVertexIn)
+        public Edge FindEdge(Vertex pVertecesOut, Vertex pVertecesIn)
         {
-            foreach (Edge e in pVertexOut.AdjacencyEdges)
+            foreach (Edge e in pVertecesOut.AdjacencyEdges)
             {
-                if ((e.VertexOut == pVertexOut && e.VertexIn == pVertexIn) || (e.VertexOut == pVertexIn && e.VertexIn == pVertexOut))
+                if ((e.VertexOut == pVertecesOut && e.VertexIn == pVertecesIn) || (e.VertexOut == pVertecesIn && e.VertexIn == pVertecesOut))
                     return e;
             }
             return null;
@@ -134,11 +133,11 @@ namespace CW_Nelya_Vika.Models
         /// <param name="pNodeA"></param>
         /// <param name="pNodeB"></param>
         /// <returns></returns>
-        public Edge FindEdgeExtract(Vertex pVertexOut, Vertex pVertexIn)
+        public Edge FindEdgeExtract(Vertex pVertecesOut, Vertex pVertecesIn)
         {
-            foreach (Edge e in pVertexOut.AdjacencyEdges)
+            foreach (Edge e in pVertecesOut.AdjacencyEdges)
             {
-                if ((e.VertexOut == pVertexOut && e.VertexIn == pVertexIn))
+                if ((e.VertexOut == pVertecesOut && e.VertexIn == pVertecesIn))
                     return e;
             }
 
@@ -222,10 +221,10 @@ namespace CW_Nelya_Vika.Models
 
             foreach (Edge e in Edges)
             {
-                Vertex vertexOut = graph.FindNode(e.VertexOut.Label);
-                Vertex vertexIn = graph.FindNode(e.VertexIn.Label);
+                Vertex VertexOut = graph.FindNode(e.VertexOut.Label);
+                Vertex VertexIn = graph.FindNode(e.VertexIn.Label);
 
-                graph.CreateLink(vertexOut, vertexIn);
+                graph.CreateLink(VertexOut, VertexIn);
             }
             return graph;
         }
