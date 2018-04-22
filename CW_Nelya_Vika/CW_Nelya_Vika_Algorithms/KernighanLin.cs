@@ -23,9 +23,9 @@ namespace CW_Nelya_Vika_Algorithms
             }
         }
 
-        public Result StartPartition(Graph pGraph)
+        public GraphList StartPartition(Graph pGraph)
         {
-            Result r = new Result();
+            GraphList r = new GraphList();
             int countVerticies = pGraph.Vertices.Count;
             int columnLength = (int)Math.Ceiling((decimal)(pGraph.Vertices.Count) / pGraph.CommunityCount);
             var list = pGraph.Vertices.Select((item, index) => new { index, item })
@@ -58,12 +58,12 @@ namespace CW_Nelya_Vika_Algorithms
             return r;
 
         }
-        public Dictionary<Vertex, int> D(Result result)
+        public Dictionary<Vertex, int> D(GraphList graphList)
         {
             Dictionary<Vertex, int> Dv = new Dictionary<Vertex, int>();
-            for (int i = 0; i < result.Count; i++)
+            for (int i = 0; i < graphList.Count; i++)
             {
-                Graph subgraph = result[i];
+                Graph subgraph = graphList[i];
                 for (int j = 0; j < subgraph.Vertices.Count; j++)
                 {
                     int innerEdge = 0, crossEdge = 0;
@@ -89,12 +89,12 @@ namespace CW_Nelya_Vika_Algorithms
             }
             return Dv;
         }
-        public void CountGrowth(Dictionary<Vertex, int> Dv, Result result)
+        public void CountGrowth(Dictionary<Vertex, int> Dv, GraphList graphList)
         {
             List<Pair> deltag = new List<Pair>();
-            for (int i = 0; i < result.Count; i++)
+            for (int i = 0; i < graphList.Count; i++)
             {
-                Graph subgraph = result[i];
+                Graph subgraph = graphList[i];
                 for (int j = 0; j < subgraph.Vertices.Count; j++)
                 {
                     //var adjNode = graph.FindNode(subgraph.Vertices[j].Id, false).GetAdjacencyVertices();
@@ -129,24 +129,24 @@ namespace CW_Nelya_Vika_Algorithms
             //    }
             //}
         }
-        public Result FindCommunityStructure(Graph pGraph)
+        public GraphList FindCommunityStructure(Graph pGraph)
         {
 
             graph = pGraph.Clone();
-            Result result;
+            GraphList graphList;
 
             // начальное разбиение
 
-            result = StartPartition(pGraph);
+            graphList = StartPartition(pGraph);
 
             while (true)
             {
-                Dictionary<Vertex, int> Dv = D(result);
-                CountGrowth(Dv, result);
+                Dictionary<Vertex, int> Dv = D(graphList);
+                CountGrowth(Dv, graphList);
                 break;
             }
 
-            return result;
+            return graphList;
         }
     }
 }

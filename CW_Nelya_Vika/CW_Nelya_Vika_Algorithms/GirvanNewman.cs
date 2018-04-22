@@ -14,7 +14,7 @@ namespace CW_Nelya_Vika_Algorithms
         /// <summary>
         /// List<Graph> result - результат розбиття
         /// </summary>
-        Result result;
+        GraphList graphList;
         /// <summary>
         /// Граф, для якого проводиться розбитта
         /// </summary>
@@ -31,7 +31,7 @@ namespace CW_Nelya_Vika_Algorithms
         /// </summary>
         /// <param name="pGraph"></param>
         /// <returns></returns>
-        public Result FindCommunityStructure(Graph pGraph)
+        public GraphList FindCommunityStructure(Graph pGraph)
         {
             // Clone graph
             if (pGraph is null)
@@ -39,7 +39,7 @@ namespace CW_Nelya_Vika_Algorithms
             graph = pGraph.Clone();
 
             //Тимчасове розбиття
-            Result tempCs = GetCommunityStructure();
+            GraphList tempCs = GetCommunityStructure();
 
             int initCount = tempCs.Count;
             int countCommunity = initCount;
@@ -78,7 +78,7 @@ namespace CW_Nelya_Vika_Algorithms
                 if (Q > BestQ)
                 {
                     BestQ = Q;
-                    result = tempCs;
+                    graphList = tempCs;
                 }
 
 
@@ -86,7 +86,7 @@ namespace CW_Nelya_Vika_Algorithms
                     break;
             }
 
-            return this.result;
+            return this.graphList;
         }
 
         /// <summary>
@@ -102,14 +102,14 @@ namespace CW_Nelya_Vika_Algorithms
         /// Modularity - оцінка якості розбиття графа на підграфи,
         /// наскільки дане розбиття якісно
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="graphList"></param>
         /// <param name="pOriginalGraph"></param>
         /// <returns></returns>
-        public static double CalculateModularity(Result result, Graph pOriginalGraph)
+        public static double CalculateModularity(GraphList graphList, Graph pOriginalGraph)
         {
             double modularity = 0;
             int numEdge = pOriginalGraph.Edges.Count;
-            foreach (Graph subGraph in result)
+            foreach (Graph subGraph in graphList)
             {
                 int l = 0;
                 int d = 0;
@@ -131,8 +131,10 @@ namespace CW_Nelya_Vika_Algorithms
         /// </summary>
         /// <param name="pTempCS"></param>
         /// <returns></returns>
-        private Graph RemoveMaxEdgeBetweenness(Result pTempCS)
+        private Graph RemoveMaxEdgeBetweenness(GraphList pTempCS)
         {
+            if (edgeBetweenness == null || edgeBetweenness.Count == 0)
+                return null;
             double max = edgeBetweenness.Max(n => n.Value);
             Edge e = edgeBetweenness.Where(n => Math.Abs(n.Value - max) < 1e-6).ToArray()[0].Key;
 
@@ -293,9 +295,9 @@ namespace CW_Nelya_Vika_Algorithms
                 }
         }
 
-        private Result GetCommunityStructure()
+        private GraphList GetCommunityStructure()
         {
-            Result cs = new Result();
+            GraphList cs = new GraphList();
 
             int count = 0;
             int n = graph.Vertices.Count;

@@ -168,7 +168,7 @@
     <Compile Include="Models\Components\Problem.cs" />
     <Compile Include="Models\Graph_Initializers\GraphGenerator.cs" />
     <Compile Include="Models\Components\Vertex.cs" />
-    <Compile Include="Models\Components\Result.cs" />
+    <Compile Include="Models\Components\GraphList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

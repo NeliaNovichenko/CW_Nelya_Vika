@@ -11,7 +11,7 @@ namespace CW_Nelya_Vika.Models
     /// <summary>
     /// Клас, що місить підграфи - результат роботи алгоритму
     /// </summary>
-    public class Result : List<Graph>
+    public class GraphList : List<Graph>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

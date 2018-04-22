@@ -50,5 +50,10 @@ namespace CW_Nelya_Vika.Models
             VertexIn = pVertexB;
             Weight = weight;
         }
+
+        public override string ToString()
+        {
+            return string.Format("[{0} -{1}-> {2}]; ", VertexOut, Weight, VertexIn);
+        }
     }
 }

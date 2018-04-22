@@ -228,5 +228,19 @@ namespace CW_Nelya_Vika.Models
             }
             return graph;
         }
+
+
+        public override string ToString()
+        {
+            string result = string.Format("Id: {0};" +
+                                          " Кількість розбиттів: {1};" +
+                                          " Мінімальна-максимальна кількість вершин у підграфах: {2}-{3}; ",
+                Id, CommunityCount, MinCountInSubgraph, MaxCountInSubgraph);
+            foreach (var edge in Edges)
+            {
+                result += edge.ToString();
+            }
+            return result;
+        }
     }
 }
