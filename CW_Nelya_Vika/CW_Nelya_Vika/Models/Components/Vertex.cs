@@ -82,5 +82,10 @@ namespace CW_Nelya_Vika.Models
         {
             return Label.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return Label.ToString();
+        }
     }
 }

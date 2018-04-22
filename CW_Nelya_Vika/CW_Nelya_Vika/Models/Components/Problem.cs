@@ -14,7 +14,8 @@ namespace CW_Nelya_Vika.Models
     public enum Algorithm : byte
     {
         GirvanNewman,
-        KernighanLin
+        KernighanLin,
+        None
     }
 
     /// <summary>
@@ -27,13 +28,18 @@ namespace CW_Nelya_Vika.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        //public int GraphId { get; set; }
         public Graph Graph { get; set; }
 
-        //public int ResultId { get; set; }
-        public Result Result { get; set; }
+        public GraphList GraphList { get; set; }
 
         public Algorithm Algorithm { get; set; }
+
+        public Problem()
+        {
+            Graph = new Graph();
+            GraphList =  new GraphList();
+            Algorithm = Algorithm.None;
+        }
 
     }
 }

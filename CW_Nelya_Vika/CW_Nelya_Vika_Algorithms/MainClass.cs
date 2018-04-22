@@ -13,19 +13,18 @@ namespace CW_Nelya_Vika_Algorithms
     {
         public static void Main(string[] args)
         {
-            GraphProblemDb db = new GraphProblemDb();
-
             var filepath = System.IO.Path.GetFullPath(@"Data\graph1.txt");
 
             GirvanNewman gn = new GirvanNewman();
             KernighanLin kl = new KernighanLin();
-            Graph g = db.GetGraph(1);
+            Graph g = GraphProblemDb.GetGraph(1);
+            Console.WriteLine(g);
 
             //IGraphInitializer graphInitializer = new GraphFromFile(filepath);
             //Graph g = graphInitializer.Initialize();
 
-            Result resuslt = gn.FindCommunityStructure(g);
-            Result result_kl = kl.FindCommunityStructure(g);
+            GraphList resuslt = gn.FindCommunityStructure(g);
+            GraphList result_kl = kl.FindCommunityStructure(g);
 
             Console.WriteLine(gn.Log);
 

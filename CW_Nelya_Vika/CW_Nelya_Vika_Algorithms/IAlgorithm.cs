@@ -7,6 +7,6 @@ namespace CW_Nelya_Vika_Algorithms
     /// </summary>
     interface IAlgorithm
     {
-        Result FindCommunityStructure(Graph pGraph);
+        GraphList FindCommunityStructure(Graph pGraph);
     }
 }
