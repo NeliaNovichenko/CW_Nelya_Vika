@@ -90,6 +90,7 @@ namespace CW_Nelya_Vika_Algorithms
         }
         public GraphList CountGrowth(Dictionary<Vertex, int> Dv, GraphList graphList)
         {
+
             List<Pair> deltag = new List<Pair>();
             for (int i = 0; i < graphList.Count; i++)
             {
@@ -100,6 +101,8 @@ namespace CW_Nelya_Vika_Algorithms
                     //foreach (var vertex in graph.Vertices)
                     for (int k = 0; k < graph.Vertices.Count; k++)
                     {
+                        var w1 = graph.FindNode(subgraph.Vertices[j].Label, false);
+                        if (w1.IsFixed || graph.Vertices[k].IsFixed) { continue; }
                         int w = 0;
                         //var w = graph.FindEdge(subgraph.Vertices[j], vertex).Weight;
                         if (subgraph.FindNode(graph.Vertices[k].Label, false) == null)
@@ -116,6 +119,14 @@ namespace CW_Nelya_Vika_Algorithms
             //{
             //    Console.WriteLine(item.v1.Label + " " + item.v2.Label + " " + item.delta_g);
             //}
+            if (deltag.Count == 0)
+            {
+                foreach(var item in graph.Vertices)
+                {
+                    item.IsFixed = true;
+                }
+                return null;
+            }
             int maxvalue = deltag[0].delta_g;
             Pair maxpair = deltag[0];
             for (int i = 0; i < deltag.Count; i++)
@@ -135,41 +146,8 @@ namespace CW_Nelya_Vika_Algorithms
             for (int i = 0; i < graphList.Count; i++)
             {
                 Graph subgraph = graphList[i];
-                //var tmp1 = subgraph.FindNode(maxpair.v1.Label, false);
-                //var tmp2 = new Vertex();
-                //for (int j = 0; j < subgraph.Vertices.Count; j++)
-                //{
-                //    if (j == (subgraph.Vertices.Count - 1))
-                //    {
-                //        tmp2 = subgraph.FindNode(maxpair.v2.Label, false);
-                //    }
-                //}
-                //for (int k = 0; k < subgraph.Vertices.Count; k++)
-                //{
-                //    subgraph.Vertices[k] = tmp2;
-                //}
-                //for (int z = 0; z < subgraph.Vertices.Count; z++)
-                //{
-                //    subgraph.Vertices[z] = tmp1;
-                //}
                 var tmp1 = subgraph.FindNode(maxpair.v1.Label, false);
                 if (tmp1 != null) { sub1 = i; }
-
-                //if (tmp1 != null)
-                //{
-                //    subgraph.Vertices.Remove(tmp1);
-                //    subgraph.Vertices.Add(maxpair.v2);
-                //}
-                //for (int j = i+1; j < graphList.Count; j++)
-                //{
-                //    Graph subgraph1 = graphList[i];
-                //    var tmp2 = subgraph1.FindNode(maxpair.v2.Label, false);
-                //    if (tmp2 != null)
-                //    {
-                //        subgraph.Vertices.Remove(tmp2);
-                //        subgraph.Vertices.Add(maxpair.v1);
-                //    }
-                //}
             }
             for (int i = 0; i < graphList.Count; i++)
             {
@@ -182,9 +160,11 @@ namespace CW_Nelya_Vika_Algorithms
             graphList[sub1].Vertices.Remove(t1);
             graphList[sub1].Vertices.Add(t2);
             graphList[sub1].Vertices.Find(x => x.Label == t2.Label).IsFixed = true;
+            graph.FindNode(t1.Label, false).IsFixed = true;
             graphList[sub2].Vertices.Remove(t2);
             graphList[sub2].Vertices.Add(t1);
             graphList[sub2].Vertices.Find(x => x.Label == t1.Label).IsFixed = true;
+            graph.FindNode(t2.Label, false).IsFixed = true;
 
             //foreach (var sublist in graphList)
             //{
@@ -208,6 +188,15 @@ namespace CW_Nelya_Vika_Algorithms
         {
 
         }
+        private bool IsAllFixed(List<Vertex> vertices)
+        {
+            foreach (var item in vertices)
+            {
+                if (item.IsFixed == false)
+                    return false;
+            }
+            return true;
+        }
         public GraphList FindCommunityStructure(Graph pGraph)
         {
 
@@ -217,29 +206,15 @@ namespace CW_Nelya_Vika_Algorithms
             // начальное разбиение
 
             graphList = StartPartition(pGraph);
-            GraphList graphlist1 = new GraphList();
 
-            while (true)
+            while (IsAllFixed(graph.Vertices) == false)
             {
-                //Dictionary<Vertex, int> Dv = D(graphList);
-                //GraphList graphlist1 = CountGrowth(Dv, graphList);
+                Dictionary<Vertex, int> Dv = D(graphList);
+                GraphList graphlist1 = CountGrowth(Dv, graphList);
+                if (graphlist1 == null)
+                    continue;
                 //Exchange(graphList);
-                foreach (var item in graphList)
-                {
-                    foreach (var node in item.Vertices)
-                    {
-                        
 
-                        Console.WriteLine(node.Label + " " + node.IsFixed);
-                        while(node.IsFixed == false)
-                        {
-                            Dictionary<Vertex, int> Dv = D(graphList);
-                            graphlist1 = CountGrowth(Dv, graphList);
-                            
-                        }
-                        
-                    }
-                }
                 foreach (var sublist in graphlist1)
                 {
                     foreach (var node1 in sublist.Vertices)
@@ -249,7 +224,8 @@ namespace CW_Nelya_Vika_Algorithms
                     }
                     Console.WriteLine();
                 }
-                break;
+                Console.WriteLine();
+
             }
 
             return graphList;
