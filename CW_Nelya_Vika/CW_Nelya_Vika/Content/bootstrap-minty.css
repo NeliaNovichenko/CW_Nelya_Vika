@@ -2181,7 +2181,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
   position: static;
   margin-top: 0;
   margin-right: 0.3125rem;
-  margin-left: 0;
+  margin-left: 0.3125rem;
 }
 
 .valid-feedback {
@@ -4023,14 +4023,15 @@ tbody.collapse.show {
 }
 
 .navbar-brand {
-  display: inline-block;
-  padding-top: 0.3125rem;
-  padding-bottom: 0.3125rem;
-  margin-right: 1rem;
-  font-size: 1.25rem;
-  line-height: inherit;
-  white-space: nowrap;
-  color:white;
+    display: inline-block;
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
+    color: white;
 }
 
 .navbar-brand:hover, .navbar-brand:focus {
@@ -9026,6 +9027,7 @@ a.text-dark:hover, a.text-dark:focus {
   }
   .navbar {
     display: none;
+    align-self:center;
   }
   .badge {
     border: 1px solid #000;

@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="navbar navbar-inverse">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -26,7 +26,7 @@
                     </li>
 
                     <li class="nav-item nav-link">
-                        @Html.ActionLink("Розбиття графу", "", "", null, new { @class = "nav-item nav-link" })
+                        @Html.ActionLink("Розбиття графу", "GraphListResult", "GraphListResult", null, new { @class = "nav-item nav-link" })
                     </li>
 
                     <li class="nav-item nav-link">
