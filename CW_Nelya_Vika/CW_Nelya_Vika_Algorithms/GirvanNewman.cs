@@ -21,7 +21,6 @@ namespace CW_Nelya_Vika_Algorithms
         Graph graph;
         //TODO:
         private double Q;
-
         public double BestQ { get; set; }
 
         public string Log { get; private set; }
@@ -37,48 +36,29 @@ namespace CW_Nelya_Vika_Algorithms
             if (pGraph is null)
                 return null;
             graph = pGraph.Clone();
-
             //Тимчасове розбиття
-            GraphList tempCs = GetCommunityStructure();
-
-            int initCount = tempCs.Count;
-            int countCommunity = initCount;
-
-
-
+            GraphList tempGraphList = GetCommunityStructure();
+            int initCount = tempGraphList.Count;
+            int countCommunity = tempGraphList.Count;
             //обчислюємо Betweenness
             InitializeEdgeBetweenness(graph);
+            // Q
+            BestQ = 0;
+            Q = 0;
 
-            int j = 0;
             while (true)
             {
-                while (countCommunity <= initCount)
+                while (countCommunity <= graph.CommunityCount || graph.Edges.Count == 0)
                 {
-                    Graph community = RemoveMaxEdgeBetweenness(tempCs);
+                    //видалити ребро с макс Betweenness
+                    Graph community = RemoveMaxEdgeBetweenness(tempGraphList);
+                    //перерахувати  Betweenness для нового community
                     InitializeEdgeBetweenness(community);
 
-                    tempCs = GetCommunityStructure();
-                    countCommunity = tempCs.Count;
-                }
-
-                initCount = countCommunity;
-
-                Q = 0;
-                if (graph.CommunityCount != 0)
-                {
-                    BestQ = graph.CommunityCount;
-                }
-                else
-                {
-
-                    BestQ = 0;
-                    Q = CalculateModularity(tempCs, pGraph);
-
-                }
-                if (Q > BestQ)
-                {
-                    BestQ = Q;
-                    graphList = tempCs;
+                    //розбити граф
+                    tempGraphList = GetCommunityStructure();
+                    //кількість розбиттів
+                    countCommunity = tempGraphList.Count;
                 }
 
 
@@ -86,7 +66,39 @@ namespace CW_Nelya_Vika_Algorithms
                     break;
             }
 
-            return this.graphList;
+
+            /*
+             while (true)
+            {
+                while (countCommunity <= initCount)
+                {
+                    WriteLog("Xóa lần " + j.ToString()); j++;
+                    // Xóa cạnh có edge betweenness lớn nhất
+                    DGraph community = RemoveMaxEdgeBetweenness(tempCS); // Xóa cạnh lớn nhất và cho biết community nào có cạnh được xóa
+
+                    // Tính lại Edgebetweenness
+                    CalculateEdgeBetweenness(tempCS, community);
+
+                    // Đếm lại số cộng đồng
+                    tempCS = GetCommunityStructure();
+                    countCommunity = tempCS.Count;
+                }
+
+                initCount = countCommunity;
+
+                // Tính Q
+                Q = CalculateModularity(tempCS, pGraph);
+                if (Q > BestQ)
+                {
+                    BestQ = Q;
+                    Cs = tempCS;
+                }
+
+                if (graph.Edges.Count == 0) break;
+            }
+             */
+
+            return graphList;
         }
 
         /// <summary>

@@ -137,7 +137,7 @@ namespace CW_Nelya_Vika.Models
         {
             foreach (Edge e in pVertecesOut.AdjacencyEdges)
             {
-                if ((e.VertexOut == pVertecesOut && e.VertexIn == pVertecesIn))
+                if ((e.VertexOut.Label == pVertecesOut.Label && e.VertexIn.Label == pVertecesIn.Label))
                     return e;
             }
 
@@ -218,6 +218,10 @@ namespace CW_Nelya_Vika.Models
         public Graph Clone()
         {
             Graph graph = new Graph();
+
+            graph.CommunityCount = CommunityCount; 
+            graph.MinCountInSubgraph = MinCountInSubgraph; 
+            graph.MaxCountInSubgraph = MaxCountInSubgraph;
 
             foreach (Edge e in Edges)
             {
