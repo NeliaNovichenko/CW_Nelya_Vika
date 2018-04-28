@@ -11,6 +11,7 @@ namespace CW_Nelya_Vika_Algorithms
 {
     class MainClass
     {
+        static string result;
         public static void Main(string[] args)
         {
             var filepath = System.IO.Path.GetFullPath(@"Data\graph1.txt");
