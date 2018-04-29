@@ -1,7 +1,7 @@
 ﻿@using CW_Nelya_Vika.Models
 @using System.Collections.Generic
 
-@model Graph
+@model Problem
 @{
     ViewBag.Title = "GraphList";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -43,14 +43,14 @@
                                     ctx.font = 'italic 13px sans-serif'; //шрифт
                                     var x = (pt1.x + pt2.x) / 2;
                                     var y = (pt1.y + pt2.y) / 2;
-                                    ctx.strokeText(edge.data, x, y); //пишем имя у каждой точки
+                                    ctx.strokeText(edge.data, x + 5, y + 5); //пишем имя у каждой точки
                                     ctx.stroke();
                                 });
 
                             particleSystem.eachNode(	//теперь каждую вершину
                                 function (node, pt) {		//получаем вершину и точку где она
                                     var w = 10;			//ширина квадрата
-                                    ctx.fillStyle = "orange";	//с его цветом понятно
+                                    ctx.fillStyle = node.color;	//с его цветом понятно
                                     ctx.fillRect(pt.x - w / 2, pt.y - w / 2, w, w);	//рисуем
                                     ctx.fillStyle = "black";	//цвет для шрифта
                                     ctx.font = 'italic 13px sans-serif'; //шрифт
@@ -108,20 +108,33 @@
                         "nodes": [],
                         "edges": []
                     };
+                    //var colors = [
+                    //    "Salmon", "Lime", "HotPink", "DarkCyan", "Tomato", "LightSteelBlue", "Yellow", "Gray", "Violet",
+                    //    "Crimson", "Indigo", "YellowGreen", "BurlyWood", "Chocolate", "Maroon", "Aqua"
+                    //];
+                   
 
-                    @foreach (var vertex in Model.Vertices)
+                    @foreach (var graph in Model.GraphList)
                     {
-                        @:data.nodes.push({ "name": @vertex.Label});
+                        Random r = new Random();
+                        var color = string.Format("rgba({0},{1},{2}, .8)", r.Next(0, 255), r.Next(0, 255), r.Next(0, 255));
+
+                        foreach (var vertex in graph.Vertices)
+                        {
+                            @:data.nodes.push({ "name": @vertex.Label});
+                            //, "color": @color
+                        }
+
                     }
 
-                    @foreach (var edge in Model.Edges)
+                    @foreach (var edge in Model.Graph.Edges)
                     {
                         @:data.edges.push({"src": @edge.VertexOut.Label, "dest": @edge.VertexIn.Label, "weight": @edge.Weight});
                     }
 
                     $.each(data.nodes,
                         function (i, node) {
-                            sys.addNode(node.name); //добавляем вершину
+                            sys.addNode(node.name, node.color); //добавляем вершину
                         });
 
                     $.each(data.edges,
