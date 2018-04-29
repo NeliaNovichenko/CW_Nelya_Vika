@@ -6,19 +6,12 @@ using System.Web.Mvc;
 
 namespace CW_Nelya_Vika.Controllers
 {
-    public class HomeController : Controller
+    public class OutputResultController : Controller
     {
+        // GET: OutputResult
         public ActionResult Index()
         {
             return View();
         }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
     }
 }

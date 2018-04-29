@@ -18,26 +18,27 @@
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active nav-link">
-                        @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-item nav-link" })
+                        @Html.ActionLink("Головна", "Index", "Home", null, new { @class = "nav-item nav-link" })
                     </li>
 
                     <li class="nav-item nav-link">
-                        @Html.ActionLink("Генератор задач", "ProblemGenerator", "ProblemGenerator", null, new { @class = "nav-item nav-link" })
+                        @Html.ActionLink("Створити задачу", "ProblemGenerator", "ProblemGenerator", null, new { @class = "nav-item nav-link" })
                     </li>
 
                     <li class="nav-item nav-link">
                         @Html.ActionLink("Розбиття графу", "GraphListResult", "GraphListResult", null, new { @class = "nav-item nav-link" })
+                    </li> 
+                    
+                    <li class="nav-item nav-link">
+                        @Html.ActionLink("Відобразити граф", "OutputEditGraph", "ProblemGenerator", null, new { @class = "nav-item nav-link" })
                     </li>
 
                     <li class="nav-item nav-link">
-                        @Html.ActionLink("Розбиття графу", "", "", null, new { @class = "nav-item nav-link" })
+                        @Html.ActionLink("Результати досліджень", "", "", null, new { @class = "nav-item nav-link" })
                     </li>
 
                     <li class="nav-item nav-link">
-                        @Html.ActionLink("About", "About", "Home", null, new { @class = "nav-item nav-link" })
-                    </li>
-                    <li class="nav-item nav-link">
-                        @Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-item nav-link" })
+                        @Html.ActionLink("Про програму", "About", "Home", null, new { @class = "nav-item nav-link" })
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
@@ -47,14 +48,14 @@
             </div>
         </nav>
         @*<div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink(@App_GlobalResources.Resource.ProblemGenerator, "ProblemGenerator", "ProblemGenerator")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
+                        <ul class="nav navbar-nav">
+                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li>@Html.ActionLink(@App_GlobalResources.Resource.ProblemGenerator, "ProblemGenerator", "ProblemGenerator")</li>
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        </ul>
+                    </div>
             </div>*@
-    </div>
     </div>
     <div class="container body-content">
         @RenderBody()

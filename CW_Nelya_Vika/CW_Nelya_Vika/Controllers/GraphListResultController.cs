@@ -12,20 +12,30 @@ namespace CW_Nelya_Vika.Controllers
     {
         // GET: GraphList
         public ActionResult Index()
-        {
-            return View();
+        { 
+            
+            return View("GraphListResult");
         }
+
         public ActionResult GraphListResult()
         {
-            Graph g = GraphProblemDb.GetGraph(1);
-            ViewBag.graph = g.ToString();
+            //Graph g = GraphProblemDb.GetGraph(1);
+            Graph g = new Graph();
+            g.Edges = new List<Edge>()
+            {
+                new Edge(new Vertex(){Label = 1}, new Vertex(){Label = 2}, 3),
+                new Edge(new Vertex(){Label = 1}, new Vertex(){Label = 3}, 2),
+                new Edge(new Vertex(){Label = 2}, new Vertex(){Label = 3}, 5)
+            };
+            g.Vertices = new List<Vertex>()
+            {
+                new Vertex(){Label = 1},
+                new Vertex(){Label = 2},
+                new Vertex(){Label = 3}
+            };
 
-            return View();
+            return View(g);
         }
 
-        //public ActionResult Show(HttpPostedFileBase file)
-        //{
-        //    return Content("Hi there!");
-        //}
     }
 }
