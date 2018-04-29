@@ -19,6 +19,7 @@ namespace CW_Nelya_Vika.Controllers
         {
             Graph g = GraphProblemDb.GetGraph(1);
             ViewBag.graph = g.ToString();
+
             return View();
         }
 
