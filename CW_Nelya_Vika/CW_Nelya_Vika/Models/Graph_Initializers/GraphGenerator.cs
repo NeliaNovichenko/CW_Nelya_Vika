@@ -14,7 +14,7 @@ namespace CW_Nelya_Vika.Models
     /// - L - ...
     /// - Xl - ...
     /// </summary>
-    public enum ProblemClassification: byte
+    public enum ProblemClassification : byte
     {
         Xs, S, M, L, Xl
     }
@@ -23,7 +23,7 @@ namespace CW_Nelya_Vika.Models
     /// Клас, що генерує випадкові ребра та вершини,
     /// враховуючи розмірність
     /// </summary>
-    public class GraphGenerator: IGraphInitializer
+    public class GraphGenerator : IGraphInitializer
     {
         /// <summary>
         /// Розмірність графу
@@ -64,9 +64,28 @@ namespace CW_Nelya_Vika.Models
                     vertexCount = 240;
                     break;
             }
-            //TODO:
 
+            Random r = new Random();
+            for (int i = 1; i <= vertexCount; i++)
+            {
+                int edgeCount = r.Next(1, 4);
+                for (int j = 0; j < edgeCount; j++)
+                {
+                    int vertOutLabel = i;
+                    int vertInLabel = i;
+                    do
+                    {
+                        vertInLabel = r.Next(1, vertexCount);
+                    } while (vertOutLabel == vertInLabel);
 
+                    int weight = r.Next(1, 10);
+
+                    Vertex vertexA = graph.FindNode(vertOutLabel, true);
+                    Vertex vertexB = graph.FindNode(vertInLabel, true);
+
+                    graph.CreateLink(vertexA, vertexB, weight);
+                }
+            }
             return graph;
         }
     }
