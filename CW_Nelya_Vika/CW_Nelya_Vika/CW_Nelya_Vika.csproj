@@ -241,6 +241,12 @@
       <CustomToolNamespace>App_GlobalResources</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CW_Nelya_Vika_Algorithms\CW_Nelya_Vika_Algorithms.csproj">
+      <Project>{e200b724-e730-4ee7-ac10-aabf4d2813a6}</Project>
+      <Name>CW_Nelya_Vika_Algorithms</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

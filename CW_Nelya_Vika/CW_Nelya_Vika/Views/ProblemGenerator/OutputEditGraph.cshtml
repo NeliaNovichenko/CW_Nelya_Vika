@@ -13,7 +13,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 <script src="~/Scripts/arbor.js"></script>
 <script>
-            
+
     (function ($) {
         var Renderer = function (canvas) {
             var canvas = $(canvas).get(0);
@@ -136,13 +136,14 @@
 
 @using (Html.BeginForm("Solve", "ProblemGenerator", FormMethod.Post))
 {
-    <h3>Знайти розбиття графу</h3>
+    <div class="jumbotron">
+        <h3>Знайти розбиття графу</h3>
 
+        <p>Оберіть алгоритм:</p>
+        <p>@Html.RadioButton("Algorithm", "KernighanLin") Керніган-Ліна </p>
+        <p>@Html.RadioButton("Algorithm", "GirvanNewman") Гірвана-Ньюмана </p>
+        <br />
+        <button class="btn btn-primary center-block" type="submit">Знайти розбиття графу</button>
+    </div>
 
-    <p>Оберіть алгоритм:</p>
-    <p>@Html.RadioButton("Algorithm", "KernighanLin") Керніган-Ліна </p>
-    <p>@Html.RadioButton("Algorithm", "GirvanNewman") Гірвана-Ньюмана </p>
-    <br />
-
-    <p><input type="submit" value="Знайти розбиття графу" /></p>
 }

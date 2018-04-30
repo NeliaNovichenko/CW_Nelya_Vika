@@ -28,16 +28,22 @@ namespace CW_Nelya_Vika.Models
         /// <summary>
         /// Розмірність графу
         /// </summary>
-        public ProblemClassification ProblemClassification { get; set; }
+        private ProblemClassification problemClassification;
+        private int communityCount;
+        private int minCommunityCount;
+        private int maxCommunityCount;
 
         /// <summary>
         /// Constructor gets Problem Classification. 
         /// Default value is 'S'.
         /// </summary>
         /// <param name="pC"></param>
-        public GraphGenerator(ProblemClassification pC = ProblemClassification.S)
+        public GraphGenerator(ProblemClassification pC = ProblemClassification.S, int comCount = 5, int min = 0, int max = 15)
         {
-            ProblemClassification = pC;
+            problemClassification = pC;
+            communityCount = comCount;
+            minCommunityCount = min;
+            maxCommunityCount = max;
         }
         /// <summary>
         /// Генерація графу заданої размірності
@@ -45,8 +51,11 @@ namespace CW_Nelya_Vika.Models
         public Graph Initialize()
         {
             Graph graph = new Graph();
+            graph.CommunityCount = communityCount;
+            graph.MinCountInSubgraph = minCommunityCount;
+            graph.MaxCountInSubgraph = maxCommunityCount;
             int vertexCount = 0;
-            switch (ProblemClassification)
+            switch (problemClassification)
             {
                 case ProblemClassification.Xs:
                     vertexCount = 15;
