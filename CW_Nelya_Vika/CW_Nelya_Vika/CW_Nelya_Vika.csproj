@@ -217,7 +217,7 @@
     <Content Include="Views\ProblemGenerator\ProblemGenerator.cshtml" />
     <Content Include="Views\ProblemGenerator\OutputEditGraph.cshtml" />
     <Content Include="Views\GraphListResult\GraphListResult.cshtml" />
-    <Content Include="Views\OutputResult\Index.cshtml" />
+    <Content Include="Views\OutputResult\OutputResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\GraphList\" />

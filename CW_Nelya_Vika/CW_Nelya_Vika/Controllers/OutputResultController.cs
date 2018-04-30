@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CW_Nelya_Vika.Models;
+using CW_Nelya_Vika.Models.DB;
 
 namespace CW_Nelya_Vika.Controllers
 {
@@ -10,11 +12,12 @@ namespace CW_Nelya_Vika.Controllers
     {
         //db = new db
         //db.Problems
-
+        //private GraphProblemDb db = new GraphProblemDb();
         // GET: OutputResult
-        public ActionResult Index()
+        public ActionResult OutputResult()
         {
-            return View(List<problems>);
+            //var problemsFromDb = GraphProblemDb.Problems.ToList();
+            return View();
         }
     }
 }
