@@ -24,7 +24,7 @@ namespace CW_Nelya_Vika_Algorithms
             //IGraphInitializer graphInitializer = new GraphFromFile(filepath);
             //Graph g = graphInitializer.Initialize();
 
-            GraphList resuslt = gn.FindCommunityStructure(g);
+            //GraphList resuslt = gn.FindCommunityStructure(g);
             GraphList result_kl = kl.FindCommunityStructure(g);
 
             Console.WriteLine(gn.Log);

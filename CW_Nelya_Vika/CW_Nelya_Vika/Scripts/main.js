@@ -87,6 +87,22 @@
 		sys = arbor.ParticleSystem(1000); // создаём систему
 		sys.parameters({gravity:true}); // гравитация вкл
         sys.renderer = Renderer("#viewport") //начинаем рисовать в выбраной области
+        var connection = new ActiveXObject("ADODB.Connection");
+
+        var connectionstring = "Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Uni\TRPZ\CourseWork\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf;Integrated Security=True";
+
+        connection.Open(connectionstring);
+        var rs = new ActiveXObject("ADODB.Recordset");
+
+        rs.Open("SELECT * FROM Edge", connection);
+        rs.MoveFirst
+        while (!rs.eof) {
+            document.write(rs.fields(1));
+            rs.movenext;
+        }
+
+        rs.close;
+        connection.close; 
 		var data = {
 		   "nodes": [
 		       {"name": "node_1"},
