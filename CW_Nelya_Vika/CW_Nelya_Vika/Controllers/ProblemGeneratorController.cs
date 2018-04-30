@@ -5,56 +5,85 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CW_Nelya_Vika.Models;
+using CW_Nelya_Vika.Models.DB;
+using CW_Nelya_Vika.Models.Graph_Initializers;
+using CW_Nelya_Vika_Algorithms;
 
 namespace CW_Nelya_Vika.Controllers
 {
     public class ProblemGeneratorController : Controller
     {
+        static Graph graph = new Graph();
+
         // GET: ProblemGenerator
         public ActionResult ProblemGenerator()
         {
-            return View();
+            var graphsFromDb = GraphProblemDb.Problems.Select(p => p.Graph).ToList();
+            return View(graphsFromDb);
         }
         [HttpPost]
-        public ActionResult Generate(HttpPostedFileBase file)
+        public ActionResult Generate(FormCollection fc)
         {
-            if (file != null && file.ContentLength > 0)
+            IGraphInitializer graphInitializer = new GraphGenerator();
+            var generationType =fc.GetValue("GenerationType");
+            
+            switch (generationType.AttemptedValue)
             {
-                var fileName = Path.GetFileName(file.FileName);
+                case "ReadFromFile":
+                    //if (file != null && file.ContentLength > 0)
+                    //{
+                    //    var fileName = Path.GetFileName(file.FileName);
+                    //}
+                    var file = fc.GetValue("file").AttemptedValue;
+                    var filePath = Path.GetFileName(file);
+                    graphInitializer = new GraphFromFile(filePath);
+                    graph = graphInitializer.Initialize();
+                    break;
+                case "Generate":
+                    int commCount = Convert.ToInt32(fc.GetValue("communityCount").AttemptedValue);
+                    int minCommCount = Convert.ToInt32(fc.GetValue("minCommunityCount").AttemptedValue);
+                    int maxCommCount = Convert.ToInt32(fc.GetValue("maxCommunityCount").AttemptedValue);
+                    var problemClassification = (ProblemClassification)Convert.ToInt32(fc.GetValue("GraphClassification").AttemptedValue);
+                    graphInitializer = new GraphGenerator(problemClassification, commCount, minCommCount, maxCommCount);
+                    graph = graphInitializer.Initialize();
+                    break;
+                case "ReadFromDb":
+                    int gId = Convert.ToInt32(fc.GetValue("GraphId").AttemptedValue);
+                    graph = GraphProblemDb.GetGraph(gId);
+                    break;
             }
-
+            
             return RedirectToAction("OutputEditGraph");
         }
+
 
         public ActionResult OutputEditGraph()
         {
-            Graph g = new Graph();
-            g.Edges = new List<Edge>()
-            {
-                new Edge(new Vertex(){Label = 1}, new Vertex(){Label = 2}, 3),
-                new Edge(new Vertex(){Label = 1}, new Vertex(){Label = 4}, 2),
-                new Edge(new Vertex(){Label = 2}, new Vertex(){Label = 3}, 5),
-                new Edge(new Vertex(){Label = 4}, new Vertex(){Label = 6}, 7),
-                new Edge(new Vertex(){Label = 4}, new Vertex(){Label = 3}, 2),
-                new Edge(new Vertex(){Label = 3}, new Vertex(){Label = 1}, 5),
-                new Edge(new Vertex(){Label = 5}, new Vertex(){Label = 4}, 9)
-            };
-            g.Vertices = new List<Vertex>()
-            {
-                new Vertex(){Label = 1},
-                new Vertex(){Label = 2},
-                new Vertex(){Label = 3},
-                new Vertex(){Label = 4},
-                new Vertex(){Label = 5},
-                new Vertex(){Label = 6}
-            };
-            return View(g);
+            return View(graph);
         }
 
-        public ActionResult Solve(HttpPostedFileBase file)
+        public ActionResult Solve(FormCollection fc)
         {
+            Problem p = new Problem();
+            p.Graph = graph;
+            GraphList communities = new GraphList();
+            switch (fc.GetValue("Algorithm").AttemptedValue)
+            {
+                case "KernighanLin":
+                    p.Algorithm = Algorithm.KernighanLin;
+                    IAlgorithm algorithm = new KernighanLin();
+                    communities = algorithm.FindCommunityStructure(graph);
+                    break;
+                case "GirvanNewman":
+                    p.Algorithm = Algorithm.GirvanNewman;
+                    algorithm = new KernighanLin();
+                    communities = algorithm.FindCommunityStructure(graph);
+                    break;
+            }
+            p.GraphList = communities;
 
-            return RedirectToAction("OutputEditGraph");
+            //TODO: перейти на страничку и передать парам
+            return RedirectToAction("GraphListResultController/GraphListResult", p);
         }
 
 

@@ -1,27 +1,65 @@
-﻿
+﻿@model List<CW_Nelya_Vika.Models.Graph>
 @{
     ViewBag.Title = "ProblemGenerator";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container body-content">
-    <h2>Згенерувати задачу</h2>
-
-    <div class="panel-body"></div>
+    <h2>Створити задачу</h2>
     @using (Html.BeginForm("Generate", "ProblemGenerator", FormMethod.Post))
     {
-        <h3 class="panel-heading"> @Html.RadioButton("GenerationType", "ReadFromFile") Зчитати з файлу</h3>
-        <input type="file" name="file" />
-        <br />
-        <h3> @Html.RadioButton("GenerationType", "Generate") Згенерувати</h3>
+        <div class="jumbotron">
+            <h3> @Html.RadioButton("GenerationType", "ReadFromFile") Зчитати з файлу:</h3>
+            <input type="file" name="file" />
+            <br />
+        </div>
 
-        <p>Оберіть розмірність задачі:</p>
-        <p>@Html.RadioButton("GraphClassification", "XS") XS </p>
-        <p>@Html.RadioButton("GraphClassification", "S") S </p>
-        <p>@Html.RadioButton("GraphClassification", "M") M </p>
-        <p>@Html.RadioButton("GraphClassification", "L") L </p>
-        <p>@Html.RadioButton("GraphClassification", "XL") XL </p>
-        <br />
+        <div class="jumbotron">
+            <h3> @Html.RadioButton("GenerationType", "Generate") Згенерувати:</h3>
+
+            <p>Оберіть розмірність задачі:</p>
+            <p>@Html.RadioButton("GraphClassification", "XS") XS </p>
+            <p>@Html.RadioButton("GraphClassification", "S") S </p>
+            <p>@Html.RadioButton("GraphClassification", "M") M </p>
+            <p>@Html.RadioButton("GraphClassification", "L") L </p>
+            <p>@Html.RadioButton("GraphClassification", "XL") XL </p>
+            <p>Введіть кількість підграфів: <input type="number" name="communityCount" /></p>
+            <p>Введіть мінімальну кількість вершин у підграфі: <input type="number" name="minCommunityCount" /></p>
+            <p>Введіть максимальну кількість вершин у підграфі: <input type="number" name="maxCommunityCount" /></p>
+            <br />
+        </div>
+
+        <div class="jumbotron">
+            <h3> @Html.RadioButton("GenerationType", "ReadFromDb") Обрати з бази даних:</h3>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Обрати:</th>
+                        <th>Id</th>
+                        <th>Кількість вершин</th>
+                        <th>Кількість ребер</th>
+                        <th>Кількість розбиттів</th>
+                        <th>Інтервал</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var graph in Model)
+                    {
+                        <tr>
+                            <td>@Html.RadioButton("GraphId", graph.Id)</td>
+                            <td>@graph.Id</td>
+                            <td>@graph.Vertices.Count</td>
+                            <td>@graph.Edges.Count</td>
+                            <td>@graph.CommunityCount</td>
+                            <td>@graph.MinCountInSubgraph - @graph.MaxCountInSubgraph</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br />
+        </div>
+
 
         <button class="btn btn-primary center-block" type="submit">Створити граф</button>
     }

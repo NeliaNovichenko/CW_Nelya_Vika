@@ -120,46 +120,48 @@ namespace CW_Nelya_Vika.Models.DB
         private static void GetAllProblems()
         {
             Problems = new List<Problem>();
-            try
-            {
+            //try
+            //{
+            if (sqlConn.State != ConnectionState.Open)
                 sqlConn.Open();
-                SqlCommand sqlCommand = new SqlCommand("select id, InnitialGraphId from problem", sqlConn);
+            SqlCommand sqlCommand = new SqlCommand("select id, InnitialGraphId, algorithm from problem", sqlConn);
 
-                using (SqlDataReader problemReader = sqlCommand.ExecuteReader())
+            using (SqlDataReader problemReader = sqlCommand.ExecuteReader())
+            {
+                while (problemReader.Read())
                 {
-                    while (problemReader.Read())
+                    Problem problem = new Problem();
+                    problem.Id = (int)problemReader["id"];
+                    int graphId = (int)problemReader["InnitialGraphId"];
+                    Algorithm algorithm = (Algorithm)(int)problemReader["algorithm"];
+                    problem.Graph = Graphs.Select(g => g).First(g => g.Id == graphId);
+                    Problems.Add(problem);
+                }
+            }
+            foreach (var problem in Problems)
+            {
+                sqlCommand = new SqlCommand("select id, graphId from ResultList where problemId = @problemId", sqlConn);
+                sqlCommand.Parameters.AddWithValue("@problemId", problem.Id);
+                using (SqlDataReader resultListReader = sqlCommand.ExecuteReader())
+                {
+                    while (resultListReader.Read())
                     {
-                        Problem problem = new Problem();
-                        problem.Id = (int)problemReader["id"];
-                        int graphId = (int)problemReader["InnitialGraphId"];
-                        problem.Graph = Graphs.Select(g => g).First(g => g.Id == graphId);
-                        Problems.Add(problem);
+                        int resultGraphId = (int)resultListReader["graphId"];
+                        Graph resulGraph = Graphs.Select(g => g).First(g => g.Id == resultGraphId);
+                        problem.GraphList.Add(resulGraph);
                     }
                 }
-                foreach (var problem in Problems)
-                {
-                    sqlCommand = new SqlCommand("select id, graphId, algorithm from ResultList where problemId = @problemId", sqlConn);
-                    sqlCommand.Parameters.AddWithValue("@problemId", problem.Id);
-                    using (SqlDataReader resultListReader = sqlCommand.ExecuteReader())
-                    {
-                        while (resultListReader.Read())
-                        {
-                            int resultGraphId = (int)resultListReader["graphId"];
-                            Graph resulGraph = Graphs.Select(g => g).First(g => g.Id == resultGraphId);
-                            problem.GraphList.Add(resulGraph);
-                        }
-                    }
-                }
+            }
 
-            }
-            catch (Exception e)
-            {
-                //TODO:
-            }
-            finally
-            {
-                sqlConn.Close();
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    //TODO:
+            //}
+            //finally
+            //{
+            //    sqlConn.Close();
+            //}
         }
 
         public static bool AddGraph(Graph g)
