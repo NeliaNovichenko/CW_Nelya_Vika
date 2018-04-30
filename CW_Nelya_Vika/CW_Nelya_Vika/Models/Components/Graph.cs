@@ -15,7 +15,7 @@ namespace CW_Nelya_Vika.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         /// <summary>
         /// Бажана кількість розбиттів
@@ -56,12 +56,14 @@ namespace CW_Nelya_Vika.Models
         /// </summary>
         /// <param name="vertexA"></param>
         /// <param name="vertexB"></param>
+        /// <param name="weight"></param>
         /// <returns></returns>
-        public Edge CreateLink(Vertex vertexA, Vertex vertexB)
+        public Edge CreateLink(Vertex vertexA, Vertex vertexB, int weight = 1)
         {
             if (vertexA is null || vertexB is null)
                 return null;
             Edge edge = new Edge(vertexA, vertexB);
+            edge.Weight = weight;
 
             if (vertexA.GetAdjacencyVertices().Contains(vertexB) || vertexB.GetAdjacencyVertices().Contains(vertexA))
                 return null;

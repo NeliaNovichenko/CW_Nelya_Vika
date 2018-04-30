@@ -36,16 +36,17 @@ namespace CW_Nelya_Vika.Models.Graph_Initializers
 
                 while (reader.EndOfStream == false)
                 {
-                    string[] nodes = reader.ReadLine().Split(' ');
-                    int idNodeOut, idNodeIn;
-                    //int weight;
-                    if (!Int32.TryParse(nodes[0], out idNodeOut) || !Int32.TryParse(nodes[1], out idNodeIn))
+                    string[] values = reader.ReadLine().Split(' ');
+                    int idNodeOut, idNodeIn, weight;
+                    if (!Int32.TryParse(values[0], out idNodeOut) || 
+                        !Int32.TryParse(values[1], out idNodeIn) ||
+                        !Int32.TryParse(values[2], out weight))
                         return null;
                     //true for add if such vertex doesn't exists in list
                     Vertex vertexA = graph.FindNode(idNodeOut, true);
                     Vertex vertexB = graph.FindNode(idNodeIn, true);
                     
-                    graph.CreateLink(vertexA, vertexB);
+                    graph.CreateLink(vertexA, vertexB, weight);
                 }
             }
             catch (IOException ex)
