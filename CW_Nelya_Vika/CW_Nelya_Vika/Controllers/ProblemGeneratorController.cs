@@ -15,7 +15,6 @@ namespace CW_Nelya_Vika.Controllers
         {
             return View();
         }
-
         [HttpPost]
         public ActionResult Generate(HttpPostedFileBase file)
         {

@@ -8,10 +8,13 @@ namespace CW_Nelya_Vika.Controllers
 {
     public class OutputResultController : Controller
     {
+        //db = new db
+        //db.Problems
+
         // GET: OutputResult
         public ActionResult Index()
         {
-            return View();
+            return View(List<problems>);
         }
     }
 }

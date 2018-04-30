@@ -6,12 +6,12 @@
     ViewBag.Title = "GraphList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>Результати поділу графа на підграфи</h2>
 
 <canvas id="viewport" width="800" height="600"></canvas>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 <script src="~/Scripts/arbor.js"></script>
+<script src="/js/lib/arbor-graphics.js"></script>
 <script>
 
             (function ($) {
@@ -50,7 +50,7 @@
                             particleSystem.eachNode(	//теперь каждую вершину
                                 function (node, pt) {		//получаем вершину и точку где она
                                     var w = 10;			//ширина квадрата
-                                    ctx.fillStyle = node.color;	//с его цветом понятно
+                                    ctx.fillStyle = node.nodecolor;	//с его цветом понятно
                                     ctx.fillRect(pt.x - w / 2, pt.y - w / 2, w, w);	//рисуем
                                     ctx.fillStyle = "black";	//цвет для шрифта
                                     ctx.font = 'italic 13px sans-serif'; //шрифт
@@ -112,17 +112,17 @@
                     //    "Salmon", "Lime", "HotPink", "DarkCyan", "Tomato", "LightSteelBlue", "Yellow", "Gray", "Violet",
                     //    "Crimson", "Indigo", "YellowGreen", "BurlyWood", "Chocolate", "Maroon", "Aqua"
                     //];
-                   
-
                     @foreach (var graph in Model.GraphList)
                     {
                         Random r = new Random();
-                        var color = string.Format("rgba({0},{1},{2}, .8)", r.Next(0, 255), r.Next(0, 255), r.Next(0, 255));
+                        var color1 = string.Format("rgba({0},{1},{2}, .8)", r.Next(0, 255), r.Next(0, 255), r.Next(0, 255));
+                        var col = "red";
 
                         foreach (var vertex in graph.Vertices)
                         {
-                            @:data.nodes.push({ "name": @vertex.Label});
+                            @:data.nodes.push({ "name": @vertex.Label, "nodecolor":"red"});
                             //, "color": @color
+                            // @:console.log(data.nodes.name);
                         }
 
                     }
@@ -134,7 +134,7 @@
 
                     $.each(data.nodes,
                         function (i, node) {
-                            sys.addNode(node.name, node.color); //добавляем вершину
+                            sys.addNode(node.name, node.nodecolor); //добавляем вершину
                         });
 
                     $.each(data.edges,
@@ -148,5 +148,6 @@
 </script>
 
 <div>@Model</div>
+
 
 
