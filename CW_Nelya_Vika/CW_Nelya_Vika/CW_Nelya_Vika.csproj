@@ -183,6 +183,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\arbor-graphics.js" />
     <Content Include="Scripts\arbor.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -216,7 +217,7 @@
     <Content Include="Views\ProblemGenerator\ProblemGenerator.cshtml" />
     <Content Include="Views\ProblemGenerator\OutputEditGraph.cshtml" />
     <Content Include="Views\GraphListResult\GraphListResult.cshtml" />
-    <Content Include="Views\OutputResult\Index.cshtml" />
+    <Content Include="Views\OutputResult\OutputResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\GraphList\" />
