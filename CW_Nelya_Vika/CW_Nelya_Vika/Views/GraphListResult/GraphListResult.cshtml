@@ -14,7 +14,11 @@
 <script src="~/Scripts/arbor.js"></script>
 <script>
 
-            (function ($) {
+    (function ($) {
+        var data = {
+            "nodes": [],
+            "edges": []
+        };
                 var Renderer = function (canvas) {
                     var canvas = $(canvas).get(0);
                     var ctx = canvas.getContext("2d");
@@ -50,7 +54,10 @@
                             particleSystem.eachNode(	//теперь каждую вершину
                                 function (node, pt) {		//получаем вершину и точку где она
                                     var w = 10;			//ширина квадрата
-                                    ctx.fillStyle = node.color;	//с его цветом понятно
+                                    var neededNode = data.nodes.filter(function(obj) {
+                                        return obj.name === node.name;
+                                    })[0];
+                                    ctx.fillStyle = neededNode.color || "orange";	//с его цветом понятно
                                     ctx.fillRect(pt.x - w / 2, pt.y - w / 2, w, w);	//рисуем
                                     ctx.fillStyle = "black";	//цвет для шрифта
                                     ctx.font = 'italic 13px sans-serif'; //шрифт
@@ -104,25 +111,20 @@
                     sys = arbor.ParticleSystem(1000); // создаём систему
                     sys.parameters({ gravity: true }); // гравитация вкл
                     sys.renderer = Renderer("#viewport"); //начинаем рисовать в выбраной области
-                    var data = {
-                        "nodes": [],
-                        "edges": []
-                    };
-                    //var colors = [
-                    //    "Salmon", "Lime", "HotPink", "DarkCyan", "Tomato", "LightSteelBlue", "Yellow", "Gray", "Violet",
-                    //    "Crimson", "Indigo", "YellowGreen", "BurlyWood", "Chocolate", "Maroon", "Aqua"
-                    //];
-                   
 
-                    @foreach (var graph in Model.GraphList)
+                    var colors = [
+                        "Salmon", "Maroon", "Lime", "HotPink", "DarkCyan", "Tomato", "LightSteelBlue", "Yellow", "Gray", "Violet",
+                        "Crimson", "Indigo", "YellowGreen", "BurlyWood", "Chocolate", "Aqua"
+                    ];
+
+                    @for(int i = 0; i < Model.GraphList.Count; i++)
                     {
-                        Random r = new Random();
-                        var color = string.Format("rgba({0},{1},{2}, .8)", r.Next(0, 255), r.Next(0, 255), r.Next(0, 255));
+                        //Random r = new Random();
+                        //var color = string.Format("rgba({0},{1},{2}, .8)", r.Next(0, 255), r.Next(0, 255), r.Next(0, 255));
 
-                        foreach (var vertex in graph.Vertices)
+                        foreach (var vertex in Model.GraphList[i].Vertices)
                         {
-                            @:data.nodes.push({ "name": @vertex.Label});
-                            //, "color": @color
+                            @:data.nodes.push({ "name": @vertex.Label, "color": colors[@i]});
                         }
 
                     }

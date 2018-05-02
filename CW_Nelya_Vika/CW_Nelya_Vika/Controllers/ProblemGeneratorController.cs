@@ -13,18 +13,26 @@ namespace CW_Nelya_Vika.Controllers
 {
     public class ProblemGeneratorController : Controller
     {
-        static Graph graph = new Graph();
-
-        // GET: ProblemGenerator
+        public static Graph graph = new Graph();
+        public static Problem problem = new Problem();
         public ActionResult ProblemGenerator()
         {
-            var graphsFromDb = GraphProblemDb.Problems.Select(p => p.Graph).ToList();
+            List<Graph> graphsFromLists = new List<Graph>();
+            var graphLists = GraphProblemDb.Problems.Select(p => p.GraphList).ToList();
+            foreach (var graphList in graphLists)
+            {
+                graphsFromLists.AddRange(graphList);
+            }
+
+            var graphsFromDb = GraphProblemDb.Graphs.Where(g => !graphsFromLists.Contains(g)).ToList();
             return View(graphsFromDb);
         }
+
 
         [HttpPost]
         public ActionResult Generate(FormCollection fc)
         {
+            //Graph graph = new Graph();
             IGraphInitializer graphInitializer = new GraphGenerator();
             var generationType =fc.GetValue("GenerationType");
             
@@ -36,7 +44,8 @@ namespace CW_Nelya_Vika.Controllers
                     //    var fileName = Path.GetFileName(file.FileName);
                     //}
                     var file = fc.GetValue("file").AttemptedValue;
-                    var filePath = Path.GetFileName(file);
+                    var filePath = Path.GetFullPath(file);
+                    //var filePath = Path.GetFileName(file);
                     graphInitializer = new GraphFromFile(filePath);
                     graph = graphInitializer.Initialize();
                     break;
@@ -44,7 +53,25 @@ namespace CW_Nelya_Vika.Controllers
                     int commCount = Convert.ToInt32(fc.GetValue("communityCount").AttemptedValue);
                     int minCommCount = Convert.ToInt32(fc.GetValue("minCommunityCount").AttemptedValue);
                     int maxCommCount = Convert.ToInt32(fc.GetValue("maxCommunityCount").AttemptedValue);
-                    var problemClassification = (ProblemClassification)Convert.ToInt32(fc.GetValue("GraphClassification").AttemptedValue);
+                    var problemClassification = ProblemClassification.Xs;
+                    switch (fc.GetValue("GraphClassification").AttemptedValue)
+                    {
+                        case "Xs":
+                            problemClassification = ProblemClassification.Xs;
+                            break;
+                        case "S":
+                            problemClassification = ProblemClassification.S;
+                            break;
+                        case "M":
+                            problemClassification = ProblemClassification.M;
+                            break;
+                        case "L":
+                            problemClassification = ProblemClassification.L;
+                            break;
+                        case "Xl":
+                            problemClassification = ProblemClassification.Xl;
+                            break;
+                    }
                     graphInitializer = new GraphGenerator(problemClassification, commCount, minCommCount, maxCommCount);
                     graph = graphInitializer.Initialize();
                     break;
@@ -54,7 +81,7 @@ namespace CW_Nelya_Vika.Controllers
                     break;
             }
             
-            return RedirectToAction("OutputEditGraph");
+            return RedirectToAction("OutputEditGraph", graph);
         }
 
 
@@ -63,28 +90,34 @@ namespace CW_Nelya_Vika.Controllers
             return View(graph);
         }
 
+        [HttpPost]
+        public ActionResult SaveToDb()
+        {
+            GraphProblemDb.AddGraph(graph);
+            return View("OutputEditGraph");
+        }
+
         public ActionResult Solve(FormCollection fc)
         {
-            Problem p = new Problem();
-            p.Graph = graph;
+            problem.Graph = graph;
             GraphList communities = new GraphList();
             switch (fc.GetValue("Algorithm").AttemptedValue)
             {
                 case "KernighanLin":
-                    p.Algorithm = Algorithm.KernighanLin;
+                    problem.Algorithm = Algorithm.KernighanLin;
                     IAlgorithm algorithm = new KernighanLin();
                     communities = algorithm.FindCommunityStructure(graph);
                     break;
                 case "GirvanNewman":
-                    p.Algorithm = Algorithm.GirvanNewman;
+                    problem.Algorithm = Algorithm.GirvanNewman;
                     algorithm = new KernighanLin();
                     communities = algorithm.FindCommunityStructure(graph);
                     break;
             }
-            p.GraphList = communities;
+            problem.GraphList = communities;
 
             //TODO: перейти на страничку и передать парам
-            return RedirectToAction("GraphListResultController/GraphListResult", p);
+            return RedirectToAction("GraphListResult", "GraphListResult", problem);
         }
 
 

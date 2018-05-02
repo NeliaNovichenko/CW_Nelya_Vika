@@ -51,6 +51,7 @@
                         function (node, pt) {		//получаем вершину и точку где она
                             var w = 10;			//ширина квадрата
                             ctx.fillStyle = "orange";	//с его цветом понятно
+                            console.log(node);
                             ctx.fillRect(pt.x - w / 2, pt.y - w / 2, w, w);	//рисуем
                             ctx.fillStyle = "black";	//цвет для шрифта
                             ctx.font = 'italic 13px sans-serif'; //шрифт
@@ -131,8 +132,13 @@
 
         });
     })(this.jQuery)
-
 </script>
+@using (Html.BeginForm("SaveToDb", "ProblemGenerator", FormMethod.Post))
+{
+    <div class="jumbotron">
+        <button class="btn btn-primary center-block" type="submit">Зберегти</button>
+    </div>
+}
 
 @using (Html.BeginForm("Solve", "ProblemGenerator", FormMethod.Post))
 {
