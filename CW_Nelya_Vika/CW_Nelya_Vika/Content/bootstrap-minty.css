@@ -11,6 +11,12 @@
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+
+body {
+    padding-top: 0 !important;
+}
+
+
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
 :root {
   --blue: #007bff;

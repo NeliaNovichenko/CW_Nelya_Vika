@@ -77,7 +77,7 @@ namespace CW_Nelya_Vika.Models
             Random r = new Random();
             for (int i = 1; i <= vertexCount; i++)
             {
-                int edgeCount = r.Next(1, 4);
+                int edgeCount = r.Next(1, 3);
                 for (int j = 0; j < edgeCount; j++)
                 {
                     int vertOutLabel = i;
