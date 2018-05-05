@@ -10,10 +10,7 @@ namespace CW_Nelya_Vika.Controllers
 {
     public class OutputResultController : Controller
     {
-        //db = new db
-        //db.Problems
-        //private GraphProblemDb db = new GraphProblemDb();
-        // GET: OutputResult
+        
         public ActionResult OutputResult()
         {
             //var problemsFromDb = GraphProblemDb.Problems.ToList();
