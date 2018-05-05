@@ -27,7 +27,7 @@ namespace CW_Nelya_Vika_Algorithms
 
         public GirvanNewman()
         {
-            
+
         }
         /// <summary>
         /// Вхідна функція виконання алгоритму
@@ -97,7 +97,7 @@ namespace CW_Nelya_Vika_Algorithms
 
             // tính thuật toán
             int j = 0;
-            while (true)
+            while (countCommunity < pGraph.CommunityCount)
             {
                 while (countCommunity <= initCount)
                 {
@@ -110,14 +110,15 @@ namespace CW_Nelya_Vika_Algorithms
                 }
 
                 initCount = countCommunity;
-
+                graphList = tempCS;
                 // Tính Q
-                Q = CalculateModularity(tempCS, pGraph);
-                if (Q > BestQ)
-                {
-                    BestQ = Q;
-                    graphList = tempCS;
-                }
+                //Q = CalculateModularity(tempCS, pGraph);
+                //if (Q > BestQ)
+                //{
+                //    BestQ = Q;
+                //    graphList = tempCS;
+
+                //}
 
                 if (graph.Edges.Count == 0) break;
             }
@@ -132,10 +133,12 @@ namespace CW_Nelya_Vika_Algorithms
                         if (e == null)
                             continue;
                         g.CreateLink(e.VertexOut, e.VertexIn, e.Weight);
+                        g.Edges.Add(e);
                     }
                 }
             }
-            return this.graphList;
+
+            return graphList;
         }
 
         /// <summary>

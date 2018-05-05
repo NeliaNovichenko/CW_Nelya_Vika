@@ -14,11 +14,11 @@ namespace CW_Nelya_Vika_Algorithms
         static string result;
         public static void Main(string[] args)
         {
-            var filepath = System.IO.Path.GetFullPath(@"D:\Uni\TRPZ\CourseWork\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika_Algorithms\bin\Debug\Data\graph1.txt");
+            var filepath = System.IO.Path.GetFullPath(@"D:\Studing\ТРПЗ\Курсова робота\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika_Algorithms\Data\graph1.txt");
 
             GirvanNewman gn = new GirvanNewman();
-            KernighanLin kl = new KernighanLin();
-            Graph g = GraphProblemDb.GetGraph(1);
+            //KernighanLin kl = new KernighanLin();
+            //Graph g = GraphProblemDb.GetGraph(1);
             //Console.WriteLine(g);
             //IGraphInitializer graphInitializer = new GraphGenerator(ProblemClassification.Xs);
 
@@ -28,12 +28,12 @@ namespace CW_Nelya_Vika_Algorithms
             g1.CommunityCount = 5;
             GraphList resuslt = gn.FindCommunityStructure(g1);
 
-            Problem problem1 = new Problem();
-            problem1.Graph = g1;
-            problem1.Algorithm = Algorithm.GirvanNewman;
-            problem1.GraphList = resuslt;
+            //Problem problem1 = new Problem();
+            //problem1.Graph = g1;
+            //problem1.Algorithm = Algorithm.GirvanNewman;
+            //problem1.GraphList = resuslt;
 
-            //GraphProblemDb.AddProblem(problem1);
+            ////GraphProblemDb.AddProblem(problem1);
 
             //GraphList result_kl = kl.FindCommunityStructure(g1);
 

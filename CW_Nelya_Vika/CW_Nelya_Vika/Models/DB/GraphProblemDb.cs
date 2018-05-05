@@ -15,7 +15,7 @@ namespace CW_Nelya_Vika.Models.DB
 
 
         private const string ConnString =
-            @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CW_Nelya_Vika;Integrated Security=True;Pooling=False";
+            @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CW_Nelya_Vika;Integrated Security=False;Trusted_Connection=True;Pooling=False;User ID=VikaNelya;Password=123456";
 
 
         private static SqlConnection sqlConn = new SqlConnection(ConnString);
