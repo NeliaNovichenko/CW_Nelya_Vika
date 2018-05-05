@@ -5,7 +5,7 @@ using CW_Nelya_Vika.Models;
 
 namespace CW_Nelya_Vika_Algorithms
 {
-    class GirvanNewman : IAlgorithm
+    public class GirvanNewman : IAlgorithm
     {
         /// <summary>
         /// Кількість найкоротших шляхів між усіма вершинами, що проходять через дане ребро
@@ -25,6 +25,10 @@ namespace CW_Nelya_Vika_Algorithms
 
         public string Log { get; private set; }
 
+        public GirvanNewman()
+        {
+            
+        }
         /// <summary>
         /// Вхідна функція виконання алгоритму
         /// </summary>
