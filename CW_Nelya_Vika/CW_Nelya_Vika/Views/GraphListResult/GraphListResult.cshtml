@@ -119,9 +119,7 @@
 
                     @for(int i = 0; i < Model.GraphList.Count; i++)
                     {
-                        //Random r = new Random();
-                        //var color = string.Format("rgba({0},{1},{2}, .8)", r.Next(0, 255), r.Next(0, 255), r.Next(0, 255));
-
+                        
                         foreach (var vertex in Model.GraphList[i].Vertices)
                         {
                             @:data.nodes.push({ "name": @vertex.Label, "color": colors[@i]});
@@ -156,6 +154,5 @@
     </div>
 }
 
-<div>@Model</div>
 
 

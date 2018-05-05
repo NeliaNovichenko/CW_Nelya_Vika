@@ -32,57 +32,65 @@ namespace CW_Nelya_Vika.Controllers
 
 
         [HttpPost]
+        public ActionResult ReadFromFile()
+        {
+            if (HttpContext.Request.Files.AllKeys.Any())
+            {
+                var httpPostedFile = HttpContext.Request.Files[0];
+
+                if (httpPostedFile != null)
+                {
+                    var index = httpPostedFile.FileName.LastIndexOf(@"\");
+                    var shotName = httpPostedFile.FileName.Substring(index == -1? 0: index);
+                    var fileSavePath = HttpContext.Server.MapPath("~/UploadedFiles") + shotName;
+
+                    httpPostedFile.SaveAs(fileSavePath);
+                    IGraphInitializer graphInitializer = new GraphFromFile(fileSavePath);
+                    graph = graphInitializer.Initialize();
+
+                }
+            }
+
+            return RedirectToAction("OutputEditGraph", graph);
+        }
+
+        [HttpPost]
         public ActionResult Generate(FormCollection fc)
         {
-            //Graph graph = new Graph();
-            IGraphInitializer graphInitializer = new GraphGenerator();
-            var generationType =fc.GetValue("GenerationType");
-            
-            switch (generationType.AttemptedValue)
+            int commCount = Convert.ToInt32(fc.GetValue("communityCount").AttemptedValue);
+            int minCommCount = Convert.ToInt32(fc.GetValue("minCommunityCount").AttemptedValue);
+            int maxCommCount = Convert.ToInt32(fc.GetValue("maxCommunityCount").AttemptedValue);
+            var problemClassification = ProblemClassification.Xs;
+            switch (fc.GetValue("GraphClassification").AttemptedValue)
             {
-                case "ReadFromFile":
-                    //if (file != null && file.ContentLength > 0)
-                    //{
-                    //    var fileName = Path.GetFileName(file.FileName);
-                    //}
-                    var file = fc.GetValue("file").AttemptedValue;
-                    var filePath = Path.GetFullPath(file);
-                    //var filePath = Path.GetFileName(file);
-                    graphInitializer = new GraphFromFile(filePath);
-                    graph = graphInitializer.Initialize();
+                case "Xs":
+                    problemClassification = ProblemClassification.Xs;
                     break;
-                case "Generate":
-                    int commCount = Convert.ToInt32(fc.GetValue("communityCount").AttemptedValue);
-                    int minCommCount = Convert.ToInt32(fc.GetValue("minCommunityCount").AttemptedValue);
-                    int maxCommCount = Convert.ToInt32(fc.GetValue("maxCommunityCount").AttemptedValue);
-                    var problemClassification = ProblemClassification.Xs;
-                    switch (fc.GetValue("GraphClassification").AttemptedValue)
-                    {
-                        case "Xs":
-                            problemClassification = ProblemClassification.Xs;
-                            break;
-                        case "S":
-                            problemClassification = ProblemClassification.S;
-                            break;
-                        case "M":
-                            problemClassification = ProblemClassification.M;
-                            break;
-                        case "L":
-                            problemClassification = ProblemClassification.L;
-                            break;
-                        case "Xl":
-                            problemClassification = ProblemClassification.Xl;
-                            break;
-                    }
-                    graphInitializer = new GraphGenerator(problemClassification, commCount, minCommCount, maxCommCount);
-                    graph = graphInitializer.Initialize();
+                case "S":
+                    problemClassification = ProblemClassification.S;
                     break;
-                case "ReadFromDb":
-                    int gId = Convert.ToInt32(fc.GetValue("GraphId").AttemptedValue);
-                    graph = GraphProblemDb.GetGraph(gId);
+                case "M":
+                    problemClassification = ProblemClassification.M;
+                    break;
+                case "L":
+                    problemClassification = ProblemClassification.L;
+                    break;
+                case "Xl":
+                    problemClassification = ProblemClassification.Xl;
                     break;
             }
-            
+            IGraphInitializer graphInitializer = new GraphGenerator(problemClassification, commCount, minCommCount, maxCommCount);
+            graph = graphInitializer.Initialize();
+
+            return RedirectToAction("OutputEditGraph", graph);
+        }
+
+        [HttpPost]
+        public ActionResult ReadFromDb(FormCollection fc)
+        {
+            int gId = Convert.ToInt32(fc.GetValue("GraphId").AttemptedValue);
+            graph = GraphProblemDb.GetGraph(gId);
+
             return RedirectToAction("OutputEditGraph", graph);
         }
 
@@ -112,7 +120,7 @@ namespace CW_Nelya_Vika.Controllers
                     break;
                 case "GirvanNewman":
                     problem.Algorithm = Algorithm.GirvanNewman;
-                    algorithm = new KernighanLin();
+                    algorithm = new GirvanNewman();
                     communities = algorithm.FindCommunityStructure(graph);
                     break;
             }
