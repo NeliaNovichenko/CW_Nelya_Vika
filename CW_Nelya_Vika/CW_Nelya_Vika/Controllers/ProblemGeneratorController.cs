@@ -18,7 +18,9 @@ namespace CW_Nelya_Vika.Controllers
         public ActionResult ProblemGenerator()
         {
             List<Graph> graphsFromLists = new List<Graph>();
-            var graphLists = GraphProblemDb.Problems.Select(p => p.GraphList).ToList();
+            var problems = GraphProblemDb.Problems;
+            var graphs = problems.Select(p => p.GraphList);
+            var graphLists = graphs.ToList();
             foreach (var graphList in graphLists)
             {
                 graphsFromLists.AddRange(graphList);

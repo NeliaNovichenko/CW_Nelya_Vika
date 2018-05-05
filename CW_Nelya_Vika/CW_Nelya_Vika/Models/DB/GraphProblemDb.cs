@@ -19,8 +19,8 @@ namespace CW_Nelya_Vika.Models.DB
         //            AttachDbFilename='D:\Studing\ТРПЗ\Курсова робота\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf';
         //            Integrated Security=True";
 
-        private const string connString2 = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Uni\TRPZ\CourseWork\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf;Integrated Security=True";
-        private const string connString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='D:\Studing\ТРПЗ\Курсова робота\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf';Integrated Security=True";
+        private const string connString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Uni\TRPZ\CourseWork\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf;Integrated Security=True";
+        private const string connString2 = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='D:\Studing\ТРПЗ\Курсова робота\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf';Integrated Security=True";
 
 
         private static SqlConnection sqlConn = new SqlConnection(connString);
@@ -47,7 +47,7 @@ namespace CW_Nelya_Vika.Models.DB
         /// <returns></returns>
         public static Graph GetGraph(int graphId)
         {
-            Graph graph = Graphs.Select(g => g).First(g => g.Id == graphId);
+            Graph graph = Graphs.FirstOrDefault(g => g.Id == graphId);
             return graph;
         }
 
@@ -58,7 +58,7 @@ namespace CW_Nelya_Vika.Models.DB
         /// <returns></returns>
         public static Problem GetProblem(int problemId)
         {
-            Problem problem = Problems.First(g => g.Id == problemId);
+            Problem problem = Problems.FirstOrDefault(g => g.Id == problemId);
             return problem;
         }
 
