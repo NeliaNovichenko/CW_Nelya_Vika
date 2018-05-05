@@ -199,7 +199,6 @@ namespace CW_Nelya_Vika_Algorithms
         }
         public GraphList FindCommunityStructure(Graph pGraph)
         {
-
             graph = pGraph.Clone();
             GraphList graphList;
 
@@ -228,6 +227,20 @@ namespace CW_Nelya_Vika_Algorithms
 
             }
 
+            foreach (var g in graphList)
+            {
+                foreach (var v1 in g.Vertices)
+                {
+                    foreach (var v2 in g.Vertices)
+                    {
+                        Edge e = pGraph.FindEdge(v1, v2);
+                        if(e == null)
+                            continue;
+                        g.CreateLink(e.VertexOut, e.VertexIn, e.Weight);
+                        g.Edges.Add(e);
+                    }
+                }
+            }
             return graphList;
         }
     }

@@ -13,8 +13,8 @@ namespace CW_Nelya_Vika.Models
     /// </summary>
     public enum Algorithm : byte
     {
-        GirvanNewman,
         KernighanLin,
+        GirvanNewman,
         None
     }
 
@@ -37,7 +37,7 @@ namespace CW_Nelya_Vika.Models
         public Problem()
         {
             Graph = new Graph();
-            GraphList =  new GraphList();
+            GraphList = new GraphList();
             Algorithm = Algorithm.None;
         }
 

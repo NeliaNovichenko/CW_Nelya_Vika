@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using WebGrease.Css.Extensions;
 
 namespace CW_Nelya_Vika.Models.DB
 {
@@ -12,18 +13,12 @@ namespace CW_Nelya_Vika.Models.DB
         public static List<Graph> Graphs { get; private set; }
         public static List<Problem> Problems { get; private set; }
 
-        //string attachDbPath = Path.GetFullPath(@"~\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf");
-        //string connString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='" + attachDbPath + "';Integrated Security=True";
-        //private const string connString =
-        //        @"Data Source=(LocalDB)\MSSQLLocalDB;
-        //            AttachDbFilename='D:\Studing\ТРПЗ\Курсова робота\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf';
-        //            Integrated Security=True";
 
-        private const string connString2 = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Uni\TRPZ\CourseWork\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf;Integrated Security=True";
-        private const string connString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='D:\Studing\ТРПЗ\Курсова робота\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf';Integrated Security=True";
+        private const string ConnString =
+            @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CW_Nelya_Vika;Integrated Security=True;Pooling=False";
 
 
-        private static SqlConnection sqlConn = new SqlConnection(connString);
+        private static SqlConnection sqlConn = new SqlConnection(ConnString);
 
         /// <summary>
         /// Ініціалізація при першому зверненні до бд
@@ -140,13 +135,13 @@ namespace CW_Nelya_Vika.Models.DB
             }
             foreach (var problem in Problems)
             {
-                sqlCommand = new SqlCommand("select id, graphId from ResultList where problemId = @problemId", sqlConn);
+                sqlCommand = new SqlCommand("select id, subGraphId from ResultList where problemId = @problemId", sqlConn);
                 sqlCommand.Parameters.AddWithValue("@problemId", problem.Id);
                 using (SqlDataReader resultListReader = sqlCommand.ExecuteReader())
                 {
                     while (resultListReader.Read())
                     {
-                        int resultGraphId = (int)resultListReader["graphId"];
+                        int resultGraphId = (int)resultListReader["subGraphId"];
                         Graph resulGraph = Graphs.Select(g => g).First(g => g.Id == resultGraphId);
                         problem.GraphList.Add(resulGraph);
                     }
@@ -164,7 +159,7 @@ namespace CW_Nelya_Vika.Models.DB
             //}
         }
 
-        public static bool AddGraph(Graph g)
+        public static bool AddGraph(Graph g/*, Graph parent = null*/)
         {
             bool result = true;
             SqlCommand sqlCommand;
@@ -189,6 +184,8 @@ namespace CW_Nelya_Vika.Models.DB
 
             foreach (var edge in g.Edges)
             {
+                if (edge == null)
+                    continue;
                 sqlCommand = new SqlCommand("insert into Edge(GraphId, VertexOut, VertexIn, Weight)" +
                                             "values (@GraphId, @VertexOut, @VertexIn, @Weight);" +
                                             "SELECT SCOPE_IDENTITY()", sqlConn);
@@ -200,6 +197,7 @@ namespace CW_Nelya_Vika.Models.DB
                 var insertedId = sqlCommand.ExecuteScalar();
                 edge.Id = Convert.ToInt32(insertedId);
             }
+
             Update();
             //}
             //catch (Exception e)
@@ -238,7 +236,7 @@ namespace CW_Nelya_Vika.Models.DB
                     AddGraph(g);
                 if (sqlConn.State == ConnectionState.Closed)
                     sqlConn.Open();
-                sqlCommand = new SqlCommand("insert into ResultList (ProblemId, GraphId)" +
+                sqlCommand = new SqlCommand("insert into ResultList (ProblemId, SubGraphId)" +
                                             "values (@ProblemId, @GraphId);" +
                                             "SELECT SCOPE_IDENTITY()", sqlConn);
                 sqlCommand.Parameters.AddWithValue("@ProblemId", p.Id);
