@@ -19,8 +19,8 @@ namespace CW_Nelya_Vika.Models.DB
         //            AttachDbFilename='D:\Studing\ТРПЗ\Курсова робота\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf';
         //            Integrated Security=True";
 
-        private const string connString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Uni\TRPZ\CourseWork\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf;Integrated Security=True";
-        private const string connString2 = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='D:\Studing\ТРПЗ\Курсова робота\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf';Integrated Security=True";
+        private const string connString2 = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Uni\TRPZ\CourseWork\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf;Integrated Security=True";
+        private const string connString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='D:\Studing\ТРПЗ\Курсова робота\CW_Nelya_Vika\CW_Nelya_Vika\CW_Nelya_Vika\App_Data\CW_Nelya_Vika.mdf';Integrated Security=True";
 
 
         private static SqlConnection sqlConn = new SqlConnection(connString);

@@ -149,6 +149,13 @@
 
 </script>
 
+@using (Html.BeginForm("SaveToDb", "GraphListResult", FormMethod.Post))
+{
+    <div class="jumbotron">
+        <button class="btn btn-primary center-block" type="submit">Зберегти</button>
+    </div>
+}
+
 <div>@Model</div>
 
 

@@ -94,7 +94,7 @@ namespace CW_Nelya_Vika.Controllers
         public ActionResult SaveToDb()
         {
             GraphProblemDb.AddGraph(graph);
-            return View("OutputEditGraph");
+            return View("OutputEditGraph", graph);
         }
 
         public ActionResult Solve(FormCollection fc)

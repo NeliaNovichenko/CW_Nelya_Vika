@@ -6,29 +6,28 @@
     ViewBag.Title = "OtputResult";
 }
 
-<h2>Результати</h2>
 
 <div class="container body-content">
     <h2>Результати</h2>
-    {
     <div class="jumbotron">
-        
+        @using (Html.BeginForm("ShowResult", "OutputResult", FormMethod.Post))
+        {
         <table class="table">
             <thead>
-                <tr>
-                    <th>Обрати:</th>
-                    <th>ResultId</th>
-                    <th>GraphId</th>
-                    <th>Кількість вершин</th>
-                    <th>Кількість ребер</th>
-                    <th>Кількість розбиттів</th>
-                    <th>Інтервал</th>
-                    <th>Алгоритм</th>
-                </tr>
+            <tr>
+                <th>Обрати:</th>
+                <th>ResultId</th>
+                <th>GraphId</th>
+                <th>Кількість вершин</th>
+                <th>Кількість ребер</th>
+                <th>Кількість розбиттів</th>
+                <th>Інтервал</th>
+                <th>Алгоритм</th>
+            </tr>
             </thead>
             <tbody>
-                @foreach (var result in Model)
-                {
+            @foreach (var result in Model)
+            {
                 <tr>
                     <td>@Html.RadioButton("ResultId", result.Id)</td>
                     <td>@result.Id</td>
@@ -37,16 +36,25 @@
                     <td>@result.Graph.Edges.Count</td>
                     <td>@result.Graph.CommunityCount</td>
                     <td>@result.Graph.MinCountInSubgraph - >@result.Graph.MaxCountInSubgraph</td>
-                    <td>@result.Algorithm.ToString()</td>
+
+                    @switch ((int)result.Algorithm)
+                    {
+                        case 0:
+                            <td>Кернігана-Ліна</td>
+                            break;
+                        case 1:
+                            <td>Гірвана-Ньюмана</td>
+                            break;
+                    }
                 </tr>
-                }
+            }
             </tbody>
         </table>
+
+        <button class="btn btn-primary center-block" type="submit">Показати граф</button>
+}
         <br />
     </div>
 
-
-    <button class="btn btn-primary center-block" type="submit">Відобразити розбиття</button>
-    }
 
 </div>

@@ -10,14 +10,20 @@ namespace CW_Nelya_Vika.Controllers
 {
     public class OutputResultController : Controller
     {
-        //db = new db
-        //db.Problems
-        //private GraphProblemDb db = new GraphProblemDb();
-        // GET: OutputResult
+        static List<Problem> problemsFromDb = GraphProblemDb.Problems.ToList();
         public ActionResult OutputResult()
         {
-            //var problemsFromDb = GraphProblemDb.Problems.ToList();
-            return View();
+            return View(problemsFromDb);
+        }
+
+        [HttpPost]
+        public ActionResult ShowResult(FormCollection fc)
+        {
+            int problemId = Convert.ToInt32(fc.GetValue("ResultId").AttemptedValue);
+            Problem selected = problemsFromDb.FirstOrDefault(p => p.Id == problemId);
+            ProblemGeneratorController.problem = selected;
+            return RedirectToAction("GraphListResult", "GraphListResult");
+
         }
     }
 }

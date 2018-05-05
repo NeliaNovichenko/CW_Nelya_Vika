@@ -56,6 +56,14 @@ namespace CW_Nelya_Vika.Controllers
         {
             return View(ProblemGeneratorController.problem);
         }
+        public ActionResult SaveToDb()
+        {
+            GraphProblemDb.AddProblem(ProblemGeneratorController.problem);
+
+            return View("GraphListResult", ProblemGeneratorController.problem);
+        }
+
+        
 
     }
 }
