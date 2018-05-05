@@ -42,7 +42,7 @@ namespace CW_Nelya_Vika.Models.DB
         /// <returns></returns>
         public static Graph GetGraph(int graphId)
         {
-            Graph graph = Graphs.Select(g => g).First(g => g.Id == graphId);
+            Graph graph = Graphs.Select(g => g).FirstOrDefault(g => g.Id == graphId);
             return graph;
         }
 
@@ -53,7 +53,7 @@ namespace CW_Nelya_Vika.Models.DB
         /// <returns></returns>
         public static Problem GetProblem(int problemId)
         {
-            Problem problem = Problems.First(g => g.Id == problemId);
+            Problem problem = Problems.FirstOrDefault(g => g.Id == problemId);
             return problem;
         }
 
