@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -14,9 +15,10 @@ namespace CW_Nelya_Vika.Models.DB
         public static List<Problem> Problems { get; private set; }
 
 
-        private const string ConnString =
-            @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CW_Nelya_Vika;Integrated Security=False;Trusted_Connection=True;Pooling=False;User ID=VikaNelya;Password=123456";
+        //private const string ConnString =
+        //    @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CW_Nelya_Vika;Integrated Security=False;Trusted_Connection=True;Pooling=False;User ID=VikaNelya;Password=123456";
 
+        private static string ConnString = ConfigurationManager.ConnectionStrings["CW_Nelya_Vika"].ConnectionString;
 
         private static SqlConnection sqlConn = new SqlConnection(ConnString);
 
