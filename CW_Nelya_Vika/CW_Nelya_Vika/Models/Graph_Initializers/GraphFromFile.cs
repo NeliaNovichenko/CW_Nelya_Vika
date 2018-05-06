@@ -22,8 +22,8 @@ namespace CW_Nelya_Vika.Models.Graph_Initializers
         public Graph Initialize()
         {
             Graph graph = new Graph();
-            try
-            {      
+            //try
+            //{      
                 if (reader == null)
                     return null;
                 int c = 0, min = 0, max = 0;
@@ -49,17 +49,17 @@ namespace CW_Nelya_Vika.Models.Graph_Initializers
                     
                     graph.CreateLink(vertexA, vertexB, weight);
                 }
-            }
-            catch (IOException ex)
-            {
-                //TODO: Handle this exception
-                return null;
-            }
-            catch (Exception ex)
-            {
-                //TODO: Handle this exception
-                return null;
-            }
+            //}
+            //catch (IOException ex)
+            //{
+            //    //TODO: Handle this exception
+            //    return null;
+            //}
+            //catch (Exception ex)
+            //{
+            //    //TODO: Handle this exception
+            //    return null;
+            //}
 
             return graph;
         }

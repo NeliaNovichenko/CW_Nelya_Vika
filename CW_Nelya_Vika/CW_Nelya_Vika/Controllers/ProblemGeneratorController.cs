@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using CW_Nelya_Vika.Models;
 using CW_Nelya_Vika.Models.DB;
 using CW_Nelya_Vika.Models.Graph_Initializers;
-using CW_Nelya_Vika_Algorithms;
+//using CW_Nelya_Vika_Algorithms;
 
 namespace CW_Nelya_Vika.Controllers
 {
@@ -41,12 +41,20 @@ namespace CW_Nelya_Vika.Controllers
                 if (httpPostedFile != null)
                 {
                     var index = httpPostedFile.FileName.LastIndexOf(@"\");
-                    var shotName = httpPostedFile.FileName.Substring(index == -1? 0: index);
+                    var shotName = httpPostedFile.FileName.Substring(index == -1 ? 0 : index);
                     var fileSavePath = HttpContext.Server.MapPath("~/UploadedFiles") + shotName;
 
                     httpPostedFile.SaveAs(fileSavePath);
-                    IGraphInitializer graphInitializer = new GraphFromFile(fileSavePath);
-                    graph = graphInitializer.Initialize();
+                    try
+                    {
+                        IGraphInitializer graphInitializer = new GraphFromFile(fileSavePath);
+                        graph = graphInitializer.Initialize();
+                    }
+                    catch (Exception e)
+                    {
+                        return Redirect("Error");
+
+                    }
 
                 }
             }
@@ -57,9 +65,21 @@ namespace CW_Nelya_Vika.Controllers
         [HttpPost]
         public ActionResult Generate(FormCollection fc)
         {
-            int commCount = Convert.ToInt32(fc.GetValue("communityCount").AttemptedValue);
-            int minCommCount = Convert.ToInt32(fc.GetValue("minCommunityCount").AttemptedValue);
-            int maxCommCount = Convert.ToInt32(fc.GetValue("maxCommunityCount").AttemptedValue);
+            string communityCount = fc.GetValue("communityCount").AttemptedValue,
+                minCommunityCount = fc.GetValue("minCommunityCount").AttemptedValue,
+                maxCommunityCount = fc.GetValue("maxCommunityCount").AttemptedValue;
+
+            //if (communityCount is null)
+            //    ViewBag.CommunityCountError = "Заповніть поле";
+            //if (minCommunityCount is null)
+            //    ViewBag.CommunityCountError = "Заповніть поле";
+            //if (maxCommunityCount is null)
+            //    ViewBag.CommunityCountError = "Заповніть поле";
+            //return View("ProblemGenerator", graphsFromDb);
+
+            int commCount = Convert.ToInt32(communityCount is null ? "0" : communityCount);
+            int minCommCount = Convert.ToInt32(minCommunityCount is null ? "0" : minCommunityCount);
+            int maxCommCount = Convert.ToInt32(maxCommunityCount is null ? "0" : maxCommunityCount);
             var problemClassification = ProblemClassification.Xs;
             switch (fc.GetValue("GraphClassification").AttemptedValue)
             {
@@ -111,19 +131,19 @@ namespace CW_Nelya_Vika.Controllers
         {
             problem.Graph = graph;
             GraphList communities = new GraphList();
-            switch (fc.GetValue("Algorithm").AttemptedValue)
-            {
-                case "KernighanLin":
-                    problem.Algorithm = Algorithm.KernighanLin;
-                    IAlgorithm algorithm = new KernighanLin();
-                    communities = algorithm.FindCommunityStructure(graph);
-                    break;
-                case "GirvanNewman":
-                    problem.Algorithm = Algorithm.GirvanNewman;
-                    algorithm = new GirvanNewman();
-                    communities = algorithm.FindCommunityStructure(graph);
-                    break;
-            }
+            //switch (fc.GetValue("Algorithm").AttemptedValue)
+            //{
+            //    case "KernighanLin":
+            //        problem.Algorithm = Algorithm.KernighanLin;
+            //        IAlgorithm algorithm = new KernighanLin();
+            //        communities = algorithm.FindCommunityStructure(graph);
+            //        break;
+            //    case "GirvanNewman":
+            //        problem.Algorithm = Algorithm.GirvanNewman;
+            //        algorithm = new GirvanNewman();
+            //        communities = algorithm.FindCommunityStructure(graph);
+            //        break;
+            //}
             problem.GraphList = communities;
 
             //TODO: перейти на страничку и передать парам

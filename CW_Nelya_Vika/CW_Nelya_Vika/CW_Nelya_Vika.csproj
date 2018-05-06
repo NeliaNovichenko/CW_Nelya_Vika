@@ -221,9 +221,7 @@
     <Content Include="Views\GraphListResult\GraphListResult.cshtml" />
     <Content Include="Views\OutputResult\OutputResult.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\GraphList\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>

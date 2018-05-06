@@ -29,7 +29,7 @@
             @foreach (var result in Model)
             {
                 <tr>
-                    <td>@Html.RadioButton("ResultId", result.Id)</td> 
+                    <td>@Html.RadioButton("ResultId", result.Id, true)</td> 
                     <td>@result.Id</td>
                     <td>@result.Graph.Id</td>
                     <td>@result.Graph.Vertices.Count</td>
