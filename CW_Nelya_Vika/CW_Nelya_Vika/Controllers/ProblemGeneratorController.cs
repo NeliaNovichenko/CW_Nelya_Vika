@@ -63,7 +63,7 @@ namespace CW_Nelya_Vika.Controllers
             var problemClassification = ProblemClassification.Xs;
             switch (fc.GetValue("GraphClassification").AttemptedValue)
             {
-                case "Xs":
+                case "XS":
                     problemClassification = ProblemClassification.Xs;
                     break;
                 case "S":
@@ -75,7 +75,7 @@ namespace CW_Nelya_Vika.Controllers
                 case "L":
                     problemClassification = ProblemClassification.L;
                     break;
-                case "Xl":
+                case "XL":
                     problemClassification = ProblemClassification.Xl;
                     break;
             }

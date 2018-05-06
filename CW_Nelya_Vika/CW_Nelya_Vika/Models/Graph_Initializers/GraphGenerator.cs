@@ -58,19 +58,19 @@ namespace CW_Nelya_Vika.Models
             switch (problemClassification)
             {
                 case ProblemClassification.Xs:
-                    vertexCount = 15;
+                    vertexCount = 5;
                     break;
                 case ProblemClassification.S:
-                    vertexCount = 30;
+                    vertexCount = 10;
                     break;
                 case ProblemClassification.M:
-                    vertexCount = 60;
+                    vertexCount = 15;
                     break;
                 case ProblemClassification.L:
-                    vertexCount = 120;
+                    vertexCount = 20;
                     break;
                 case ProblemClassification.Xl:
-                    vertexCount = 240;
+                    vertexCount = 25;
                     break;
             }
 
