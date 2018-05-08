@@ -120,6 +120,9 @@
                 @:data.edges.push({"src": @edge.VertexOut.Label, "dest": @edge.VertexIn.Label, "weight": @edge.Weight});
             }
 
+            console.log(data);
+
+
             $.each(data.nodes,
                 function (i, node) {
                     sys.addNode(node.name); //добавляем вершину

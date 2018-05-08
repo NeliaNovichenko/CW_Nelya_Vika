@@ -161,7 +161,7 @@ namespace CW_Nelya_Vika.Models.DB
             //}
         }
 
-        public static bool AddGraph(Graph g/*, Graph parent = null*/)
+        public static bool AddGraph(Graph g, Graph parent = null)
         {
             bool result = true;
             SqlCommand sqlCommand;
@@ -183,6 +183,31 @@ namespace CW_Nelya_Vika.Models.DB
             var insertedGraphId = sqlCommand.ExecuteScalar();
             g.Id = Convert.ToInt32(insertedGraphId);
 
+            if (parent != null)
+            {
+                Update();
+                return result;
+            }
+
+            //foreach (var v1 in g.Vertices)
+            //{
+            //    foreach (var v2 in g.Vertices)
+            //    {
+            //        Edge edge = parent.FindEdge(v1, v2);
+            //        if (edge == null)
+            //            continue;
+            //        sqlCommand = new SqlCommand("insert into Edge(GraphId, VertexOut, VertexIn, Weight)" +
+            //                                    "values (@GraphId, @VertexOut, @VertexIn, @Weight);" +
+            //                                    "SELECT SCOPE_IDENTITY()", sqlConn);
+
+            //        sqlCommand.Parameters.AddWithValue("@GraphId", g.Id);
+            //        sqlCommand.Parameters.AddWithValue("@VertexOut", edge.VertexOut.Label);
+            //        sqlCommand.Parameters.AddWithValue("@VertexIn", edge.VertexIn.Label);
+            //        sqlCommand.Parameters.AddWithValue("@Weight", edge.Weight);
+            //        var insertedId = sqlCommand.ExecuteScalar();
+            //        edge.Id = Convert.ToInt32(insertedId);
+            //    }
+            //}
 
             foreach (var edge in g.Edges)
             {
@@ -235,7 +260,7 @@ namespace CW_Nelya_Vika.Models.DB
             foreach (var g in p.GraphList)
             {
                 if (g.Id == null)
-                    AddGraph(g);
+                    AddGraph(g, p.Graph);
                 if (sqlConn.State == ConnectionState.Closed)
                     sqlConn.Open();
                 sqlCommand = new SqlCommand("insert into ResultList (ProblemId, SubGraphId)" +
