@@ -185,6 +185,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="img\back.png" />
+    <Content Include="img\backgr.jpg" />
+    <Content Include="img\images.jpg" />
+    <Content Include="img\Nelya.jpg" />
+    <Content Include="img\Vika.png" />
     <Content Include="Scripts\arbor-graphics.js" />
     <Content Include="Scripts\arbor.js" />
     <Content Include="Scripts\bootstrap.js" />

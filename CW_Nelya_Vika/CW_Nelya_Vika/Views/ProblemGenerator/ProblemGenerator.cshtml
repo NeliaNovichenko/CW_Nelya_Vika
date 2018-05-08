@@ -7,9 +7,17 @@
 }
 
 <script>
-    
-    function validate() {
-        validateCommunityCount();
+    document.addEventListener("DOMContentLoaded", function () {
+        var form = document.getElementById("generator-form");
+        form.addEventListener("submit", validate);
+    });
+    function validate(e) {
+        if (validateCommunityCount()) {
+
+        } else {
+            e.preventDefault();
+        }
+
         validateMinCommunityCount();
         validateMaxCommunityCount();
     };
@@ -20,6 +28,7 @@
         if (parseInt(x) <= 0) {
             alert("Кількість розбиттів не може бути менше нуля");
             document.getElementById("communityCountError").innerHTML = "Не може бути менше нуля";
+            return false;
         }
 
         var radioButtonOption = 5;
@@ -37,7 +46,10 @@
         if (parseInt(x) >= radioButtonOption) {
             alert("Кількість розбиттів не може бути більша за кількість вершин");
             document.getElementById("communityCountError").innerHTML = "Кількість розбиттів не може бути більша за кількість вершин";
+            return false;
         }
+        document.getElementById("communityCountError").innerHTML = "";
+        return true;
 
     };
 
@@ -70,7 +82,7 @@
         </div>
     }
 
-    @using (Html.BeginForm("Generate", "ProblemGenerator", FormMethod.Post))
+    @using (Html.BeginForm("Generate", "ProblemGenerator", FormMethod.Post, new { id = "generator-form" }))
     {
         <div class="jumbotron">
             <h3> Згенерувати:</h3>
