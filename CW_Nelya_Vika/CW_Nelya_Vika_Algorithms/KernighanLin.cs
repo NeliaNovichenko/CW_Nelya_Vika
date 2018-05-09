@@ -35,25 +35,8 @@ namespace CW_Nelya_Vika_Algorithms
             {
                 Graph d = new Graph();
                 d.Vertices = sublist;
-                //foreach (var node1 in sublist)
-                //{
-                //    foreach(var node2 in sublist)
-                //    {
-                //        var edge = pGraph.Edges.Find(e => e.VertexOut == node1 && e.VertexIn == node2);
-                //        d.Edges.Add(edge);
-                //    }
-                //}
                 r.Add(d);
             }
-            //foreach (var sublist in r)
-            //{
-            //    foreach (var node in sublist.Vertices)
-            //    {
-            //        Console.Write(node.Label);
-            //        Console.Write(' ');
-            //    }
-            //    Console.WriteLine();
-            //}
             return r;
 
         }
@@ -121,7 +104,7 @@ namespace CW_Nelya_Vika_Algorithms
             //}
             if (deltag.Count == 0)
             {
-                foreach(var item in graph.Vertices)
+                foreach (var item in graph.Vertices)
                 {
                     item.IsFixed = true;
                 }
@@ -234,7 +217,7 @@ namespace CW_Nelya_Vika_Algorithms
                     foreach (var v2 in g.Vertices)
                     {
                         Edge e = pGraph.FindEdge(v1, v2);
-                        if(e == null)
+                        if (e == null)
                             continue;
                         g.CreateLink(e.VertexOut, e.VertexIn, e.Weight);
                         g.Edges.Add(e);
