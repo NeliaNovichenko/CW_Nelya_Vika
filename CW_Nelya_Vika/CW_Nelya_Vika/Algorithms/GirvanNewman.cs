@@ -215,13 +215,15 @@ namespace CW_Nelya_Vika_Algorithms
         /// </summary>
         /// <param name="result"></param>
         /// <param name="community"></param>
-        private void InitializeEdgeBetweenness(Graph community = null)
+        public void InitializeEdgeBetweenness(Graph community = null, Graph g = null)
         {
+            if (g is null)
+                g = graph;
             if (edgeBetweenness == null)
             {
                 edgeBetweenness = new Dictionary<Edge, double>();
                 //Ініціалізуємо edgeBetweenness: для всіх ребер спочатку значення = 0
-                foreach (Edge e in graph.Edges)
+                foreach (Edge e in g.Edges)
                 {
                     edgeBetweenness.Add(e, 0);
                 }
@@ -234,7 +236,7 @@ namespace CW_Nelya_Vika_Algorithms
         /// Розраховує Betweenness для кожного ребра в графі
         /// </summary>
         /// <param name="subgraph"></param>
-        private void CalculateEdgeBetweenness(Graph subgraph)
+        public Dictionary<Edge, double> CalculateEdgeBetweenness(Graph subgraph)
         {
             #region Old
             //if (subgraph == null)
@@ -345,6 +347,7 @@ namespace CW_Nelya_Vika_Algorithms
                         edgeBetweenness[tmpEdge] += 1;
                     }
                 }
+            return edgeBetweenness;
         }
 
         private GraphList GetCommunityStructure()

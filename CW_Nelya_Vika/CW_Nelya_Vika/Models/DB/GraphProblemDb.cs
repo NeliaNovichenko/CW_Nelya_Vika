@@ -188,27 +188,7 @@ namespace CW_Nelya_Vika.Models.DB
                 Update();
                 return result;
             }
-
-            //foreach (var v1 in g.Vertices)
-            //{
-            //    foreach (var v2 in g.Vertices)
-            //    {
-            //        Edge edge = parent.FindEdge(v1, v2);
-            //        if (edge == null)
-            //            continue;
-            //        sqlCommand = new SqlCommand("insert into Edge(GraphId, VertexOut, VertexIn, Weight)" +
-            //                                    "values (@GraphId, @VertexOut, @VertexIn, @Weight);" +
-            //                                    "SELECT SCOPE_IDENTITY()", sqlConn);
-
-            //        sqlCommand.Parameters.AddWithValue("@GraphId", g.Id);
-            //        sqlCommand.Parameters.AddWithValue("@VertexOut", edge.VertexOut.Label);
-            //        sqlCommand.Parameters.AddWithValue("@VertexIn", edge.VertexIn.Label);
-            //        sqlCommand.Parameters.AddWithValue("@Weight", edge.Weight);
-            //        var insertedId = sqlCommand.ExecuteScalar();
-            //        edge.Id = Convert.ToInt32(insertedId);
-            //    }
-            //}
-
+            
             foreach (var edge in g.Edges)
             {
                 if (edge == null)

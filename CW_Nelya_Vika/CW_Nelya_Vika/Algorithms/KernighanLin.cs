@@ -55,11 +55,16 @@ namespace CW_Nelya_Vika_Algorithms
                     {
                         if (node.IsFixed == false)
                         {
-                            var w = graph.FindEdge(subgraph.Vertices[j], node).Weight;
+                            var e = graph.FindEdge(subgraph.Vertices[j], node);
+                            if (e is null)
+                            {
+                                continue;
+                            }
+                            var w = e.Weight;
                             if (subgraph.FindNode(node.Label, false) != null)
-                                innerEdge+=w;
+                                innerEdge += w;
                             //innerEdge += w;
-                            else crossEdge+=w;//crossEdge += w;
+                            else crossEdge += w;//crossEdge += w;
                         }
                     }
                     Dv.Add(subgraph.Vertices[j], crossEdge - innerEdge);

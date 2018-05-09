@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CW_Nelya_Vika", "CW_Nelya_Vika\CW_Nelya_Vika.csproj", "{63988103-F990-46B0-AAAE-A939453343C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CW_Nelya_Vika_Algorithms", "CW_Nelya_Vika_Algorithms\CW_Nelya_Vika_Algorithms.csproj", "{E200B724-E730-4EE7-AC10-AABF4D2813A6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CW_Nelya_Vika_Test", "CW_Nelya_Vika_Test\CW_Nelya_Vika_Test.csproj", "{32C01101-7A95-47AA-B060-A35D7FF08104}"
 EndProject
 Global
@@ -19,10 +17,6 @@ Global
 		{63988103-F990-46B0-AAAE-A939453343C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63988103-F990-46B0-AAAE-A939453343C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63988103-F990-46B0-AAAE-A939453343C0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E200B724-E730-4EE7-AC10-AABF4D2813A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E200B724-E730-4EE7-AC10-AABF4D2813A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E200B724-E730-4EE7-AC10-AABF4D2813A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E200B724-E730-4EE7-AC10-AABF4D2813A6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{32C01101-7A95-47AA-B060-A35D7FF08104}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{32C01101-7A95-47AA-B060-A35D7FF08104}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32C01101-7A95-47AA-B060-A35D7FF08104}.Release|Any CPU.ActiveCfg = Release|Any CPU

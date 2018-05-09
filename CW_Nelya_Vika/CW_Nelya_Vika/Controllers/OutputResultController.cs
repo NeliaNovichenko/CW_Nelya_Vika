@@ -10,7 +10,13 @@ namespace CW_Nelya_Vika.Controllers
 {
     public class OutputResultController : Controller
     {
-        static List<Problem> problemsFromDb = GraphProblemDb.Problems.ToList();
+        static List<Problem> problemsFromDb;
+
+        public OutputResultController()
+        {
+            if (GraphProblemDb.Problems != null)
+                problemsFromDb = GraphProblemDb.Problems.ToList();
+        }
         public ActionResult OutputResult()
         {
             return View(problemsFromDb);
