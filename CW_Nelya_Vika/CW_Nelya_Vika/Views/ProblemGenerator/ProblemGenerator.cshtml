@@ -12,21 +12,22 @@
         form.addEventListener("submit", validate);
     });
     function validate(e) {
-        if (validateCommunityCount()) {
+        if (validateCommunityCount() &&
+            validateMinCommunityCount() &&
+            validateMaxCommunityCount()) {
 
         } else {
             e.preventDefault();
         }
 
-        validateMinCommunityCount();
-        validateMaxCommunityCount();
+
     };
 
     function validateCommunityCount() {
+        document.getElementById("communityCountError").innerHTML = "";
+
         var x = document.getElementById("communityCount").value;
-        alert(x);
         if (parseInt(x) <= 0) {
-            alert("Кількість розбиттів не може бути менше нуля");
             document.getElementById("communityCountError").innerHTML = "Не може бути менше нуля";
             return false;
         }
@@ -43,8 +44,7 @@
         if (document.getElementById("25").checked)
             radioButtonOption = 25;
 
-        if (parseInt(x) >= radioButtonOption) {
-            alert("Кількість розбиттів не може бути більша за кількість вершин");
+        if (parseInt(x) > radioButtonOption) {
             document.getElementById("communityCountError").innerHTML = "Кількість розбиттів не може бути більша за кількість вершин";
             return false;
         }
@@ -54,18 +54,67 @@
     };
 
     function validateMinCommunityCount() {
+        document.getElementById("minCommunityCountError").innerHTML = "";
         var x = document.getElementById("minCommunityCount").value;
-        if (x < 0)
+        if (x < 0) {
             document.getElementById("minCommunityCountError").innerHTML = "Не може бути менше нуля";
+            return false;
+        }
+        var radioButtonOption = 5;
+        if (document.getElementById("5").checked)
+            radioButtonOption = 5;
+        if (document.getElementById("10").checked)
+            radioButtonOption = 10;
+        if (document.getElementById("15").checked)
+            radioButtonOption = 15;
+        if (document.getElementById("20").checked)
+            radioButtonOption = 20;
+        if (document.getElementById("25").checked)
+            radioButtonOption = 25;
 
-
+        if (parseInt(x) >= radioButtonOption) {
+            document.getElementById("minCommunityCountError").innerHTML = "Не може бути більша за кількість вершин";
+            return false;
+        }
+        document.getElementById("minCommunityCountError").innerHTML = "";
+        return true;
     };
 
     function validateMaxCommunityCount() {
+        document.getElementById("maxCommunityCountError").innerHTML = "";
+        document.getElementById("minMaxCommunityCountError").innerHTML = "";
         var x = document.getElementById("maxCommunityCount").value;
-        if (x < 0)
+        if (x < 0) {
             document.getElementById("maxCommunityCountError").innerHTML = "Не може бути менше нуля";
+            return false;
+        }
 
+        var radioButtonOption = 5;
+        if (document.getElementById("5").checked)
+            radioButtonOption = 5;
+        if (document.getElementById("10").checked)
+            radioButtonOption = 10;
+        if (document.getElementById("15").checked)
+            radioButtonOption = 15;
+        if (document.getElementById("20").checked)
+            radioButtonOption = 20;
+        if (document.getElementById("25").checked)
+            radioButtonOption = 25;
+
+        if (parseInt(x) >= radioButtonOption) {
+            document.getElementById("maxCommunityCountError").innerHTML = "Не може бути більша за кількість вершин";
+            return false;
+        }
+
+        var minCommCount = document.getElementById("minCommunityCount").value;
+
+        if (minCommCount > x) {
+            document.getElementById("minMaxCommunityCountError").innerHTML = "Мінімальна кількість вершин в підграфах не може бути більшою за максимальну.";
+            return false;
+        }
+        document.getElementById("maxCommunityCountError").innerHTML = "";
+        document.getElementById("minMaxCommunityCountError").innerHTML = "";
+        return true;
     }
 </script>
 
@@ -88,29 +137,33 @@
             <h3> Згенерувати:</h3>
 
             <p>Оберіть розмірність задачі:</p>
-            <p>@Html.RadioButton("GraphClassification", "XS: 5 вершин", true, new {@id= "5"}) XS  </p>
-            <p>@Html.RadioButton("GraphClassification", "S: 10 вершин", false, new { @id = "10" }) S </p>
-            <p>@Html.RadioButton("GraphClassification", "M: 15 вершин", false, new { @id = "15" }) M </p>
-            <p>@Html.RadioButton("GraphClassification", "L: 20 вершин", false, new { @id = "20" }) L </p>
-            <p>@Html.RadioButton("GraphClassification", "XL: 25 вершин", false, new { @id = "25" }) XL </p>
+            <p>@Html.RadioButton("GraphClassification", "XS", true, new { @id = "5" }) XS: 5 вершин  </p>
+            <p>@Html.RadioButton("GraphClassification", "S", false, new { @id = "10" }) S: 10 вершин </p>
+            <p>@Html.RadioButton("GraphClassification", "M", false, new { @id = "15" }) M: 15 вершин </p>
+            <p>@Html.RadioButton("GraphClassification", "L", false, new { @id = "20" }) L: 20 вершин </p>
+            <p>@Html.RadioButton("GraphClassification", "XL", false, new { @id = "25" }) XL: 25 верши</p>
             <p>
-                Введіть кількість підграфів: <input type="number" id="communityCount" name="communityCount" 
-                                                    onChange="validateCommunityCount()"  required/>
-            <text id="communityCountError" style="color: red;"></text>
+                Введіть кількість підграфів: <input type="number" id="communityCount" name="communityCount"
+                                                    onChange="validateCommunityCount()" required />
+                <text id="communityCountError" style="color: red;"></text>
             </p>
             <p>
-                Введіть мінімальну кількість вершин у підграфі: <input type="number" name="minCommunityCount"
-                                                                       onChange="validateMinCommunityCount()"required/>
+                Введіть мінімальну кількість вершин у підграфі: <input type="number" id="minCommunityCount" name="minCommunityCount"
+                                                                       onChange="validateMinCommunityCount()" required />
                 <text id="minCommunityCountError" style="color: red;"></text>
             </p>
             <p>
-                Введіть максимальну кількість вершин у підграфі: <input type="number" name="maxCommunityCount" 
-                                                                        onChange="validateMaxCommunityCount()"required/>
+                Введіть максимальну кількість вершин у підграфі: <input type="number" id="maxCommunityCount" name="maxCommunityCount"
+                                                                        onChange="validateMaxCommunityCount()" required />
                 <text id="maxCommunityCountError" style="color: red;"></text>
+
             </p>
+            <p><text id="minMaxCommunityCountError" style="color: red;"></text></p>
             <br />
-            <button class="btn btn-primary center-block" type="submit" 
-                    onclick="validate()">Згенерувати граф</button>
+            <button class="btn btn-primary center-block" type="submit"
+                    onclick="validate()">
+                Згенерувати граф
+            </button>
             <br />
         </div>
 
