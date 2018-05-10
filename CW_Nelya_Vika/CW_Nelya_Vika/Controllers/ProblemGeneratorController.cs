@@ -16,6 +16,7 @@ namespace CW_Nelya_Vika.Controllers
     {
         public static Graph graph = new Graph();
         public static Problem problem = new Problem();
+
         public ActionResult ProblemGenerator()
         {
             List<Graph> graphsFromLists = new List<Graph>();
@@ -30,8 +31,7 @@ namespace CW_Nelya_Vika.Controllers
             var graphsFromDb = GraphProblemDb.Graphs.Where(g => !graphsFromLists.Contains(g)).ToList();
             return View(graphsFromDb);
         }
-
-
+        
         [HttpPost]
         public ActionResult ReadFromFile()
         {
