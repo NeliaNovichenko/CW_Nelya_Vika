@@ -122,6 +122,8 @@ namespace CW_Nelya_Vika.Controllers
 
         public ActionResult Solve(FormCollection fc)
         {
+            if (problem == null)
+                problem = new Problem();
             problem.Graph = graph;
             GraphList communities = new GraphList();
             switch (fc.GetValue("Algorithm").AttemptedValue)

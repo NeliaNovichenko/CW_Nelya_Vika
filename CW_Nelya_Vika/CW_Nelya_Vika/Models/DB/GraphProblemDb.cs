@@ -31,7 +31,7 @@ namespace CW_Nelya_Vika.Models.DB
             Update();
         }
 
-        private static void Update()
+        public static void Update()
         {
             GetAllGraph();
             GetAllProblems();
@@ -122,6 +122,7 @@ namespace CW_Nelya_Vika.Models.DB
             if (sqlConn.State != ConnectionState.Open)
                 sqlConn.Open();
             SqlCommand sqlCommand = new SqlCommand("select id, InnitialGraphId, algorithm from problem", sqlConn);
+            GetAllGraph();
 
             using (SqlDataReader problemReader = sqlCommand.ExecuteReader())
             {
@@ -132,11 +133,12 @@ namespace CW_Nelya_Vika.Models.DB
                     int graphId = (int)problemReader["InnitialGraphId"];
                     Algorithm algorithm = (Algorithm)(int)problemReader["algorithm"];
                     problem.Graph = Graphs.Select(g => g).First(g => g.Id == graphId);
+                    problem.Algorithm = algorithm;
                     Problems.Add(problem);
                 }
             }
 
-            GetAllGraph();
+
 
             foreach (var problem in Problems)
             {
@@ -191,7 +193,7 @@ namespace CW_Nelya_Vika.Models.DB
                 Update();
                 return result;
             }
-            
+
             foreach (var edge in g.Edges)
             {
                 if (edge == null)
@@ -207,8 +209,8 @@ namespace CW_Nelya_Vika.Models.DB
                 var insertedId = sqlCommand.ExecuteScalar();
                 edge.Id = Convert.ToInt32(insertedId);
             }
-
-            Update();
+            GetAllGraph();
+            //Update();
             //}
             //catch (Exception e)
             //{
@@ -242,8 +244,8 @@ namespace CW_Nelya_Vika.Models.DB
 
             foreach (var g in p.GraphList)
             {
-                if (g.Id == null)
-                    AddGraph(g, p.Graph);
+                //if (g.Id == null)
+                AddGraph(g, p.Graph);
                 if (sqlConn.State == ConnectionState.Closed)
                     sqlConn.Open();
                 sqlCommand = new SqlCommand("insert into ResultList (ProblemId, SubGraphId)" +
@@ -254,7 +256,8 @@ namespace CW_Nelya_Vika.Models.DB
 
                 int i = sqlCommand.ExecuteNonQuery();
             }
-            Update();
+            GetAllProblems();
+            //Update();
             //}
             //catch (Exception e)
             //{
