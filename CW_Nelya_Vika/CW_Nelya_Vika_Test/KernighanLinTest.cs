@@ -6,7 +6,7 @@ using CW_Nelya_Vika_Algorithms;
 namespace CW_Nelya_Vika_Test
 {
     [TestClass]
-    public class UnitTest1
+    public class KernighanLinTest
     {
         [TestMethod]
         public void StartPartition_Test()

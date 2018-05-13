@@ -16,7 +16,7 @@ namespace CW_Nelya_Vika.Controllers
     {
         public static Graph graph = new Graph();
         public static Problem problem = new Problem();
-
+        public static int GE = 0;
         public ActionResult ProblemGenerator()
         {
             List<Graph> graphsFromLists = new List<Graph>();

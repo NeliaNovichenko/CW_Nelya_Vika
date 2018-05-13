@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GirvanNewmanTest.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="KernighanLinTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
