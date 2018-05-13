@@ -157,15 +157,7 @@ namespace CW_Nelya_Vika_Algorithms
             graphList[sub2].Vertices.Find(x => x.Label == t1.Label).IsFixed = true;
             graph.FindNode(t2.Label, false).IsFixed = true;
 
-            //foreach (var sublist in graphList)
-            //{
-            //    foreach (var node in sublist.Vertices)
-            //    {
-            //        Console.Write(node.Label);
-            //        Console.Write(' ');
-            //    }
-            //    Console.WriteLine();
-            //}
+            
             return graphList;
             //for (int i = 0; i < graphList.Count; i++)
             //{
@@ -188,12 +180,17 @@ namespace CW_Nelya_Vika_Algorithms
             }
             return true;
         }
-        public int FindG()
+        public static int FindG()
         {
             return G;
         }
-        public GraphList FindCommunityStructure(Graph pGraph)
+        public Problem FindCommunityStructure(Graph pGraph)
         {
+            DateTime start = DateTime.UtcNow;
+            Problem p = new Problem();
+            p.Graph = pGraph;
+            p.Algorithm = Algorithm.KernighanLin;
+
             graph = pGraph.Clone();
             GraphList graphList;
 
@@ -236,7 +233,11 @@ namespace CW_Nelya_Vika_Algorithms
                     }
                 }
             }
-            return graphList;
+            DateTime end = DateTime.UtcNow;
+            p.ExecutionTime = (end - start).Milliseconds;
+            p.G = G;
+            p.GraphList = graphList;
+            return p;
         }
     }
 }

@@ -34,9 +34,9 @@ namespace CW_Nelya_Vika.Models
 
         public Algorithm Algorithm { get; set; }
 
-        public int ExecutionTime { get; set; }
+        public int? ExecutionTime { get; set; }
 
-        public double G { get; set; }
+        public int? G { get; set; }
 
         public Problem()
         {

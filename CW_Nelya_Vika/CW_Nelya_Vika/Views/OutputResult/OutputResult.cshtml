@@ -12,47 +12,52 @@
     <div class="jumbotron">
         @using (Html.BeginForm("ShowResult", "OutputResult", FormMethod.Post))
         {
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Обрати:</th>
-                <th>ResultId</th>
-                <th>GraphId</th>
-                <th>Кількість вершин</th>
-                <th>Кількість ребер</th>
-                <th>Кількість розбиттів</th>
-                <th>Інтервал</th>
-                <th>Алгоритм</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var result in Model)
-            {
-                <tr>
-                    <td>@Html.RadioButton("ResultId", result.Id, true)</td> 
-                    <td>@result.Id</td>
-                    <td>@result.Graph.Id</td>
-                    <td>@result.Graph.Vertices.Count</td>
-                    <td>@result.Graph.Edges.Count</td>
-                    <td>@result.Graph.CommunityCount</td>
-                    <td>@result.Graph.MinCountInSubgraph - >@result.Graph.MaxCountInSubgraph</td>
-
-                    @switch ((int)result.Algorithm)
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Обрати:</th>
+                        <th>ResultId</th>
+                        <th>GraphId</th>
+                        <th>Кількість вершин</th>
+                        <th>Кількість ребер</th>
+                        <th>Кількість розбиттів</th>
+                        <th>Інтервал</th>
+                        <th>Алгоритм</th>
+                        <th>G</th>
+                        <th>Час виконання</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var problem in Model)
                     {
-                        case 0:
-                            <td>Кернігана-Ліна</td>
-                            break;
-                        case 1:
-                            <td>Гірвана-Ньюмана</td>
-                            break;
-                    }
-                </tr>
-            }
-            </tbody>
-        </table>
+                        <tr>
+                            <td>@Html.RadioButton("ResultId", problem.Id, true)</td>
+                            <td>@problem.Id</td>
+                            <td>@problem.Graph.Id</td>
+                            <td>@problem.Graph.Vertices.Count</td>
+                            <td>@problem.Graph.Edges.Count</td>
+                            <td>@problem.Graph.CommunityCount</td>
+                            <td>@problem.Graph.MinCountInSubgraph - >@problem.Graph.MaxCountInSubgraph</td>
 
-        <button class="btn btn-primary center-block" type="submit">Показати граф</button>
-}
+                            @switch ((int)problem.Algorithm)
+                            {
+                                case 0:
+                                    <td>Кернігана-Ліна</td>
+                                    break;
+                                case 1:
+                                    <td>Гірвана-Ньюмана</td>
+                                    break;
+                            }
+                            <td>@problem.G</td>
+                            <td>@problem.ExecutionTime</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <button class="btn btn-primary center-block" type="submit">Показати граф</button>
+        }
         <br />
     </div>
 

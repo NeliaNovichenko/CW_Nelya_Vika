@@ -82,6 +82,9 @@ namespace CW_Nelya_Vika_Algorithms
 
 
             //return graphList;
+
+            DateTime start = DateTime.UtcNow;
+
             Problem p = new Problem();
             p.Graph = pGraph;
             p.Algorithm = Algorithm.GirvanNewman;
@@ -140,7 +143,8 @@ namespace CW_Nelya_Vika_Algorithms
                     }
                 }
             }
-
+            DateTime end = DateTime.UtcNow;
+            p.ExecutionTime = (end - start).Milliseconds;
             p.GraphList = graphList;
             return p;
         }

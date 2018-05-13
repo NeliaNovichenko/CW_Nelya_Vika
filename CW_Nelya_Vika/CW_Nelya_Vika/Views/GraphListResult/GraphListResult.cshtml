@@ -148,7 +148,16 @@
             })(this.jQuery)
 
 </script>
-<div></div>
+<div class="jumbotron">
+    @if (Model.G != null)
+    {
+        <p> G: @Model.G </p>
+    }
+    @if (Model.ExecutionTime != null)
+    {
+        <p>Час виконнання алгоритму в мілісекундах: @Model.ExecutionTime</p>
+    }
+</div>
 @using (Html.BeginForm("SaveToDb", "GraphListResult", FormMethod.Post))
 {
     <div class="jumbotron">

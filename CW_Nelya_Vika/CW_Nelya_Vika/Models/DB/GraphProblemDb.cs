@@ -121,7 +121,7 @@ namespace CW_Nelya_Vika.Models.DB
             //{
             if (sqlConn.State != ConnectionState.Open)
                 sqlConn.Open();
-            SqlCommand sqlCommand = new SqlCommand("select id, InnitialGraphId, algorithm from problem", sqlConn);
+            SqlCommand sqlCommand = new SqlCommand("select id, InnitialGraphId, algorithm, G, ExecutionTime from problem", sqlConn);
             GetAllGraph();
 
             using (SqlDataReader problemReader = sqlCommand.ExecuteReader())
@@ -131,9 +131,10 @@ namespace CW_Nelya_Vika.Models.DB
                     Problem problem = new Problem();
                     problem.Id = (int)problemReader["id"];
                     int graphId = (int)problemReader["InnitialGraphId"];
-                    Algorithm algorithm = (Algorithm)(int)problemReader["algorithm"];
+                    problem.Algorithm = (Algorithm)(int)problemReader["algorithm"];
+                    problem.G = problemReader["G"] == DBNull.Value ? null : (int?)problemReader["G"];
+                    problem.ExecutionTime = problemReader["ExecutionTime"] == DBNull.Value ? null : (int?)problemReader["ExecutionTime"];
                     problem.Graph = Graphs.Select(g => g).First(g => g.Id == graphId);
-                    problem.Algorithm = algorithm;
                     Problems.Add(problem);
                 }
             }
@@ -233,11 +234,13 @@ namespace CW_Nelya_Vika.Models.DB
                 AddGraph(p.Graph);
             if (sqlConn.State != ConnectionState.Open)
                 sqlConn.Open();
-            sqlCommand = new SqlCommand("insert into Problem (InnitialGraphId, Algorithm)" +
-                                                   "values (@InitialGraphId, @Algorithm);" +
+            sqlCommand = new SqlCommand("insert into Problem (InnitialGraphId, Algorithm, G, ExecutionTime)" +
+                                                   "values (@InitialGraphId, @Algorithm, @G, @ExecutionTime);" +
                                                    "SELECT SCOPE_IDENTITY()", sqlConn);
             sqlCommand.Parameters.AddWithValue("@InitialGraphId", p.Graph.Id);
             sqlCommand.Parameters.AddWithValue("@Algorithm", (int)p.Algorithm);
+            sqlCommand.Parameters.AddWithValue("@G", (object)p.G ?? DBNull.Value);
+            sqlCommand.Parameters.AddWithValue("@ExecutionTime", (object)p.ExecutionTime ?? DBNull.Value);
             var insertedId = sqlCommand.ExecuteScalar();
             p.Id = Convert.ToInt32(insertedId);
 
