@@ -32,7 +32,7 @@ namespace CW_Nelya_Vika.Controllers
             int problemId = Convert.ToInt32(fc.GetValue("ResultId").AttemptedValue);
             Problem selected = problemsFromDb.FirstOrDefault(p => p.Id == problemId);
             ProblemGeneratorController.problem = selected;
-            return RedirectToAction("GraphListResult", "GraphListResult");
+            return RedirectToAction("GraphListResult", "GraphListResult", ProblemGeneratorController.problem);
 
         }
     }

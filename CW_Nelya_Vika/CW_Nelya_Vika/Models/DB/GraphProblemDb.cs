@@ -93,14 +93,18 @@ namespace CW_Nelya_Vika.Models.DB
                 {
                     while (edgeReader.Read())
                     {
-                        int idNodeOut = (int)edgeReader["VertexOut"],
-                            idNodeIn = (int)edgeReader["VertexIn"],
-                            weight = (int)edgeReader["weight"];
+                        int idNodeOut = edgeReader["VertexOut"] == DBNull.Value ? 0 : (int)edgeReader["VertexOut"],
+                            idNodeIn = edgeReader["VertexIn"] == DBNull.Value ? 0 : (int)edgeReader["VertexIn"],
+                            weight = edgeReader["weight"] == DBNull.Value ? 0 : (int)edgeReader["weight"];
 
-                        Vertex vertexA = graph.FindNode(idNodeOut, true);
-                        Vertex vertexB = graph.FindNode(idNodeIn, true);
+                        Vertex vertexA = null, vertexB = null;
+                        if (idNodeOut != 0)
+                            vertexA = graph.FindNode(idNodeOut, true);
+                        if (idNodeIn != 0)
+                            vertexB = graph.FindNode(idNodeIn, true);
 
-                        graph.CreateLink(vertexA, vertexB);
+                        if (idNodeOut != 0 && idNodeIn != 0)
+                            graph.CreateLink(vertexA, vertexB);
                     }
                 }
             }
@@ -167,6 +171,7 @@ namespace CW_Nelya_Vika.Models.DB
             //}
         }
 
+
         public static bool AddGraph(Graph g, Graph parent = null)
         {
             bool result = true;
@@ -189,27 +194,50 @@ namespace CW_Nelya_Vika.Models.DB
             var insertedGraphId = sqlCommand.ExecuteScalar();
             g.Id = Convert.ToInt32(insertedGraphId);
 
-            if (parent != null)
+            if (parent == null)
             {
-                Update();
-                return result;
+                foreach (var edge in g.Edges)
+                {
+                    //var v1 = g.FindNode(edge.VertexOut.Label, false);
+                    //var v2 = g.FindNode(edge.VertexIn.Label, false);
+                    ////var edge = g.FindEdge(e.VertexOut, e.VertexIn);
+                    //if (v1 == null || v2 == null)
+                    if (edge == null)
+                        continue;
+                    sqlCommand = new SqlCommand("insert into Edge(GraphId, VertexOut, VertexIn, Weight)" +
+                                                "values (@GraphId, @VertexOut, @VertexIn, @Weight);" +
+                                                "SELECT SCOPE_IDENTITY()", sqlConn);
+
+                    sqlCommand.Parameters.AddWithValue("@GraphId", g.Id);
+                    sqlCommand.Parameters.AddWithValue("@VertexOut", edge.VertexOut.Label);
+                    sqlCommand.Parameters.AddWithValue("@VertexIn", edge.VertexIn.Label);
+                    sqlCommand.Parameters.AddWithValue("@Weight", edge.Weight);
+                    var insertedId = sqlCommand.ExecuteScalar();
+                    edge.Id = Convert.ToInt32(insertedId);
+                }
+            }
+            else
+            {
+                foreach (var v in g.Vertices)
+                {
+                    //var v1 = g.FindNode(edge.VertexOut.Label, false);
+                    //var v2 = g.FindNode(edge.VertexIn.Label, false);
+                    ////var edge = g.FindEdge(e.VertexOut, e.VertexIn);
+                    //if (v1 == null || v2 == null)
+                    //    continue;
+                    sqlCommand = new SqlCommand("insert into Edge(GraphId, VertexOut, VertexIn, Weight)" +
+                                                "values (@GraphId, @VertexOut, @VertexIn, @Weight);" +
+                                                "SELECT SCOPE_IDENTITY()", sqlConn);
+
+                    sqlCommand.Parameters.AddWithValue("@GraphId", g.Id);
+                    sqlCommand.Parameters.AddWithValue("@VertexOut", v.Label);
+                    sqlCommand.Parameters.AddWithValue("@VertexIn", DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@Weight", DBNull.Value);
+                    var insertedId = sqlCommand.ExecuteScalar();
+                    //edge.Id = Convert.ToInt32(insertedId);
+                }
             }
 
-            foreach (var edge in g.Edges)
-            {
-                if (edge == null)
-                    continue;
-                sqlCommand = new SqlCommand("insert into Edge(GraphId, VertexOut, VertexIn, Weight)" +
-                                            "values (@GraphId, @VertexOut, @VertexIn, @Weight);" +
-                                            "SELECT SCOPE_IDENTITY()", sqlConn);
-
-                sqlCommand.Parameters.AddWithValue("@GraphId", g.Id);
-                sqlCommand.Parameters.AddWithValue("@VertexOut", edge.VertexOut.Label);
-                sqlCommand.Parameters.AddWithValue("@VertexIn", edge.VertexIn.Label);
-                sqlCommand.Parameters.AddWithValue("@Weight", edge.Weight);
-                var insertedId = sqlCommand.ExecuteScalar();
-                edge.Id = Convert.ToInt32(insertedId);
-            }
             GetAllGraph();
             //Update();
             //}
