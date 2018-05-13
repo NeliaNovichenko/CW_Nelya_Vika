@@ -6,9 +6,11 @@ using System.Collections.Generic;
 
 namespace CW_Nelya_Vika_Algorithms
 {
+
     public class KernighanLin : IAlgorithm
     {
         public Graph graph;
+        static public int G = 0;
         struct Pair
         {
             public Vertex v1;
@@ -125,6 +127,7 @@ namespace CW_Nelya_Vika_Algorithms
                     maxpair = deltag[i];
                 }
             }
+            G += maxvalue;
             //Console.WriteLine();
             //Console.WriteLine(maxpair.v1.Label + " " + maxpair.v2.Label + " " + maxvalue);
             maxpair.v1.IsFixed = true;
@@ -185,12 +188,12 @@ namespace CW_Nelya_Vika_Algorithms
             }
             return true;
         }
-        public Problem FindCommunityStructure(Graph pGraph)
+        public int FindG()
         {
-            Problem p = new Problem();
-            p.Graph = pGraph;
-            p.Algorithm = Algorithm.KernighanLin;
-
+            return G;
+        }
+        public GraphList FindCommunityStructure(Graph pGraph)
+        {
             graph = pGraph.Clone();
             GraphList graphList;
 
@@ -233,8 +236,7 @@ namespace CW_Nelya_Vika_Algorithms
                     }
                 }
             }
-            p.GraphList = graphList;
-            return p;
+            return graphList;
         }
     }
 }
