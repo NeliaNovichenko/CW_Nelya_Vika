@@ -24,7 +24,7 @@
   <Class Name="CW_Nelya_Vika.Models.Problem">
     <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAAAAACAAAAAAgAAAAAAAQAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAACAIAAAAgAAAAACAQAAAA=</HashCode>
       <FileName>Models\Components\Problem.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -34,21 +34,6 @@
       <HashCode>AAACAAAAFABACAAEgAAAAAAAAACAAIhAAACAAAAAAAA=</HashCode>
       <FileName>Models\Components\Vertex.cs</FileName>
     </TypeIdentifier>
-  </Class>
-  <Class Name="CW_Nelya_Vika_Algorithms.KernighanLin" BaseTypeListCollapsed="true">
-    <Position X="4.25" Y="8.25" Width="2" />
-    <NestedTypes>
-      <Struct Name="CW_Nelya_Vika_Algorithms.KernighanLin.Pair" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Algorithms\KernighanLin.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Struct>
-    </NestedTypes>
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAACAAAAAAAAABQFAAAgAA=</HashCode>
-      <FileName>Algorithms\KernighanLin.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Class Name="CW_Nelya_Vika_Algorithms.GirvanNewman" BaseTypeListCollapsed="true">
     <Position X="1" Y="8.25" Width="2.25" />
@@ -81,18 +66,33 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Interface Name="CW_Nelya_Vika_Algorithms.IAlgorithm">
-    <Position X="2.5" Y="6.5" Width="1.5" />
+  <Class Name="CW_Nelya_Vika_Algorithms.KernighanLin" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="8.25" Width="2" />
+    <NestedTypes>
+      <Struct Name="CW_Nelya_Vika_Algorithms.KernighanLin.Pair" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Algorithms\KernighanLin.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
-      <FileName>Algorithms\IAlgorithm.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAQACAAAAAAAAABQHAAAgAA=</HashCode>
+      <FileName>Algorithms\KernighanLin.cs</FileName>
     </TypeIdentifier>
-  </Interface>
+    <Lollipop Position="0.2" />
+  </Class>
   <Interface Name="CW_Nelya_Vika.Models.IGraphInitializer" Collapsed="true">
     <Position X="3" Y="14" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Graph_Initializers\IGraphInitializer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CW_Nelya_Vika_Algorithms.IAlgorithm">
+    <Position X="2.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Algorithms\IAlgorithm.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />
