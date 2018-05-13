@@ -11,11 +11,11 @@ namespace CW_Nelya_Vika.Models
     /// <summary>
     /// Перелік реалізованих алгоритмів
     /// </summary>
-    public enum Algorithm : byte
+    public enum Algorithm : int
     {
-        KernighanLin,
-        GirvanNewman,
-        None
+        KernighanLin = 0,
+        GirvanNewman = 1,
+        None = 2
     }
 
     /// <summary>
