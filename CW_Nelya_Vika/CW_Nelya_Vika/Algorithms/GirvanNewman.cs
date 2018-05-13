@@ -34,7 +34,7 @@ namespace CW_Nelya_Vika_Algorithms
         /// </summary>
         /// <param name="pGraph"></param>
         /// <returns></returns>
-        public GraphList FindCommunityStructure(Graph pGraph)
+        public Problem FindCommunityStructure(Graph pGraph)
         {
             //// Clone graph
             //if (pGraph is null)
@@ -82,6 +82,9 @@ namespace CW_Nelya_Vika_Algorithms
 
 
             //return graphList;
+            Problem p = new Problem();
+            p.Graph = pGraph;
+            p.Algorithm = Algorithm.GirvanNewman;
 
             graph = pGraph.Clone();
 
@@ -138,7 +141,8 @@ namespace CW_Nelya_Vika_Algorithms
                 }
             }
 
-            return graphList;
+            p.GraphList = graphList;
+            return p;
         }
 
         /// <summary>

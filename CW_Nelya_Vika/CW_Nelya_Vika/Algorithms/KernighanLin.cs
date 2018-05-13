@@ -185,8 +185,12 @@ namespace CW_Nelya_Vika_Algorithms
             }
             return true;
         }
-        public GraphList FindCommunityStructure(Graph pGraph)
+        public Problem FindCommunityStructure(Graph pGraph)
         {
+            Problem p = new Problem();
+            p.Graph = pGraph;
+            p.Algorithm = Algorithm.KernighanLin;
+
             graph = pGraph.Clone();
             GraphList graphList;
 
@@ -229,7 +233,8 @@ namespace CW_Nelya_Vika_Algorithms
                     }
                 }
             }
-            return graphList;
+            p.GraphList = graphList;
+            return p;
         }
     }
 }

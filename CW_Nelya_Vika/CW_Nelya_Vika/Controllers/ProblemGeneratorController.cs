@@ -122,24 +122,24 @@ namespace CW_Nelya_Vika.Controllers
 
         public ActionResult Solve(FormCollection fc)
         {
-            if (problem == null)
-                problem = new Problem();
-            problem.Graph = graph;
-            GraphList communities = new GraphList();
+            //if (problem == null)
+            //    problem = new Problem();
+            //problem.Graph = graph;
+           // GraphList communities = new GraphList();
             switch (fc.GetValue("Algorithm").AttemptedValue)
             {
                 case "KernighanLin":
                     problem.Algorithm = Algorithm.KernighanLin;
                     IAlgorithm algorithm = new KernighanLin();
-                    communities = algorithm.FindCommunityStructure(graph);
+                    problem = algorithm.FindCommunityStructure(graph);
                     break;
                 case "GirvanNewman":
                     problem.Algorithm = Algorithm.GirvanNewman;
                     algorithm = new GirvanNewman();
-                    communities = algorithm.FindCommunityStructure(graph);
+                    problem = algorithm.FindCommunityStructure(graph);
                     break;
             }
-            problem.GraphList = communities;
+            //problem.GraphList = communities;
 
             //TODO: перейти на страничку и передать парам
             return RedirectToAction("GraphListResult", "GraphListResult", problem);
