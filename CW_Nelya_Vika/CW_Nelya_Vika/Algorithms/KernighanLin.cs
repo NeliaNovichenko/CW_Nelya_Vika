@@ -87,8 +87,6 @@ namespace CW_Nelya_Vika_Algorithms
                 Graph subgraph = graphList[i];
                 for (int j = 0; j < subgraph.Vertices.Count; j++)
                 {
-                    //var adjNode = graph.FindNode(subgraph.Vertices[j].Id, false).GetAdjacencyVertices();
-                    //foreach (var vertex in graph.Vertices)
                     for (int k = 0; k < graph.Vertices.Count; k++)
                     {
                         var w1 = graph.FindNode(subgraph.Vertices[j].Label, false);
@@ -98,7 +96,8 @@ namespace CW_Nelya_Vika_Algorithms
                         if (subgraph.FindNode(graph.Vertices[k].Label, false) == null)
                         {
                             var e = graph.FindEdge(subgraph.Vertices[j], graph.Vertices[k]);
-                            if (e != null) w = 1;
+                            if (e == null) w = 0;
+                            else w = e.Weight;
                             int delta_g = Dv[graph.Vertices[k]] + Dv[subgraph.Vertices[j]] - 2 * w;
                             deltag.Add(new Pair(subgraph.Vertices[j], graph.Vertices[k], delta_g));
                         }
@@ -157,7 +156,7 @@ namespace CW_Nelya_Vika_Algorithms
             graphList[sub2].Vertices.Find(x => x.Label == t1.Label).IsFixed = true;
             graph.FindNode(t2.Label, false).IsFixed = true;
 
-            
+
             return graphList;
             //for (int i = 0; i < graphList.Count; i++)
             //{

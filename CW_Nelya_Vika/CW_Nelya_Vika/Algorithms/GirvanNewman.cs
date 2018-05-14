@@ -16,9 +16,10 @@ namespace CW_Nelya_Vika_Algorithms
         /// </summary>
         GraphList graphList;
         /// <summary>
-        /// Граф, для якого проводиться розбитта
+        /// Граф, для якого проводиться розбиття
         /// </summary>
         Graph graph;
+        static public int G = 0;
         //TODO:
         private double Q;
         public double BestQ { get; set; }
@@ -135,7 +136,9 @@ namespace CW_Nelya_Vika_Algorithms
                 {
                     foreach (var v2 in g.Vertices)
                     {
-                        Edge e = pGraph.FindEdge(v1, v2);
+                        var v11 = graph.FindNode(v1.Label, false);
+                        var v22 = graph.FindNode(v2.Label, false);
+                        Edge e = pGraph.FindEdge(v11, v22);
                         if (e == null)
                             continue;
                         g.CreateLink(e.VertexOut, e.VertexIn, e.Weight);
@@ -143,12 +146,42 @@ namespace CW_Nelya_Vika_Algorithms
                     }
                 }
             }
+
+
+
             DateTime end = DateTime.UtcNow;
             p.ExecutionTime = (end - start).Milliseconds;
+
+            G = ReturnG(graphList);
+            p.G = G;
             p.GraphList = graphList;
             return p;
         }
-
+        int ReturnG(GraphList graphs)
+        {
+            int g = 0;
+            for (int i = 0; i < graphs.Count; i++)
+            {
+                Graph subgraph = graphs[i];
+                for (int j = 0; j < subgraph.Vertices.Count; j++)
+                {
+                    for (int k = 0; k < graph.Vertices.Count; k++)
+                    {
+                        var w1 = graph.FindNode(subgraph.Vertices[j].Label, false);
+                        int w = 0;
+                        //var w = graph.FindEdge(subgraph.Vertices[j], vertex).Weight;
+                        if (subgraph.FindNode(graph.Vertices[k].Label, false) == null)
+                        {
+                            var e = graph.FindEdge(subgraph.Vertices[j], graph.Vertices[k]);
+                            if (e == null) w = 0;
+                            else w = e.Weight;
+                            g += w;
+                        }
+                    }
+                }
+            }
+            return g;
+        }
         /// <summary>
         /// Додати запис у лог виконання алгоритму
         /// </summary>

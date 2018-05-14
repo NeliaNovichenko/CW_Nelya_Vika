@@ -8,5 +8,6 @@ namespace CW_Nelya_Vika_Algorithms
     public interface IAlgorithm
     {
         Problem FindCommunityStructure(Graph pGraph);
+        //int ReturnG(Problem problem);
     }
 }

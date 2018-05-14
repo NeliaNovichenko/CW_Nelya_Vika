@@ -122,7 +122,7 @@ namespace CW_Nelya_Vika.Models
         {
             foreach (Edge e in pVertecesOut.AdjacencyEdges)
             {
-                if ((e.VertexOut == pVertecesOut && e.VertexIn == pVertecesIn) || (e.VertexOut == pVertecesIn && e.VertexIn == pVertecesOut))
+                if ((e.VertexOut.Label == pVertecesOut.Label && e.VertexIn.Label == pVertecesIn.Label) || (e.VertexOut.Label == pVertecesIn.Label && e.VertexIn.Label == pVertecesOut.Label))
                     return e;
             }
             return null;
