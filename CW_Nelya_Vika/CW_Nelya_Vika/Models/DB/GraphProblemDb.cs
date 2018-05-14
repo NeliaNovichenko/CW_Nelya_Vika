@@ -11,12 +11,9 @@ namespace CW_Nelya_Vika.Models.DB
 {
     public static class GraphProblemDb
     {
-        public static List<Graph> Graphs { get; private set; }
+        public static Problem CurrentProblem { get; set; }
         public static List<Problem> Problems { get; private set; }
-
-
-        //private const string ConnString =
-        //    @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CW_Nelya_Vika;Integrated Security=False;Trusted_Connection=True;Pooling=False;User ID=VikaNelya;Password=123456";
+        public static List<Graph> Graphs { get; set; }
 
         private static string ConnString = ConfigurationManager.ConnectionStrings["CW_Nelya_Vika"].ConnectionString;
 
@@ -62,7 +59,7 @@ namespace CW_Nelya_Vika.Models.DB
         /// <summary>
         /// зчитати данні про всі графи з бд
         /// </summary>
-        private static void GetAllGraph()
+        public static void GetAllGraph()
         {
             Graphs = new List<Graph>();
             //try
@@ -118,7 +115,7 @@ namespace CW_Nelya_Vika.Models.DB
         /// <summary>
         /// зчитати дані про всі графи з бд
         /// </summary>
-        private static void GetAllProblems()
+        public static void GetAllProblems()
         {
             Problems = new List<Problem>();
             //try
@@ -170,7 +167,6 @@ namespace CW_Nelya_Vika.Models.DB
             //    sqlConn.Close();
             //}
         }
-
 
         public static bool AddGraph(Graph g, Graph parent = null)
         {
@@ -298,9 +294,7 @@ namespace CW_Nelya_Vika.Models.DB
             return result;
         }
 
-
-
-
+        
         ////todo:
         //public static bool UpdateGraph(Graph g)
         //{

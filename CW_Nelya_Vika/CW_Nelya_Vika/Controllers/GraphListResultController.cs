@@ -49,7 +49,7 @@ namespace CW_Nelya_Vika.Controllers
         // GET: GraphList
         public ActionResult Index()
         {
-            return View("GraphListResult", ProblemGeneratorController.problem);
+            return View("GraphListResult", GraphProblemDb.CurrentProblem);
         }
 
         public ActionResult GraphListResult()
@@ -58,13 +58,13 @@ namespace CW_Nelya_Vika.Controllers
             //Problem tmp = GraphProblemDb.Problems.Where(p => p.Id == id).FirstOrDefault();
             //ProblemGeneratorController.problem = tmp;
             
-            return View(ProblemGeneratorController.problem);
+            return View(GraphProblemDb.CurrentProblem);
         }
         public ActionResult SaveToDb()
         {
-            GraphProblemDb.AddProblem(ProblemGeneratorController.problem);
+            GraphProblemDb.AddProblem(GraphProblemDb.CurrentProblem);
 
-            return View("GraphListResult", ProblemGeneratorController.problem);
+            return View("GraphListResult", GraphProblemDb.CurrentProblem);
         }
 
         

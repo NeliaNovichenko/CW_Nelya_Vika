@@ -30,20 +30,24 @@ namespace CW_Nelya_Vika.Models
         /// </summary>
         private ProblemClassification problemClassification;
         private int communityCount;
-        private int minCommunityCount;
-        private int maxCommunityCount;
+        //private int minCommunityCount;
+        //private int maxCommunityCount;
+        private int minWeight;
+        private int maxWeight;
 
         /// <summary>
         /// Constructor gets Problem Classification. 
         /// Default value is 'S'.
         /// </summary>
         /// <param name="pC"></param>
-        public GraphGenerator(ProblemClassification pC = ProblemClassification.S, int comCount = 5, int min = 0, int max = 15)
+        public GraphGenerator(ProblemClassification pC = ProblemClassification.S, int comCount = 5, int minW = 1, int maxW = 10 /* int min = 0, int max = 15*/)
         {
             problemClassification = pC;
             communityCount = comCount;
-            minCommunityCount = min;
-            maxCommunityCount = max;
+            //minCommunityCount = min;
+            //maxCommunityCount = max;
+            minWeight = minW;
+            maxWeight = maxW;
         }
         /// <summary>
         /// Генерація графу заданої размірності
@@ -52,8 +56,8 @@ namespace CW_Nelya_Vika.Models
         {
             Graph graph = new Graph();
             graph.CommunityCount = communityCount;
-            graph.MinCountInSubgraph = minCommunityCount;
-            graph.MaxCountInSubgraph = maxCommunityCount;
+            //graph.MinCountInSubgraph = minCommunityCount;
+            //graph.MaxCountInSubgraph = maxCommunityCount;
             int vertexCount = 0;
             switch (problemClassification)
             {
@@ -87,7 +91,7 @@ namespace CW_Nelya_Vika.Models
                         vertInLabel = r.Next(1, vertexCount);
                     } while (vertOutLabel == vertInLabel);
 
-                    int weight = r.Next(1, 10);
+                    int weight = r.Next(minWeight, maxWeight);
 
                     Vertex vertexA = graph.FindNode(vertOutLabel, true);
                     Vertex vertexB = graph.FindNode(vertInLabel, true);

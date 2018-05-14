@@ -11,16 +11,16 @@
         var form = document.getElementById("generator-form");
         form.addEventListener("submit", validate);
     });
+
     function validate(e) {
         if (validateCommunityCount() &&
-            validateMinCommunityCount() &&
-            validateMaxCommunityCount()) {
+            //validateMinCommunityCount() &&
+            //validateMaxCommunityCount() &&
+            validateMinMaxWeight()) {
 
         } else {
             e.preventDefault();
         }
-
-
     };
 
     function validateCommunityCount() {
@@ -116,6 +116,27 @@
         document.getElementById("minMaxCommunityCountError").innerHTML = "";
         return true;
     }
+
+    function validateMinMaxWeight() {
+        document.getElementById("minMaxWeightError").innerHTML = "";
+        var min = document.getElementById("minWeight").value;
+        var max = document.getElementById("minWeight").value;
+        if (min < 1) {
+            document.getElementById("minMaxWeightError").innerHTML = "Нижня границя не може бути менше 1";
+            return false;
+        }
+        if (max > 100) {
+            document.getElementById("minMaxWeightError").innerHTML = "Верхня границя не може бути більше 100";
+            return false;
+        }
+        if (max < min) {
+            document.getElementById("minMaxWeightError").innerHTML = "Верхня границя не може бути меншою за нижню";
+            return false;
+        }
+
+        document.getElementById("minMaxWeightError").innerHTML = "";
+        return true;
+    };
 </script>
 
 <div class="container body-content">
@@ -148,17 +169,30 @@
                 <text id="communityCountError" style="color: red;"></text>
             </p>
             <p>
-                Введіть мінімальну кількість вершин у підграфі: <input type="number" id="minCommunityCount" name="minCommunityCount"
-                                                                       onChange="validateMinCommunityCount()" required />
-                <text id="minCommunityCountError" style="color: red;"></text>
+                Введіть мінімальне значення ваг ребер (не менше 1): 
+                <input type="number" id="minWeight" name="minWeight"
+                       onChange="validateMinMaxWeight()" required />
             </p>
             <p>
-                Введіть максимальну кількість вершин у підграфі: <input type="number" id="maxCommunityCount" name="maxCommunityCount"
-                                                                        onChange="validateMaxCommunityCount()" required />
-                <text id="maxCommunityCountError" style="color: red;"></text>
+                Введіть максимальне значення ваг ребер (не більше 100): 
+                <input type="number" id="maxWeight" name="maxWeight"
+                       onChange="validateMinMaxWeight()" required />
 
             </p>
-            <p><text id="minMaxCommunityCountError" style="color: red;"></text></p>
+            <p><text id="minMaxWeightError" style="color: red;"></text></p>
+
+            @*<p>
+            Введіть мінімальну кількість вершин у підграфі: <input type="number" id="minCommunityCount" name="minCommunityCount"
+                                                                   onChange="validateMinCommunityCount()" required />
+            <text id="minCommunityCountError" style="color: red;"></text>
+        </p>
+        <p>
+            Введіть максимальну кількість вершин у підграфі: <input type="number" id="maxCommunityCount" name="maxCommunityCount"
+                                                                    onChange="validateMaxCommunityCount()" required />
+            <text id="maxCommunityCountError" style="color: red;"></text>
+
+        </p>
+        <p><text id="minMaxCommunityCountError" style="color: red;"></text></p>*@
             <br />
             <button class="btn btn-primary center-block" type="submit"
                     onclick="validate()">
