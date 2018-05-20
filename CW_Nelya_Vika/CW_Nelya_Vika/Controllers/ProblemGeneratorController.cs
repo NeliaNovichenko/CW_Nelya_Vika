@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using CW_Nelya_Vika.Models;
 using CW_Nelya_Vika.Models.DB;
 using CW_Nelya_Vika.Models.Graph_Initializers;
-using CW_Nelya_Vika_Algorithms;
+using CW_Nelya_Vika.Algorithms;
 
 
 namespace CW_Nelya_Vika.Controllers
@@ -16,7 +16,7 @@ namespace CW_Nelya_Vika.Controllers
     {
         public ProblemGeneratorController()
         {
-            if(GraphProblemDb.CurrentProblem == null)
+            if (GraphProblemDb.CurrentProblem == null)
                 GraphProblemDb.CurrentProblem = new Problem();
         }
         
@@ -27,40 +27,35 @@ namespace CW_Nelya_Vika.Controllers
             var graphs = problems.Select(p => p.GraphList);
             var graphLists = graphs.ToList();
             foreach (var graphList in graphLists)
-            {
                 graphsFromLists.AddRange(graphList);
-            }
 
             var graphsFromDb = GraphProblemDb.Graphs.Where(g => !graphsFromLists.Contains(g)).ToList();
-
             return View(graphsFromDb);
         }
 
         [HttpPost]
         public ActionResult ReadFromFile()
         {
+            ViewBag.FileError = "";
             if (HttpContext.Request.Files.AllKeys.Any())
             {
                 var httpPostedFile = HttpContext.Request.Files[0];
-
                 if (httpPostedFile != null)
                 {
                     var index = httpPostedFile.FileName.LastIndexOf(@"\");
                     var shotName = httpPostedFile.FileName.Substring(index == -1 ? 0 : index);
                     var fileSavePath = HttpContext.Server.MapPath("~/UploadedFiles") + shotName;
-
-                    httpPostedFile.SaveAs(fileSavePath);
                     try
                     {
+                        httpPostedFile.SaveAs(fileSavePath);
                         IGraphInitializer graphInitializer = new GraphFromFile(fileSavePath);
                         GraphProblemDb.CurrentProblem.Graph = graphInitializer.Initialize();
                     }
                     catch (Exception e)
                     {
-                        return Redirect("Error");
-
+                        ViewBag.FileError = "Формат файла не вірний.";
+                        return RedirectToAction("Error", "Home");
                     }
-
                 }
             }
 
@@ -71,14 +66,10 @@ namespace CW_Nelya_Vika.Controllers
         public ActionResult Generate(FormCollection fc)
         {
             string communityCount = fc.GetValue("communityCount").AttemptedValue,
-                //minCommunityCount = fc.GetValue("minCommunityCount").AttemptedValue,
-                //maxCommunityCount = fc.GetValue("maxCommunityCount").AttemptedValue,
                 minWeightStr = fc.GetValue("minWeight").AttemptedValue,
                 maxWeightStr = fc.GetValue("maxWeight").AttemptedValue;
 
             int commCount = Convert.ToInt32(communityCount is null ? "0" : communityCount);
-            //int minCommCount = Convert.ToInt32(minCommunityCount is null ? "0" : minCommunityCount);
-            //int maxCommCount = Convert.ToInt32(maxCommunityCount is null ? "0" : maxCommunityCount);
             int minWeight = Convert.ToInt32(minWeightStr is null ? "0" : minWeightStr);
             int maxWeight = Convert.ToInt32(maxWeightStr is null ? "0" : maxWeightStr);
             var problemClassification = ProblemClassification.Xs;
@@ -130,15 +121,12 @@ namespace CW_Nelya_Vika.Controllers
 
         public ActionResult Solve(FormCollection fc)
         {
-            //if (problem == null)
-            //    problem = new Problem();
-            //problem.Graph = graph;
-            // GraphList communities = new GraphList();
+            AbstractAlgorithm algorithm = null;
             switch (fc.GetValue("Algorithm").AttemptedValue)
             {
                 case "KernighanLin":
                     GraphProblemDb.CurrentProblem.Algorithm = Algorithm.KernighanLin;
-                    IAlgorithm algorithm = new KernighanLin();
+                    algorithm = new KernighanLin();
                     GraphProblemDb.CurrentProblem = algorithm.FindCommunityStructure(GraphProblemDb.CurrentProblem.Graph);
                     break;
                 case "GirvanNewman":
@@ -147,13 +135,7 @@ namespace CW_Nelya_Vika.Controllers
                     GraphProblemDb.CurrentProblem = algorithm.FindCommunityStructure(GraphProblemDb.CurrentProblem.Graph);
                     break;
             }
-            //problem.GraphList = communities;
-
-            //TODO: перейти на страничку и передать парам
             return RedirectToAction("GraphListResult", "GraphListResult", GraphProblemDb.CurrentProblem);
         }
-
-
-
     }
 }

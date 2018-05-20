@@ -42,8 +42,6 @@ namespace CW_Nelya_Vika.Models
         /// </summary>
         public List<Edge> Edges { get; set; }
 
-        public List<Problem> Problems { get; set; }
-
 
         public Graph()
         {
@@ -122,7 +120,8 @@ namespace CW_Nelya_Vika.Models
         {
             foreach (Edge e in pVertecesOut.AdjacencyEdges)
             {
-                if ((e.VertexOut.Label == pVertecesOut.Label && e.VertexIn.Label == pVertecesIn.Label) || (e.VertexOut.Label == pVertecesIn.Label && e.VertexIn.Label == pVertecesOut.Label))
+                if ((e.VertexOut.Label == pVertecesOut.Label && e.VertexIn.Label == pVertecesIn.Label) 
+                    || (e.VertexOut.Label == pVertecesIn.Label && e.VertexIn.Label == pVertecesOut.Label))
                     return e;
             }
             return null;

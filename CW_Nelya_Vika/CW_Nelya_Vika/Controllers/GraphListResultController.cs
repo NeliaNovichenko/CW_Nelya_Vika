@@ -54,16 +54,11 @@ namespace CW_Nelya_Vika.Controllers
 
         public ActionResult GraphListResult()
         {
-            //int? id = ProblemGeneratorController.problem.Id;
-            //Problem tmp = GraphProblemDb.Problems.Where(p => p.Id == id).FirstOrDefault();
-            //ProblemGeneratorController.problem = tmp;
-            
             return View(GraphProblemDb.CurrentProblem);
         }
         public ActionResult SaveToDb()
         {
             GraphProblemDb.AddProblem(GraphProblemDb.CurrentProblem);
-
             return View("GraphListResult", GraphProblemDb.CurrentProblem);
         }
 

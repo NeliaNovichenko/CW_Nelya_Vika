@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CW_Nelya_Vika.Algorithms;
 using CW_Nelya_Vika.Models;
-using CW_Nelya_Vika_Algorithms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CW_Nelya_Vika_Test

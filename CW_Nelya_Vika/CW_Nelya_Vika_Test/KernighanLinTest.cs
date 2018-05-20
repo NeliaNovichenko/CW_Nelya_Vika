@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using CW_Nelya_Vika.Algorithms;
 using CW_Nelya_Vika.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CW_Nelya_Vika_Algorithms;
 namespace CW_Nelya_Vika_Test
 {
     [TestClass]
@@ -39,7 +39,7 @@ namespace CW_Nelya_Vika_Test
                     }
                     };
             KernighanLin kernighanLin = new KernighanLin();
-            kernighanLin.graph = graph;
+            kernighanLin.SetGraph(graph);
 
             //act
             GraphList actual = kernighanLin.StartPartition(graph);

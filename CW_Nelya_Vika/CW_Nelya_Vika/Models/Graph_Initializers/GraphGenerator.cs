@@ -8,11 +8,11 @@ namespace CW_Nelya_Vika.Models
 {
     /// <summary>
     /// Задає розмір графу:
-    /// - Xs - 0...
-    /// - S - ...
-    /// - M - ...
-    /// - L - ...
-    /// - Xl - ...
+    /// - Xs - 5
+    /// - S - 10
+    /// - M - 15
+    /// - L - 20
+    /// - Xl - 25
     /// </summary>
     public enum ProblemClassification : byte
     {
@@ -30,8 +30,6 @@ namespace CW_Nelya_Vika.Models
         /// </summary>
         private ProblemClassification problemClassification;
         private int communityCount;
-        //private int minCommunityCount;
-        //private int maxCommunityCount;
         private int minWeight;
         private int maxWeight;
 
@@ -40,12 +38,10 @@ namespace CW_Nelya_Vika.Models
         /// Default value is 'S'.
         /// </summary>
         /// <param name="pC"></param>
-        public GraphGenerator(ProblemClassification pC = ProblemClassification.S, int comCount = 5, int minW = 1, int maxW = 10 /* int min = 0, int max = 15*/)
+        public GraphGenerator(ProblemClassification pC = ProblemClassification.S, int comCount = 5, int minW = 1, int maxW = 10)
         {
             problemClassification = pC;
             communityCount = comCount;
-            //minCommunityCount = min;
-            //maxCommunityCount = max;
             minWeight = minW;
             maxWeight = maxW;
         }
@@ -56,8 +52,6 @@ namespace CW_Nelya_Vika.Models
         {
             Graph graph = new Graph();
             graph.CommunityCount = communityCount;
-            //graph.MinCountInSubgraph = minCommunityCount;
-            //graph.MaxCountInSubgraph = maxCommunityCount;
             int vertexCount = 0;
             switch (problemClassification)
             {

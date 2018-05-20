@@ -188,9 +188,15 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="img\Animation_gn.gif" />
+    <Content Include="img\Animation_kl.gif" />
     <Content Include="img\back.png" />
     <Content Include="img\backgr.jpg" />
+    <Content Include="img\before_gn.png" />
+    <Content Include="img\dracula.png" />
     <Content Include="img\images.jpg" />
+    <Content Include="img\movie.gif" />
+    <Content Include="img\movie.gif.mp4" />
     <Content Include="img\Nelya.jpg" />
     <Content Include="img\Vika.png" />
     <Content Include="Scripts\arbor-graphics.js" />
@@ -229,6 +235,7 @@
     <Content Include="Views\ProblemGenerator\OutputEditGraph.cshtml" />
     <Content Include="Views\GraphListResult\GraphListResult.cshtml" />
     <Content Include="Views\OutputResult\OutputResult.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

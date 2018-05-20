@@ -7,7 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body @*style="background-color:white"*@>
+<body>
     <div class="navbar navbar-inverse">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             @Html.ActionLink("   ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
@@ -25,14 +25,6 @@
                         @Html.ActionLink("Створити задачу", "ProblemGenerator", "ProblemGenerator", null, new { @class = "nav-item nav-link" })
                     </li>
 
-                    @*<li class="nav-item nav-link">
-                        @Html.ActionLink("Розбиття графу", "GraphListResult", "GraphListResult", null, new { @class = "nav-item nav-link" })
-                    </li>*@ 
-                    
-                    @*<li class="nav-item nav-link">
-                        @Html.ActionLink("Відобразити граф", "Index", "GraphListResult", null, new { @class = "nav-item nav-link" })
-                    </li>*@
-
                     <li class="nav-item nav-link">
                         @Html.ActionLink("Результати досліджень", "OutputResult", "OutputResult", null, new { @class = "nav-item nav-link" })
                     </li>
@@ -42,8 +34,7 @@
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                    <img src="~/img/dracula.png"height="60px" style="margin-right: 50px"/>
                 </form>
             </div>
         </nav>

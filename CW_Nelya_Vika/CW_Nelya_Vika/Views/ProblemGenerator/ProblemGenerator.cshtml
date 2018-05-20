@@ -119,8 +119,8 @@
 
     function validateMinMaxWeight() {
         document.getElementById("minMaxWeightError").innerHTML = "";
-        var min = document.getElementById("minWeight").value;
-        var max = document.getElementById("minWeight").value;
+        var min = parseInt(document.getElementById("minWeight").value);
+        var max = parseInt(document.getElementById("maxWeight").value);
         if (min < 1) {
             document.getElementById("minMaxWeightError").innerHTML = "Нижня границя не може бути менше 1";
             return false;
@@ -147,6 +147,7 @@
             <h3> Зчитати з файлу:</h3>
             <p><input type="file" name="file" /></p>
             <br />
+            @ViewBag.FileError
             <button class="btn btn-primary center-block" type="submit" value="Upload">Зчитати граф з файлу</button>
             <br />
         </div>
@@ -215,7 +216,6 @@
                         <th>Кількість вершин</th>
                         <th>Кількість ребер</th>
                         <th>Кількість розбиттів</th>
-                        <th>Інтервал</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -227,7 +227,6 @@
                             <td>@graph.Vertices.Count</td>
                             <td>@graph.Edges.Count</td>
                             <td>@graph.CommunityCount</td>
-                            <td>@graph.MinCountInSubgraph - @graph.MaxCountInSubgraph</td>
                         </tr>
                     }
                 </tbody>

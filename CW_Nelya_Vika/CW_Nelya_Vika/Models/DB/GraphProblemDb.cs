@@ -14,10 +14,8 @@ namespace CW_Nelya_Vika.Models.DB
         public static Problem CurrentProblem { get; set; }
         public static List<Problem> Problems { get; private set; }
         public static List<Graph> Graphs { get; set; }
-
-        private static string ConnString = ConfigurationManager.ConnectionStrings["CW_Nelya_Vika"].ConnectionString;
-
-        private static SqlConnection sqlConn = new SqlConnection(ConnString);
+        private static readonly string ConnString = ConfigurationManager.ConnectionStrings["CW_Nelya_Vika"].ConnectionString;
+        private static readonly SqlConnection sqlConn = new SqlConnection(ConnString);
 
         /// <summary>
         /// Ініціалізація при першому зверненні до бд
@@ -62,8 +60,6 @@ namespace CW_Nelya_Vika.Models.DB
         public static void GetAllGraph()
         {
             Graphs = new List<Graph>();
-            //try
-            //{
             if (sqlConn.State != ConnectionState.Open)
                 sqlConn.Open();
             SqlCommand sqlCommand = new SqlCommand("select id, CommunityCount, MinCountInSubgraph, MaxCountInSubgraph from graph", sqlConn);
@@ -93,23 +89,16 @@ namespace CW_Nelya_Vika.Models.DB
                         int idNodeOut = edgeReader["VertexOut"] == DBNull.Value ? 0 : (int)edgeReader["VertexOut"],
                             idNodeIn = edgeReader["VertexIn"] == DBNull.Value ? 0 : (int)edgeReader["VertexIn"],
                             weight = edgeReader["weight"] == DBNull.Value ? 0 : (int)edgeReader["weight"];
-
                         Vertex vertexA = null, vertexB = null;
                         if (idNodeOut != 0)
                             vertexA = graph.FindNode(idNodeOut, true);
                         if (idNodeIn != 0)
                             vertexB = graph.FindNode(idNodeIn, true);
-
                         if (idNodeOut != 0 && idNodeIn != 0)
-                            graph.CreateLink(vertexA, vertexB);
+                            graph.CreateLink(vertexA, vertexB, weight);
                     }
                 }
             }
-            //}
-            //catch (Exception e)
-            //{
-            //    //TODO:
-            //}
         }
 
         /// <summary>
@@ -118,8 +107,6 @@ namespace CW_Nelya_Vika.Models.DB
         public static void GetAllProblems()
         {
             Problems = new List<Problem>();
-            //try
-            //{
             if (sqlConn.State != ConnectionState.Open)
                 sqlConn.Open();
             SqlCommand sqlCommand = new SqlCommand("select id, InnitialGraphId, algorithm, G, ExecutionTime from problem", sqlConn);
@@ -140,8 +127,6 @@ namespace CW_Nelya_Vika.Models.DB
                 }
             }
 
-
-
             foreach (var problem in Problems)
             {
                 sqlCommand = new SqlCommand("select id, subGraphId from ResultList where problemId = @problemId", sqlConn);
@@ -157,30 +142,17 @@ namespace CW_Nelya_Vika.Models.DB
                 }
             }
 
-            //}
-            //catch (Exception e)
-            //{
-            //    //TODO:
-            //}
-            //finally
-            //{
-            //    sqlConn.Close();
-            //}
         }
 
-        public static bool AddGraph(Graph g, Graph parent = null)
+        public static void AddGraph(Graph g, Graph parent = null)
         {
-            bool result = true;
-            SqlCommand sqlCommand;
-            //try
-            //{
             if (sqlConn.State != ConnectionState.Open)
                 sqlConn.Open();
 
             if (g.Id != null)
-                return false;
+                return;
 
-            sqlCommand = new SqlCommand(
+            var sqlCommand = new SqlCommand(
                 "insert into Graph (CommunityCount, MinCountInSubgraph, MaxCountInSubgraph)" +
                 "values (@CommunityCount, @MinCountInSubgraph, @MaxCountInSubgraph);" +
                 "SELECT SCOPE_IDENTITY()", sqlConn);
@@ -194,10 +166,6 @@ namespace CW_Nelya_Vika.Models.DB
             {
                 foreach (var edge in g.Edges)
                 {
-                    //var v1 = g.FindNode(edge.VertexOut.Label, false);
-                    //var v2 = g.FindNode(edge.VertexIn.Label, false);
-                    ////var edge = g.FindEdge(e.VertexOut, e.VertexIn);
-                    //if (v1 == null || v2 == null)
                     if (edge == null)
                         continue;
                     sqlCommand = new SqlCommand("insert into Edge(GraphId, VertexOut, VertexIn, Weight)" +
@@ -216,49 +184,27 @@ namespace CW_Nelya_Vika.Models.DB
             {
                 foreach (var v in g.Vertices)
                 {
-                    //var v1 = g.FindNode(edge.VertexOut.Label, false);
-                    //var v2 = g.FindNode(edge.VertexIn.Label, false);
-                    ////var edge = g.FindEdge(e.VertexOut, e.VertexIn);
-                    //if (v1 == null || v2 == null)
-                    //    continue;
                     sqlCommand = new SqlCommand("insert into Edge(GraphId, VertexOut, VertexIn, Weight)" +
                                                 "values (@GraphId, @VertexOut, @VertexIn, @Weight);" +
                                                 "SELECT SCOPE_IDENTITY()", sqlConn);
-
                     sqlCommand.Parameters.AddWithValue("@GraphId", g.Id);
                     sqlCommand.Parameters.AddWithValue("@VertexOut", v.Label);
                     sqlCommand.Parameters.AddWithValue("@VertexIn", DBNull.Value);
                     sqlCommand.Parameters.AddWithValue("@Weight", DBNull.Value);
-                    var insertedId = sqlCommand.ExecuteScalar();
-                    //edge.Id = Convert.ToInt32(insertedId);
                 }
             }
-
             GetAllGraph();
-            //Update();
-            //}
-            //catch (Exception e)
-            //{
-            //    //TODO:
-            //    result = false;
-            //}
-            return result;
         }
 
-        public static bool AddProblem(Problem p)
+        public static void AddProblem(Problem p)
         {
-            bool result = true;
-            SqlCommand sqlCommand;
-            //try
-            //{
-
             if (p.Id != null)
-                return false;
+                return;
             if (p.Graph.Id == null)
                 AddGraph(p.Graph);
             if (sqlConn.State != ConnectionState.Open)
                 sqlConn.Open();
-            sqlCommand = new SqlCommand("insert into Problem (InnitialGraphId, Algorithm, G, ExecutionTime)" +
+            var sqlCommand = new SqlCommand("insert into Problem (InnitialGraphId, Algorithm, G, ExecutionTime)" +
                                                    "values (@InitialGraphId, @Algorithm, @G, @ExecutionTime);" +
                                                    "SELECT SCOPE_IDENTITY()", sqlConn);
             sqlCommand.Parameters.AddWithValue("@InitialGraphId", p.Graph.Id);
@@ -268,10 +214,8 @@ namespace CW_Nelya_Vika.Models.DB
             var insertedId = sqlCommand.ExecuteScalar();
             p.Id = Convert.ToInt32(insertedId);
 
-
             foreach (var g in p.GraphList)
             {
-                //if (g.Id == null)
                 AddGraph(g, p.Graph);
                 if (sqlConn.State == ConnectionState.Closed)
                     sqlConn.Open();
@@ -280,104 +224,9 @@ namespace CW_Nelya_Vika.Models.DB
                                             "SELECT SCOPE_IDENTITY()", sqlConn);
                 sqlCommand.Parameters.AddWithValue("@ProblemId", p.Id);
                 sqlCommand.Parameters.AddWithValue("@GraphId", g.Id);
-
-                int i = sqlCommand.ExecuteNonQuery();
+                sqlCommand.ExecuteNonQuery();
             }
             GetAllProblems();
-            //Update();
-            //}
-            //catch (Exception e)
-            //{
-            //    //TODO:
-            //    result = false;
-            //}
-            return result;
-        }
-
-        
-        ////todo:
-        //public static bool UpdateGraph(Graph g)
-        //{
-        //    bool result = true;
-        //    //try
-        //    //{
-        //    if (sqlConn.State != ConnectionState.Open)
-        //        sqlConn.Open();
-        //    SqlCommand sqlCommand = new SqlCommand("update Graph " +
-        //                                           "set CommunityCount = @CommunityCount, " +
-        //                                           "MinCountInSubgraph = @MinCountInSubgraph, " +
-        //                                           "MaxCountInSubgraph = @MaxCountInSubgraph;" +
-        //                                           "SELECT SCOPE_IDENTITY()", sqlConn);
-        //    sqlCommand.Parameters.AddWithValue("@CommunityCount", g.CommunityCount);
-        //    sqlCommand.Parameters.AddWithValue("@MinCountInSubgraph", g.MinCountInSubgraph);
-        //    sqlCommand.Parameters.AddWithValue("@MaxCountInSubgraph", g.MaxCountInSubgraph);
-        //    int UpdatedId = (int)sqlCommand.ExecuteScalar();
-
-
-        //    foreach (var edge in g.Edges)
-        //    {
-        //        sqlCommand = new SqlCommand("update Edge set GraphId = @, " +
-        //                                    "VertexOut = @VertexOut, " +
-        //                                    "VertexIn = @VertexIn, " +
-        //                                    "Weight = @Weight", sqlConn);
-
-        //        sqlCommand.Parameters.AddWithValue("@GraphId", g.Id);
-        //        sqlCommand.Parameters.AddWithValue("@VertexOut", edge.VertexOut);
-        //        sqlCommand.Parameters.AddWithValue("@VertexIn", edge.VertexIn);
-        //        sqlCommand.Parameters.AddWithValue("@Weight", edge.Weight);
-        //        sqlCommand.ExecuteNonQuery();
-        //    }
-        //    Update();
-        //    //}
-        //    //catch (Exception e)
-        //    //{
-        //    //    //TODO:
-        //    //    result = false;
-        //    //}
-        //    return result;
-        //}
-
-        ////todo:
-        //public static bool UpdateProblem(Problem p)
-        //{
-        //    bool result = true;
-        //    //try
-        //    //{
-        //    if (sqlConn.State != ConnectionState.Open)
-        //        sqlConn.Open();
-        //    SqlCommand sqlCommand = new SqlCommand("update Problem " +
-        //                                           "set InitialGraphId = @InitialGraphId, Algorithm = @Algorithm " +
-        //                                           "where id = @problemId");
-        //    sqlCommand.Parameters.AddWithValue("@problemId", p.Id);
-        //    sqlCommand.Parameters.AddWithValue("@InitialGraphId", p.Graph.Id);
-        //    sqlCommand.Parameters.AddWithValue("@Algorithm", (int)p.Algorithm);
-        //    sqlCommand.ExecuteNonQuery();
-
-
-        //    foreach (var g in p.GraphList)
-        //    {
-        //        AddGraph(g);
-        //        sqlCommand = new SqlCommand("update ResultList set " +
-        //                                    "ProblemId = @ProblemId, " +
-        //                                    "GraphId = @GraphId " +
-        //                                    "where id = @id", sqlConn);
-        //        sqlCommand.Parameters.AddWithValue("@id", p.Id);
-        //        sqlCommand.Parameters.AddWithValue("@ProblemId", p.Id);
-        //        sqlCommand.Parameters.AddWithValue("@GraphId", g.Id);
-        //        sqlCommand.ExecuteNonQuery();
-        //    }
-        //    Update();
-        //    //}
-        //    //catch (Exception e)
-        //    //{
-        //    //    //TODO:
-        //    //    result = false;
-        //    //}
-        //    return result;
-        //}
-        public static void CloseConnection()
-        {
-            sqlConn.Close();
         }
     }
 

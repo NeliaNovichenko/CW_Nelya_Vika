@@ -12,13 +12,13 @@ namespace CW_Nelya_Vika.Controllers
         {
             return View();
         }
-
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
-
+        public ActionResult Error()
+        {
+            return View("Error");
+        }
     }
 }
